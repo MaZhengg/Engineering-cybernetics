@@ -1,14 +1,14 @@
 @echo off
 
 del *.aux
-del nkthesis.bib.bak
-del Engineering cybernetics.bbl
-del Engineering cybernetics.bcf
-del Engineering cybernetics.out 
-del Engineering cybernetics.log
-del Engineering cybernetics.thm
-del Engineering cybernetics.toc
-del Engineering cybernetics.run.xml
-del Engineering cybernetics.blg
-del Engineering cybernetics.idx
-del Engineering cybernetics.synctex.gz
+del Al-jabr.bib.bak
+del Engineering_cybernetics.bbl
+del Engineering_cybernetics.bcf
+del Engineering_cybernetics.out 
+del Engineering_cybernetics.log
+del Engineering_cybernetics.thm
+del Engineering_cybernetics.toc
+del Engineering_cybernetics.run.xml
+del Engineering_cybernetics.blg
+del Engineering_cybernetics.idx
+del Engineering_cybernetics.synctex.gz
