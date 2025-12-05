@@ -12,3 +12,4 @@ del Engineering_cybernetics.run.xml
 del Engineering_cybernetics.blg
 del Engineering_cybernetics.idx
 del Engineering_cybernetics.synctex.gz
+del chapter*.log
