@@ -1,0 +1,183 @@
+%记得标点符号替换，将英文标点符号替换为中文标点符号（，。？：）
+% To be included
+
+\chapter{拉氏变换法}
+
+对于那些以时间$t$为自变数的常系数线性微分方程来说，用拉氏变换(拉普拉斯变换)求解的方法是非常有用的。当然也可以用其他的一些方法求这类方程的解，可是，技术科学家们所以最乐于采用拉氏变换法的原因就是因为这个方法能够把所有的问题归结到一个一致的基础上去。这样一来求解的手续就被标准化了，同时，对于问题也就可能有一个普遍适用的处理方法。在很多教科书\footnote{例如：H.S. Carslaw and J.C. Jaeger， Operational Methods in Applied Mathematics， Oxford University Press， New York，(1941)；或者R.V. Churchill， Modern Operational Methods in Engineering， McGraw-Hill Book Company，Inc.， New York，(1944)；如果想知道详细的理论，可以参阅 G. Doetsch， Theorie und Anwendung der Laplace -Transformation， Verlag Julius Springer， Berlin，(1937)；或者D.V. Widder， The Laplace Transform， Princeton University Press， Princeton， N.J.，(1946)；或者参阅[9-15]。}里都讨论了拉氏变换的理论和实际的用法，这些工作并不是这一章的目的。这一章的目的只是为了查阅的便利而简要地给出一些结果，这些结果都是我们在以后各章中的讨论所必需的。至于详细的叙述和证明，读者可以去参考注解里所提出来的那些书籍。
+
+\section{拉氏变换和反转公式}
+
+如果$y(t)$是一个时间变数$t$的函数，它的定义区域是$t>0$。那么，$y(t)$的拉氏变换$Y(s)$的定义就是\footnote{在这一本书里，我们总是用大写字母表示小写字母所代表的变量的拉氏变换。}：
+\begin{equation}
+Y(s)=\int_0^{\infty}e^{-st}y(t)dt，
+\end{equation}
+这里的$s$是一个具有正实数部分的复变数：$\mathfrak{R}s>0$($\mathfrak{R}s$表示$s$的实数部分)。对于其他的$s$值，我们用解析拓展的方法来定义函数$Y(s)$。$Y(s)$的量纲是$y$的量纲和时间的量纲的乘积。$s$的量纲是时间量纲的负一次方幂。如果$Y(s)$是已知的，那么，拉氏变换$Y(s)$的原函数（也就是原来的函数）$y(t)$总是可以由下面的\underline{反转公式}计算出来：
+\begin{equation}\label{eq:inversion_formula}
+y(t)=\frac{1}{2\pi i}\int _{\gamma -i\infty}^{\gamma + i\infty}e^{st}Y(s)ds，
+\end{equation}
+其中$\gamma$是任意的一个实数，只要它比所有的$Y(s)$的\underline{奇点}的实数部分都大就可以了。在实际计算$y(t)$时，我们可以按照$Y(s)$的特点适当地变化积分的路线。从$Y(s)$求$y(t)$的步骤称为拉氏反变换。
+
+\section{用拉氏变换法解常系数线性微分方程}
+
+既然拉氏变换是用对一个函数所作的一个积分运算所定义的，而这个函数又是只在$t>0$的时间间隔内定义的，所以拉氏变换法对于\underline{初值问题}是特别适用的，所谓“初值问题”就是这样一个问题：如果系统的初始状态（也就是$t=0$时的状态）和$t>0$时的驱动函数都是给定的，求在$t>0$的时间间隔中系统的运动情况。我们来考虑一个$n$阶的系统，假定$a，a_{n-1}，\cdots，a_0$是各阶导数的系数，而且对于这个系统有一个以非齐次项所表示的驱动函数$x(t)$。于是，系统的微分方程就是：
+\begin{equation}\label{eq:n_order_diff_equation}
+a_n\frac{d^ny}{dt^n} + a_{n-1}\frac{d^{n-1}y}{dt^{n-1}} + \cdots + a_0y=x(t)。
+\end{equation}
+各个初始条件通常写作：
+\begin{equation}\label{eq:initial_condition_of_diff}
+\begin{cases}
+\left( \frac{d^{n-1}y}{dt^{n-1}} \right)_{t=0} = y_0^{(n-1)}， \\
+\cdots \\
+y_{t=0} = y_0.
+\end{cases}
+\end{equation}
+考虑到条件\eqref{eq:initial_condition_of_diff}，微分方程\eqref{eq:n_order_diff_equation}就能够把系统在$t\geq 0$时的运动状态唯一地确定下来。
+
+为了用拉氏变换法来解这个问题，我们把方程\eqref{eq:n_order_diff_equation}的两端，同时乘以$e^{-st}$，然后再从$t=0$积分到$t=\infty$。既然规定
+\begin{equation}
+\int_0^\infty e^{-st} y(t)dt = Y(s)，\tag{2.1a}
+\end{equation}
+我们就可以用部分积分的方法求出$y(t)$的各阶导数的拉氏变换：
+\begin{equation}
+\left.
+\begin{array}{l}
+\int_0^\infty e^{-st} \frac{dy}{dt} dt = -y_0 + s \int_0^\infty e^{-st} y(t) dt = -y_0 + s Y(s)， \\
+\int_0^\infty e^{-st} \frac{d^2y}{dt^2} dt = -y_0^{(1)} - s y_0 + s^2 Y(s)， \\
+\mbox{最后} \cdots\cdots\cdots\cdots\cdots\cdots\cdots \\
+\int_0^\infty e^{-st} \frac{d^n y}{dt^n} dt = -y_0^{(n - 1)} - s y_0^{(n - 2)} - \cdots - s^{n - 1} y_0 + s^n Y(s).
+\end{array}
+\right\}
+\end{equation}
+根据这些结果，如果再把驱动函数$x(t)$的拉氏变换写成$X(s)$，也就是说
+\begin{equation}
+X(s)=\int_{0}^{\infty} e^{-st}x(t)dt
+\end{equation}
+那么，考虑到初始条件\eqref{eq:initial_condition_of_diff}，方程\eqref{eq:n_order_diff_equation}就可以写成：
+\begin{align}\label{eq:n_order_diff_equation_other_format}
+&(a_ns^n + a_{n - 1}s^{n - 1}+\cdots+a_1s + a_0)Y(s)\nonumber\\
+=&a_ny_0s^{n - 1}+(a_ny_0^{(1)}+a_{n - 1}y_0)s^{n - 2}+(a_ny_0^{(2)}+a_{n - 1}y_0^{(1)}+a_{n - 2}y_0)s^{n - 3}\nonumber\\
+&+\cdots+(a_ny_0^{(n - 1)}+a_{n - 1}y_0^{(n - 2)}+\cdots+a_1y_0)+X(s)
+\end{align}
+如果我们再规定$D(s)$和$N(s)$分别是下列的两个多项式：
+\begin{equation}\label{eq:denominator_of_lap}
+D(s)=a_ns^n + a_{n - 1}s^{n - 1}+\cdots+a_1s + a_0
+\end{equation}
+和
+\begin{align}\label{eq:numerator_of_lap}
+N_0(s)=&a_ny_0s^{n - 1}+(a_ny_0^{(1)}+a_{n - 1}y_0)s^{n - 2}+\cdots\nonumber\\
+&+(a_ny_0^{(n - 1)}+a_{n - 1}y_0^{(n - 2)}+\cdots+a_0y_0)
+\end{align}
+于是方程\eqref{eq:n_order_diff_equation_other_format}又可以写作
+\begin{equation}\label{eq:n_order_diff_equation_lap}
+Y(s)=\frac{N_0(s)}{D(s)}+\frac{X(s)}{D(s)}
+\end{equation}
+
+根据方程\eqref{eq:numerator_of_lap}我们看到，\eqref{eq:n_order_diff_equation_lap}的第一项$N(s)/D(s)$是与初始条件有关的。我们把这一项写作$Y_c(s)=N_0(s)/D(s)$。多项式$N_0(s)$的次数最多也不会超过$n-1$次， 因而它的次数总是比$D(s)$的次数低。如果方程\eqref{eq:initial_condition_of_diff}所表示的初始条件全都等于零， $N_0(s)$也就随之等于零了。在这种情形下， $Y(s)$就只由第二项$X(s)/D(s)$确定。第二项是与驱动函数有关的。我们把这一项写作$Y_i(s)=X(s)/D(s)$。和普通的微分方程理论中所用的术语一样， 可以把第一项$N_0(s)/D(s)$称为\underline{补充函数}，把第二项$X(s)/D(s)$称为\underline{特解}。应用反转公式\eqref{eq:inversion_formula}， 就可以由方程\eqref{eq:n_order_diff_equation_lap}所表示的$Y(s)=Y_c(s)+Y_i(s)$得出真正的解$y(t)$。
+
+从以上的讨论，我们可以看出，拉氏变换本身只是一个“翻译”的手续，它把一个用时间变数$t$所描述的物理过程翻译成用变数$s$所描述的过程，这样的手续并不影响物理过程本身的性质，只不过是把这个过程的描述从“$t$的语言”翻译成“$s$的语言”而已。在$t$的语言里用分析运算（微分或积分）所描述的过程，用$s$的语言来叙述就只要用简单的代数运算（乘或除）就可以了；$t$的语言中的微分方程，用$s$的语言来表示就简化为代数方程，从而也就可以简化计算的手续和表达的方式。
+
+\section{拉氏变换的“字典”（拉氏变换表）}
+
+当我们用拉氏变换法处理问题时，常常需要根据已知的拉氏变换函数$Y(s)$求出原函数$y(t)$。我们当然可以利用反转公式进行这项工作，可是反转公式\eqref{eq:inversion_formula}中的积分运算常常是很繁复，很花费时间的；因此，对于那些常用的和典型的$y(t)$和$Y(S)$，人们已经编制了一些字典式的表格\footnote{例如[12]以及第6页注解中所提出的各本书中都有比较简短的表}。利用这种变换表我们就可以根据已知的$Y(s)$查出相应的$y(t)$，也可以从已知的$y()$査出相应的$Y(s)$，这样就大大地减轻了计算手续。下面我们也给出一个最最简略的拉氏变换的“字典”一很小的拉氏变换表：
+\begin{table}[htbp]
+    \centering
+    \caption{拉氏变换的小“字典”}
+    \begin{tabular}{l@{\hspace{10em}} l}
+        $Y(s)$ & $y(t)$ \\ 
+        ${1}/{s}$ & $1$ \\
+        ${1}/{s^n}$ & ${t^{n-1}}/{\Gamma(n)}$ \\
+        ${1}/{s-a}$ & $e^{at}$ \\
+        ${a}/{s^2+a^2}$ & $\sin at$ \\
+        ${s}/{s^2+a^2}$ & $\cos at$ \\
+        ${a}/{s^2-a^2}$ & $\sinh at$ \\
+        ${s}/{s^2-a^2}$ & $\cosh at$ \\
+        ${s}/{(s^2+a^2)^2}$ & $\frac{t}{2a}\sin at$ \\
+        ${1}/{(s^2+a^2)^2}$ & $\frac{1}{2a^3}(\sin at-at\cos at)$ 
+    \end{tabular}
+\end{table}
+
+在最常遇到的情形里，驱动函数$x(t)$的拉氏变换$X(s)$的形式都是$s$的两个多项式的比值，因此，由方程\eqref{eq:n_order_diff_equation_lap}所给出的完全解$Y(s)$也是$s$的两个多项式的比值。这样一来，用求部分分式的方法就可以把$Y(s)$的表达式分解为若千个简单分式的和数。对于每一个分式都可以用反转公式（实际上很少这样作）或者用比较好的查表方法求出原函数来。
+
+\section{关于正弦式的驱动函数的讨论}
+
+多项式的比值$N(s)/D(s)$可以分解成部分分式。如果多项式$D(s)$的$n$个根$s_1,s_2,…,s_n$都是互不相等的，换句话说，$D(s)$没有重根，那么这个部分分式就是：
+\begin{equation}
+\frac{N_0(s)}{D(s)} = \sum_{r=1}^n \frac{N_0(s_r)}{D'(s_r)} \frac{1}{(s - s_r)},\tag{*}
+\end{equation}
+
+其中的 $D'(s)$ 表示 $D(s)$ 对于$s$的导数。根据上一节里的“字典”，把这个和数逐项地“翻译”出来，就得到解 $y(t)$ 中由于初始条件而产生的 $y_c(t)$ 部分[这一部分称为“补充函数”，它也就是方程\eqref{eq:n_order_diff_equation} 在 $x(t)=0$ 而初始条件仍然是\eqref{eq:initial_condition_of_diff} 的情况的解。]：
+\begin{equation}
+y_c(t) = \sum_{r=1}^{n} \frac{N_0(s_r)}{D'(s_r)} e^{s_r t}.
+\end{equation}
+一般说来，$D(s)$ 的根 $s_r$ 是复数。对于实际的物理系统来说，微分方程\eqref{eq:n_order_diff_equation} 的系数 $a_0, a_1, a_2, \cdots, a_n$ 都是实数。根据方程\eqref{eq:denominator_of_lap}$D(s)$ 的各个复数根 $s_r$ 必然是成\underline{复共轭对}出现的。这也就是说，如果 $D(s)$ 有一个复数根是 $\alpha + i\beta (\beta \neq 0)$ 的话，那么 $\alpha - i\beta$ 也必然是 $D(s)$ 的根。如果所有的根 $s_r$ 的实数部分都是负数，那么 $y_c(t)$ 就会随着时间的增加按照\underline{指数律} 减小，最后 $y_c(t)\to 0$。因此，系统就是稳定的。
+
+如果表示外力的驱动函数 $x(t)$ 是\underline{正弦式} 的，为了计算的方便，我们就把它写成下列的复数形式（真正的外力只是这个表示式的实数部分或者虚数部分）：
+\begin{equation}\label{eq:driver_function_complex}
+x(t) = x_m e^{i\omega t},
+\end{equation}
+其中的 $x_m$ 是振幅，$\omega$ 是频率（角频率）。根据拉氏变换的“字典”，就有
+\begin{equation*}
+X(s) = x_m \frac{1}{s-i\omega}
+\end{equation*}
+因此，方程\eqref{eq:n_order_diff_equation_lap} 的第二项在现在的情形下就是：
+\begin{equation*}
+Y_i(s) = \frac{x_m}{(s-i\omega)D(s)}.
+\end{equation*}
+
+在这里，我们可以把得到的结果推广到更一般的情形中去。如果所考虑的系统不是只由一个微分方程所描述（像以前讨论的那样），而是用一个微分方程组所描述的。举例来说，描述系统状态的是这样一个方程组：
+\begin{equation*}
+\left.
+\begin{array}{l}
+a_{12} \frac{d^2 y}{dt^2} + a_{11} \frac{dy}{dt} + a_{10} y + b_{12} \frac{d^2 z}{dt^2} + b_{11} \frac{dz}{dt} + b_{10} z = x(t),\\
+a_{22} \frac{d^2 y}{dt^2} + a_{21} \frac{dy}{dt} + a_{20} y + b_{22} \frac{d^2 z}{dt^2} + b_{21} \frac{dz}{dt} + b_{20} z = 0
+\end{array}
+\right\}
+\end{equation*}
+（其中的系数 $a_{ij}, b_{ij}$ 都是常数）。
+
+让 $y$ 的初始条件全都等于零（这样作的意义就是把 $y$ 用 $y_i$ 来代替），对系统的微分方程组进行拉氏变换，就得到一个代数方程组，然后再用代数方法把除 $Y_i(s)$ 以外的其余未知函数（例如，上面例子里的 $Z(s)$）消去，最后，特解 $Y_i(s)$ 的拉氏变换就可以表示为下列的形状：
+\begin{equation}\label{eq:particular_solution_lap}
+Y_i(s) = F(s) X(s) \equiv \frac{N(s)}{D(s)} X(s) = \frac{x_m N(s)}{(s - i \omega) D(s)}.
+\end{equation}
+其中 $N(s)$ 的次数小于 $D(s)$ 的次数，当 $N(s)=1$ 时，问题就简化为\eqref{eq:n_order_diff_equation_lap} 所表示的比较简单的情形。在推广了的情况下，部分分式的法则 ($*$) 仍旧是适用的。但是，现在的分母多项式是 $(s-i\omega)D(s)$，这个多项式的根是 $s_1,s_2,\cdots,s_n$ 和 $i\omega$。因而就有
+\begin{equation}
+Y_i(s) = x_m \left[ \frac{N(i\omega)}{D(i\omega)} \frac{1}{s-i\omega} + \sum_{r=1}^n \frac{N(s_r)}{(s_r-i\omega)D'(s_r)} \frac{1}{s-s_r} \right]。
+\end{equation}
+所以由于正弦式的驱动函数\eqref{eq:driver_function_complex} 所产生的特解就是
+\begin{equation}
+y_i(t) = x_m \left[ \frac{N(i\omega)}{D(i\omega)} e^{i\omega t} + \sum_{r=1}^n \frac{N(s_r)}{(s_r-i\omega)D'(s_r)} e^{s_r t} \right]。
+\end{equation}
+对于稳定的系统来说，所有的 $s_r$ 的实数部分都是负数，所以当 $t \to \infty$ 的时候，$y_i(t)$ 的第二部分就等于零。这时的状态称为稳态。剩下的第一部分就是系统的稳态解 $[y_i(t)]_{st.}$：
+\begin{equation*}
+[y_i(t)]_{st.} = x_m \frac{N(i\omega)}{D(i\omega)} e^{i\omega t},
+\end{equation*}
+稳态解与驱动函数的比值也就可以用下列简单的关系式表示出来：
+\begin{equation}\label{eq:ratio_of_steady_solution_to_function}
+\frac{[y_i(t)]_{st.}}{x(t)} = \frac{N(i\omega)}{D(i\omega)} = F(i\omega)。
+\end{equation}
+这个公式使我们能够十分简捷地计算出正弦驱动函数所产生的稳态解。$\omega$ 的函数 $F(i\omega)$ 称为系统的\underline{频率特性}。
+
+当驱动函数的角频率 $\omega$ 趋近于零的时候，驱动函数就趋近于一个不随时间改变的常数 $x_m$。方程\eqref{eq:ratio_of_steady_solution_to_function} 表明：$F(0)$ 就是当 $x$ 是常数的情况下 $y$ 的稳态值与 $x$ 的比值。这就是 $F(s)$ 在 $s=0$ 的值的物理意义。在以后的讨论中，我们还要经常地用到这个物理解释。我们把 $F(0)$ 的绝对值 $K = |F(0)|$ 称为系统的\underline{放大}或\underline{增益} 。
+
+\section{关于单位冲量驱动函数的讨论}
+
+驱动函数 $x(t)$ 并不必须是连续函数。现在我们假定驱动函数 $x(t)$ 是作用在 $t=0$ 这一瞬间的一个单位冲量，也就是，
+\begin{equation*}
+\mbox{如果} t \neq 0, x(t) = 0；
+\end{equation*}
+\begin{equation*}
+\mbox{如果} t = 0, x(t) \to \infty,
+\end{equation*}
+而且
+\begin{equation*}
+\int_{0}^{\infty} x(t) dt = 1.
+\end{equation*}
+这样规定的 $t$ 的函数称为狄拉克（Dirac）冲量函数，通常用 $\delta(t)$ 表示。不难证明，这样一个单位冲量驱动函数的拉氏变换 $X(s)$ 就等于1。如果把单位冲量驱动函数作用到一般的系统上去，那么，由于这个冲量而引起的系统的反应，按照方程\eqref{eq:particular_solution_lap}就是
+\begin{equation}
+Y_i(s) = \frac{N(s)}{D(s)} \cdot 1 = F(s).
+\end{equation}
+由于这个冲量而产生的解 $y(t)$，通常是用 $h(t)$ 来表示的。根据反转公式\eqref{eq:inversion_formula}，
+\begin{equation}\label{eq:impulse_solution}
+h(t) = \frac{1}{2\pi i} \int_{\gamma-i\infty}^{\gamma+i\infty} e^{st}F(s)ds.
+\end{equation}
+如果系统是稳定的，所有的根 $s_r$ 的实数部分都是负的，这也就是说，在复数平面上 $F(s)$ 的所有奇点都位于虚轴的左边。因此，在表示 $h(t)$ 的积分\eqref{eq:impulse_solution} 里，我们就可以用虚轴作为积分的路线，这也就是说，方程\eqref{eq:impulse_solution}里的 $\gamma$ 可以取作零：$\gamma = 0$。
