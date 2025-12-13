@@ -1,4 +1,3 @@
-%记得标点符号替换，将英文标点符号替换为中文标点符号（，。？：）
 % To be included
 
 \chapter{拉氏变换法}
@@ -94,6 +93,7 @@ Y(s)=\frac{N_0(s)}{D(s)}+\frac{X(s)}{D(s)}
         ${s}/{(s^2+a^2)^2}$ & $\frac{t}{2a}\sin at$ \\
         ${1}/{(s^2+a^2)^2}$ & $\frac{1}{2a^3}(\sin at-at\cos at)$ 
     \end{tabular}
+    \label{table:2_1}
 \end{table}
 
 在最常遇到的情形里，驱动函数$x(t)$的拉氏变换$X(s)$的形式都是$s$的两个多项式的比值，因此，由方程\eqref{eq:n_order_diff_equation_lap}所给出的完全解$Y(s)$也是$s$的两个多项式的比值。这样一来，用求部分分式的方法就可以把$Y(s)$的表达式分解为若千个简单分式的和数。对于每一个分式都可以用反转公式（实际上很少这样作）或者用比较好的查表方法求出原函数来。
@@ -106,7 +106,7 @@ Y(s)=\frac{N_0(s)}{D(s)}+\frac{X(s)}{D(s)}
 \end{equation}
 
 其中的 $D'(s)$ 表示 $D(s)$ 对于$s$的导数。根据上一节里的“字典”，把这个和数逐项地“翻译”出来，就得到解 $y(t)$ 中由于初始条件而产生的 $y_c(t)$ 部分[这一部分称为“补充函数”，它也就是方程\eqref{eq:n_order_diff_equation} 在 $x(t)=0$ 而初始条件仍然是\eqref{eq:initial_condition_of_diff} 的情况的解。]：
-\begin{equation}
+\begin{equation}\label{eq:solution_yct}
 y_c(t) = \sum_{r=1}^{n} \frac{N_0(s_r)}{D'(s_r)} e^{s_r t}.
 \end{equation}
 一般说来，$D(s)$ 的根 $s_r$ 是复数。对于实际的物理系统来说，微分方程\eqref{eq:n_order_diff_equation} 的系数 $a_0, a_1, a_2, \cdots, a_n$ 都是实数。根据方程\eqref{eq:denominator_of_lap}$D(s)$ 的各个复数根 $s_r$ 必然是成\underline{复共轭对}出现的。这也就是说，如果 $D(s)$ 有一个复数根是 $\alpha + i\beta (\beta \neq 0)$ 的话，那么 $\alpha - i\beta$ 也必然是 $D(s)$ 的根。如果所有的根 $s_r$ 的实数部分都是负数，那么 $y_c(t)$ 就会随着时间的增加按照\underline{指数律} 减小，最后 $y_c(t)\to 0$。因此，系统就是稳定的。
