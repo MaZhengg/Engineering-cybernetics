@@ -118,7 +118,7 @@ y_e(t) = y_0 e^{-t/\tau_1}.
     \label{fig:3_4}
 \end{wrapfigure}
 我们把输入 $x(t)$ 与输出 $y_i(t)$ 的差数 $e(t) = x(t) - y_i(t)$ 称为\underline{偏差信号}，在现在所考虑的情形里
-\begin{equation}
+\begin{equation}\label{eq:error_signal}
 e(t) = x(t) - y_i(t) = e^{-t/\tau_1} 
 \end{equation}
 所以，当 $t \to \infty$ 时，偏差信号趋于零。
@@ -187,7 +187,7 @@ y_i(t) = -\frac{x_m}{1+i\omega\tau_1} e^{-t/\tau_1} + \frac{x_m}{1+i\omega\tau_1
 \section{传递函数的表示法}
 
 传递函数 $F(s)$ 是复变数 $s$ 的函数。因为在普通的情形下，它是两个 $s$ 的多项式的比值，所以函数 $F(s)$ 除了一个常数因数之外可以由它的零点和极点所确定。如果对于某一个特别的 $s$ 值 $F(s)$ 的值是已知的话，也就可以把常数因数确定下来，这时函数 $F(s)$ 就完全确定了，这里，最方便的就是考虑 $s$ 在原点的值 $s=0$，因为 $F(0)$ 有具体的物理意义：
-\begin{equation}
+\begin{equation}\label{eq:ch3_transfer_function_zero}
 |F(0)| = K
 \end{equation}
 是系统的放大，也就是系统在常数输入的情况下输出的稳态值与输入的比值。又因为对于大多数的实际情形，$F(0)$ 常常是正数，因而 $F(0)=K$。所以，传递函数 $F(s)$ 就可以由零点、极点和放大唯一地确定。这也就是传递函数的一种可能的表示方法。举例来说，我们可以这样来表示方程\eqref{eq:transfer_function_of_fs} 所给的传递函数：它的放大是$1$；在$-1/\tau_1$有一个单极点；没有零点。
@@ -242,7 +242,6 @@ M &= \frac{1}{\sqrt{1+\omega^2 \tau_1^2}} = \frac{1}{\sqrt{1+u^2}},\\
 \int_{0}^{t} v dt.
 \]
 
-
 \begin{wrapfigure}{r}{0.5\textwidth}
     \centering
     \includegraphics[width=0.35\textwidth]{图3.8.png}
@@ -250,13 +249,13 @@ M &= \frac{1}{\sqrt{1+\omega^2 \tau_1^2}} = \frac{1}{\sqrt{1+u^2}},\\
     \label{fig:3_8}
 \end{wrapfigure}
 这个关系可以用方块图\ref{fig:3_8}表示出来，假设 $V(s)$ 和 $\Phi(s)$ 分别是 $v$ 和 $\varphi$ 的拉氏变换。这个系统的传递函数 $F(s) = K/s$ 是函数 $1/(\tau_1 s + 1)$ 当 $\tau_1 \to \infty$ 时的极限情形，它在原点 $s = 0$ 有一个极点。为了把这里的 $K$ 还看作系统的放大，我们就必须把以前规定的放大的定义修改一下，以前的那一个定义适用于原点不是传递函数的零点或极点的情形。对于一个\underline{积分系统}，即对传送函数 $F(s)$ 在原点 $s = 0$ 有一个单极点的系统来说，放大 $K$ 就应该定义为
-\begin{equation}
+\begin{equation}\label{eq:ch3_definition_of_amplification}
 K = \lim_{s \to 0} |sF(s)|.
 \end{equation}
 系统\eqref{eq:integral_differential_equation}的频率特性是
-\[
+\begin{equation*}
 F(i\omega) = \frac{K}{i\omega} = \left( \frac{K}{\omega} \right) e^{-i(\pi/2)}.
-\]
+\end{equation*}
 因此，按照方程\eqref{eq:bode_transfer_function_format},
 \begin{equation}
 M = \frac{K}{\omega}, \quad \theta = -\frac{\pi}{2}.
@@ -281,8 +280,7 @@ M = \frac{K}{\omega}, \quad \theta = -\frac{\pi}{2}.
 v = K \frac{d\varphi}{dt},
 \]
 其中 $K$ 是比例常数。这个情形和前面讨论的电动机的情形恰好相反。传递函数 $F(s) = Ks$ 在原点有一个零点。因此，对于一个\underline{微分系统} ，即对传递函数 $F(s)$ 在原点 $s=0$ 有一个单零点的系统来说，放大 $K$ 的定义应该改为
-
-\begin{equation}
+\begin{equation}\label{eq:ch3_definition_of_amplification_modified}
 K = \lim_{s \to 0} \left| \frac{F(s)}{s} \right|.
 \end{equation}
 图\ref{fig:3_11}是这个系统的方块图，图\ref{fig:3_12}是伯德图，图\ref{fig:3_13}是乃氏图。

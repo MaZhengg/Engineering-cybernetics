@@ -1,0 +1,501 @@
+
+% To be included
+\chapter{反馈伺服系统}
+
+在这一章里，我们将要介绍近代的调节技术和控制技术中最重要的一个概念：\underline{反馈}的概念。我们将要借助于最简单的系统——常系数线性系统的讨论来引进这个概念。同时，我们还要说明，为什么采用反馈方法就能够使系统大大地增加控制的准确度，并且显著地提高对于控制信号的反应速度。最后，我们还要讲解一下保证\underline{反馈伺服系统}的稳定性并且使它具有最好的运转性能的设计原则。
+
+\section{反馈的概念}
+
+让我们来考虑控制涡轮发电机的转速的问题。在这里，最重要的要求就是使转速非常接近于额定的固定数值，而不要发生较大的偏差。对于这个问题来说，最初等的处理方式就是所谓\underline{开路控制}的方法，采用这种控制方法的时候，我们就必须随时设法使汽涡轮机所产生的转矩、发电机本身所需要的转矩和负载转矩处于平衡状态，具体地说，我们可以这样做：随时用仪表测量负载的数值，并且随时根据测量的结果调节汽涡轮机的阀门。但是，可以想象到，这种平衡的方法不可能是完全精确的，总会存在一个偏差转矩 $x(t)$。这个偏差转矩的存在就要使发电机的转动产生加速度。如果我们用 $y(t)$ 表示实际转速和额定转速之间的偏差，用 $I$ 表示发电机的转动部分的转动惯量，用 $c$ 表示摩擦损失的阻尼系数，那么，微分方程就是
+\begin{equation}\label{eq:generator_differential_equation_open}
+    I \frac{dy}{dt} + cy = x(t)。
+\end{equation}
+
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.48\textwidth]{图4.1.png} 
+    \caption{ }
+    \label{fig:4_1}
+\end{wrapfigure}
+
+图\ref{fig:4_1}就是这个开路控制系统的方块图。我们看到，这个系统与第三章研究过的一阶系统是相似的。这个系统的时间常数是 $I/c$，偏差转速的稳态值和偏差转矩的比值是 $1/c$。因为涡轮发电机的转子的重量很大，所以 $I$ 是一个很大的数值；但是，因为摩擦损失相当小，所以 $c$ 也就是一个很小的数值；由此可见，时间常数 $I/c$ 就是一个非常大的数值，这也就意味着，任意一个转速的偏差都要保持很久的时间，而且很难使它迅速地消失掉。不仅如此，由于系统的放大 $1/c$ 很大，所以，如果希望偏差转速相当小，就必须要求偏差转矩极端地微小。不言而喻，这样一个目的在于维持发电机转速不变的开路控制系统，在实际工程中是十分无用的。
+
+现在，我们再来看一看，把开路系统改为具有反馈作用的所谓\underline{闭路控制系统}以后，系统的运转性能发生怎样的变化。进行闭路控制的时候，我们使对系统起控制作用的力矩与被控制的变数发生关系。这也就是说，蒸气阀门的调节不仅要依据负载的情况，而且也还要和偏差速度 $y$ 有关系。假定控制转矩的第二个组成部分与 $y$ 成比例，比例常数是 $-k(k>0)$。当转速过高，也就是 $y>0$ 的时候，就把阀门关闭起来，同时，使发电机加速的转矩减少 $ky$。如果转速过低，也就是 $y<0$ 的时候，使发电机加速的力矩就会增加 $ky$。因此，现在 $y$ 的微分方程就变为
+\begin{equation*}
+    I \frac{dy}{dt} + cy = x - ky,
+\end{equation*}
+也就是
+\begin{equation}\label{eq:generator_differential_equation_close}
+    I \frac{dy}{dt} + (c+k)y = x(t).
+\end{equation}
+
+方程\eqref{eq:generator_differential_equation_close}与方程\eqref{eq:generator_differential_equation_open}唯一的不同之点就是把 $c$ 换成了和数 $c+k$。现在，时间常数就变为 $I/(c+k)$，而偏差转速的稳态值与不变的偏差转矩的比值就变成 $1/(c+k)$。因此，与开路控制系统相比，只要我们使 $k$ 比 $c$ 大得很多的话，就可以使时间常数和偏差转速大大地减小。因为 $c$ 很小，所以，实际上使 $k\gg c$ 也是很容易的。从这个例子可以看到，其余的条件都不必加以改变，只要把开路控制系统加上一个\underline{反馈线路}使它变为闭路控制系统的话，系统的反应速度和控制的精确度就可以提高很多，因而也就可以大大地改进控制系统的性能。
+
+图\ref{fig:4_2}就是上述的闭路控制系统的方块图。图中代表汽轮发电机的原有的传递函数 $F_1(s)$ 和图\ref{fig:4_1}里的 $F_1(s)$ 还是相同的。在图\ref{fig:4_2}里，我们还引进了伺服控制工程中的一个规定：在表示混合器（也有时称为比较元件）的符号“$\otimes$”旁边必须用加号或者减号注明混合器对于相当的输入信号的作用。例如图 4.2 中的混合器的输入信号是 $X(s)$ 和 $kY(s)$，根据图上标明的作用符号，混合器的输出信号就是 $X(s)-kY(s)$。如果在两条线路的接合点上只画了一个圆点，就表示对那里的信号只有“测量”作用，并没有相加或相减的作用（在这一点上表示控制系统的构造的方块图和普通的电路图是不相同的），因此，图\ref{fig:4_2}表示偏差转速 $y$ 在系统的输出部分上被测量了，而且用测量的结果产生出控制转矩 $ky$。从图\ref{fig:4_2}可以看出，闭路控制系统中包含了一个反馈线路（$F_2(s)$ 所在的线路）。因此，把整个控制系统称为\underline{反馈伺服系统}是很恰当的。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图4.2.png} 
+\caption{}
+\label{fig:4_2}
+\end{figure}
+
+虽然在上面所分析的这个简单的例子里，我们是用把方程 $I \frac{dy}{dt} + cy = x(t)$ 和方程 $I \frac{dy}{dt} + (c+k)y = x(t)$ 加以比较的方法来说明反馈伺服控制系统的优点，可是，对于更复杂的系统，只用到传递函数的概念的分析方法也是很方便的，在以下各节中，我们就来说明这种分析方法。
+
+
+\section{反馈伺服系统的设计准则}\label{design_protocol_feedback_server_system}
+
+我们来考虑一个一般的反馈伺服系统，这个系统的构造和图\ref{fig:4_2}所表示的系统相同，但是 $F_1(s)$ 和 $F_2(s)$ 这两个传递函数是任意的。$F_1(s)$ 称为前向线路的传递函数，$F_2(s)$ 称为反馈线路的传递函数。在一般的情况下，输出 $Y(s)$ 与输入 $X(s)$ 之间的关系就是
+\begin{equation*}
+    Y(s) = F_1(s)[X(s) - F_2(s)Y(s)]
+\end{equation*}
+把 $Y(s)$ 从这个方程解出来，就得
+\begin{equation}\label{eq:transfer_function_of_close_system}
+    \frac{Y(s)}{X(s)} = \frac{F_1(s)}{1 + F_1(s)F_2(s)} = F_s(s),
+\end{equation}
+这里，$F_s(s)$ 就是系统的传递函数，也就是整个系统的输出与输入的比值。
+
+为了以后讨论的便利，把 $F_1(s)$ 和 $F_2(s)$ 的放大 $K_1$ 和 $K_2$ 也明显地表示出来，我们把 $F_1(s)$ 和 $F_2(s)$ 写作：
+\begin{equation}\label{eq:transfer_function_f1_f2}
+\left.
+    \begin{array}{l}
+        F_1(s) = K_1G_1(s), \\
+        F_2(s) = K_2G_2(s).
+    \end{array}
+\right\}
+\end{equation}
+因为放大 $K$ 的量纲和传递函数 $F(s)$ 的量纲相同，所以，这里的 $G(s)$ 显然是无量纲的函数。因为 $G(s)$ 的零点和极点也就是 $F(s)$ 的零点和极点，所以，所有关于 $F(s)$ 的“构造”的知识都包含在 $G(s)$ 里面了。非常明显，相当于 $G(s)$ 的放大都是 $1:|G(0)|=1$。由于这样的做法，在以后的讨论中我们常常把传递函数对系统所起的作用看作是两个分别的作用的结果：一个是放大 $K$ 的大小所起的作用，另一个是零点和极点的位置所起的作用，也就是 $G(s)$ 所起的作用。把作用进行这种划分的理由，还因为有以下的事实：如果在一个系统 $F(s)$ 中包含有由放大器和计算器组成的计算部件，那么，$G(s)$ 只与计算器有关，而与放大器无关；系统的放大却是只决定于放大器的。此外，在系统的设计里，这两种不同的控制作用几乎是完全互不相关的。因此，$G(s)$ 和 $K$ 可以分别地加以改变，同时也可以给以分别的考虑。
+
+利用方程\eqref{eq:transfer_function_f1_f2}，方程\eqref{eq:transfer_function_of_close_system}就可以写作
+\begin{equation}\label{eq:transfer_function_other_format}
+    \frac{Y(s)}{X(s)} = F_s(s) = \frac{K_1G_1(s)}{1 + K_1G_1(s)K_2G_2(s)} = \frac{1}{[1/K_1G_1(s)] + K_2G_2(s)}
+\end{equation}
+假定由方程\eqref{eq:error_signal}所定义的偏差信号 $e(t)$ 的拉氏变换是 $E(s)$，就有
+\begin{equation}\label{eq:error_signal_laplace_transfer}
+    \frac{E(s)}{Y(s)} = \frac{X(s) - Y(s)}{Y(s)} = \frac{1}{F_s(s)} - 1 = \frac{1}{K_1G_1(s)} - [1 - K_2G_2(s)]
+\end{equation}
+
+对于图\ref{fig:4_3}所表示的那种\underline{简单的反馈伺服系统}来说，反馈线路的传递函数 $F_2(s)$ 就是1，这也就是说，在进行反馈控制作用的时候，仅仅对输出作了测量，并且直接把测量的结果用作反馈信号，并没有把测量结果加以任何的改变。在这种简单的情况下，方程\eqref{eq:transfer_function_other_format}和方程\eqref{eq:error_signal_laplace_transfer}就简化为
+\begin{equation}\label{eq:transfer_function_other_format_simple}
+    \frac{Y(s)}{X(s)} = F_s(s) = \frac{KG(s)}{1 + KG(s)} = \frac{1}{[1/KG(s)] + 1}
+\end{equation}
+和
+\begin{equation}\label{eq:error_signal_laplace_transfer_simple}
+    \frac{E(s)}{Y(s)} = \frac{1}{KG(s)}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图4.3.png} 
+\caption{}
+\label{fig:4_3}
+\end{figure}
+
+
+对反馈伺服系统的第一个要求就是\underline{稳定性}。这也就是说，在输出运动 $y(t)$ 中，除了正弦式的组成部分之外，其他的成分都应当被阻尼掉。然而，\ref{discuss_about_Sine_type_drive_function}节的分析表明，系统的稳定性条件用数学的方式来说就相当于：函数 $F_s(s)$ 在 $s$ 平面的右半部（也就是 $s$ 的实数部分是正数的部分）没有极点。对于一般的反馈伺服系统来说，根据方程\eqref{eq:transfer_function_other_format}，$F_s(s)$ 的极点就是
+\begin{equation}\label{eq:pole_and_zero_transfer_4_5}
+    \frac{1}{F_s(s)} = \frac{1}{K_1G_1(s)} + K_2G_2(s)
+\end{equation}
+的零点。对于简单的反馈伺服系统来说，根据方程\eqref{eq:transfer_function_other_format}，$F_s(s)$ 的极点就是
+\begin{equation}\label{eq:pole_and_zero_transfer_4_7}
+    \frac{1}{F_s(s)} = \frac{1}{KG(s)} + 1
+\end{equation}
+的零点。因此，反馈伺服系统的第一个设计准则就是：
+\begin{enumerate}[label=(\arabic*), start=1]
+\item \label{design_protocol_1} 由于方程\eqref{eq:pole_and_zero_transfer_4_5}或方程\eqref{eq:pole_and_zero_transfer_4_7}所给定的函数 $1/F_s(s)$ 在右半个 $s$ 平面上不应有零点。
+\end{enumerate}
+
+对反馈伺服系统的第二个要求就是：\underline{迅速的反应}，如果 $s_r$ 是 $F_s(s)$ 的一个极点，\ref{discuss_about_Sine_type_drive_function}节的分析表明，输出运动中就包含有 $e^{s_rt}$ 这样一个成分。所以，系统的反应速度决定于 $s_r$ 的大小。$s_r$ 的数值越大，时间的尺度就越小，所以，反应就越迅速。因此，反馈伺服系统的第二个设计准则就是：
+\begin{enumerate}[label=(\arabic*), start=2]
+\item \label{design_protocol_2} 由方程\eqref{eq:pole_and_zero_transfer_4_5}或方程\eqref{eq:pole_and_zero_transfer_4_7}所给定的函数 $1/F_s(s)$ 的所有零点都应该具有相当大的数值，而且在 $s$ 平面上所有这些零点都应该在左半平面离开虚轴相当远的地方\footnote{关于这个准则的更严格的叙述可以参阅[23]}。
+\end{enumerate}
+
+如果我们所设计的系统是一个为了进行\underline{位置控制}而用的反馈伺服系统（所谓“位置控制”的意思就是希望系统的输出信号本身总是随着输入信号本身的变化而变化。我们常常把这种系统称为\underline{随动系统}）。在过渡过程结束以后的输出稳态值就应该和输入值尽可能地相近，这也就是说，要求偏差的稳态值和输出的稳态值的比值 $E(0)/Y(0)$ 越小越好。利用方程\eqref{eq:error_signal_laplace_transfer}和方程\eqref{eq:error_signal_laplace_transfer_simple}，可以把这样一个要求换成对传递函数的放大的要求。这也就是：
+
+\begin{enumerate}[label=(\arabic*), start=3]
+\item \label{design_protocol_3} 在位置控制的情况下，为了控制的精确度，对于一般的反馈伺服系统\eqref{eq:error_signal_laplace_transfer}就应该要求
+\begin{equation}
+    \frac{1}{K_1} - [1-K_2] \sim 0,
+\end{equation}
+对于简单的反馈伺服系统\eqref{eq:error_signal_laplace_transfer_simple}就应该要求
+\begin{equation}
+    K \gg 1.
+\end{equation}
+\end{enumerate}
+
+
+以上给出的三个条件\ref{design_protocol_1}、\ref{design_protocol_2}、\ref{design_protocol_3}就是反馈伺服系统的设计准则。但是，实际上 \ref{design_protocol_2}、\ref{design_protocol_3}两个条件是很难得到十分理想的满足的，这也就是说系统的稳定性和反应速度之间经常是有矛盾的，所以，为了实际的工程目的就不能够无限制地提高系统的稳定性和反应速度，在以下各节的讨论里，我们就可以看到一些处理这种矛盾的折衷办法。
+
+
+\section{乃氏(Nyquist)法}\label{nyquist_method}
+
+既然,正如前面所提到过的那样,普通的传递函数都是两个 $*$ 的多项式的比值,所以上一节中的第\ref{design_protocol_1}准则也就相当于要求某一个多项式的零点全都在 $s$ 的左半平面。这是一个古典的问题。路斯(E. J. Routh)利用了所谓的“路斯不等式"解决了这个问题，路斯不等式里所包含的只是被考虑的多项式的系数\footnote{路斯不等式常常被称为路斯-胡尔维茨（Hurwitz）不等式。这个稳定性的判定方法的详细情况在关于运动稳定性的教科书以及一般的调节理论教科书中都可以找到。这个方法的证明可以参阅[3,24,25]。}。但是控制工程师并不喜欢用这个方法，因为当多项式的系数有变化的时候，路斯不等式的变化情况是很难捉摸的。由于传递函数是比较原始比较直接的资料，而且它也能被工程师所“物理地”了解，所以工程师们宁愿采用一种直接从方程\eqref{eq:pole_and_zero_transfer_4_5}或\eqref{eq:pole_and_zero_transfer_4_7}的传递函数下手的分析方法，而不愿意把传递函数再加以变化。
+
+乃奎斯特（H. Nyquist）发明了一个这样的方法。我们把这个方法称为乃氏法。乃氏法的数学基础是一个关于解析函数 $f(s)$ 的定理，这里的 $s$ 是一个复变数。这个定理是柯西（Cauchy）所发现的\footnote{关于这个定理的证明，可参阅 Whittaker and Watson，\textit{Modern Analysis}（Cambridge-Macmillan, 1943）的第6.31节，第119页；或其他的关于复变函数论的教科书。}:
+
+如果 $f(s)$ 在一条闭路径 $C$ 的内部有 $n$ 个单零点和 $m$ 个单极点（每一个 $k$ 重零点或 $k$ 重极点就分别算作 $k$ 个单零点或 $k$ 个单极点）的话，那么，当 $s$ 以顺时针方向沿着 $C$ 转动一圈的时候，向量 $f(s)$ 也就以顺时针方向围绕原点转动 $n-m$ 圈。
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图4.4.png}
+    \caption{ }
+    \label{fig:4_4}
+\end{wrapfigure}
+为了把这个很强有力的定理应用到我们的问题上去，我们所选取的路径 $C$ 就包含了整个的右半平面。因为实数部分是正数的零点只能在这一个区域里。图\ref{fig:4_4}所表示的就是这样一条路线，这条路线包括了虚轴和一个在虚轴右边的半径是 $R \to \infty$ 的半圆。首先，我们来研究比较简单的情形，也就是简单的反馈伺服系统的情形。由方程?$1/F_s(s)$可以看到，$1/F_s(s)$ 的极点就是 $G(s)$ 的零点。如果 $G(s)$ 在 $s$ 平面的右半部的零点的个数是 $m$，那么，$1/F_s(s)$ 在 $C$ 的内部就有 $m$ 个极点。因此，如果希望 $1/F_s(s)$ 在 $s$ 平面的右半部没有零点，那么，当 $s$ 沿着图\ref{fig:4_4}里的 $C(R \to \infty)$ 走一圈的时候，就必须要求 $1/F_s(s)$ 围绕原点以反时针方向转 $m$ 圈。但是，根据方程\eqref{eq:pole_and_zero_transfer_4_7}很容易看出来，这也就相当于要求 $1/KG(s)$ 以反时针方向围绕 $-1$ 点转 $m$ 圈。然而，又因为 $K$ 是一个常数，所以上面这个判据也相当于要求 $1/G(s)$ 以反时针方向围绕 $-K$ 点绕 $m$ 圈。不言而喻，当 $G(s)$ 在 $s$ 平面右半部没有零点，或者 $m=0$，那么，乃氏稳定准则要求向量 $1/G(s)$ 不围绕 $-K$ 点转动。
+
+现在，让我们用下列的简单的传递函数来说明这个方法的应用：
+
+也就是
+\begin{equation}\label{eq:nyquist_example_transfer_function}
+\left.
+\begin{array}{l}
+G(s) = \frac{1}{s(1 + \tau_1 s)(1 + \tau_2 s)},\\
+1/G(s) = s(1 + \tau_1 s)(1 + \tau_2 s),
+\end{array}
+\right\}
+\end{equation}
+
+首先来考虑图\ref{fig:4_4}的路线$C$的沿虚轴的部分，在这一部分上
+\begin{equation*}
+\frac{1}{G(s)} = \frac{1}{G(i\omega)} = i\omega (1 + i\tau_1 \omega)(1 + i\tau_2 \omega).
+\end{equation*}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.48\textwidth]{图4.5.png}
+    \caption{ }
+    \label{fig:4_5}
+\end{wrapfigure}
+在 $\omega = 0$ 点， $1/G(i\omega) = i0$。 当 $\omega \to +\infty$， $1/G(i\omega) \to -i\infty$。 因此，在 $\omega$ 从0增加到$+\infty$的过程中，向量$1/G(i\omega)$的大小也随之增加，并且相角从$\pi/2$增加到$3\pi/2$。 根据方程(3.17)。 相当于负$\omega$值$(-\infty < \omega < 0)$的$1/G(i\omega)$的端点所描画出的曲线也就是相当于正$\omega$值的$1/G(i\omega)$曲线对于实轴所作的“反射”。 所以，当$s$在虚轴上从$-i\infty$走到$+i\infty$的时候，$1/G(i\omega)$在图\ref{fig:4_5}上就描画出曲线$abOc$。
+
+当$s$走过图\ref{fig:4_4}上所表示的半圆的时候，$1/G(s) \sim s^3$。所以，当$s$从$+i\infty$沿着半圆以顺时针方向转到$-i\infty$时，$1/G(s)$也是顺时针转动的，不过$1/G(s)$所转过的角度3倍于$s$所转过的角度。在图4.5里，这一部分曲线是以从$c$到$a$的那一部分所表示的。根据这个图形来看，如果$K = K_I$像图形所画出的那样，那么，向量$1/G(s)$围绕$-K_I$点转动的总圈数等于零（因为顺时针方向旋转的一圈半$ca$和反时针方向旋转的一圈半$abOc$恰恰互相抵消了）。既然方程\eqref{eq:nyquist_example_transfer_function}所给的这个函数$G(s)$根本没有零点，而$1/G(s)$对$-K_I$的转动圈数也是0。所以反馈伺服系统是稳定的。如果，像图\ref{fig:4_5}所表示的那样，$K = K_I$，那么，向量$1/G(s)$围绕$-K_I$点就转动了两圈（曲线的$abOc$部分对$-K_I$点在顺时针方向转了半圈，$ca$部分以顺时针方向转了一圈半），由于转动圈数2不等于$G(s)$在右半平面的零点个数0，所以，$F_s(s)$在右半平面有两个极点，因而反馈伺服系统是不稳定的。从以上的讨论可以看出，如果放大$K$的值相当大就会使这个系统不稳定。系统的稳定放大值与不稳定放大值的分界点是$b$。使系统稳定的放大值$K$必须在原点和这个点之间：$b < -K < 0$。
+
+对于一般的反馈伺服系统来说，关于稳定性的问题也就是方程\eqref{eq:pole_and_zero_transfer_4_5}所表示的函数$1/F_s(s)$在$s$平面在右半部没有零点的问题。对这个函数直接应用柯西定理是很不方便的，因为如果这样做的话，我们就必须把向量 $1/K_1G_1(s)$ 和向量 $K_2G_2(s)$ 相加起来才行。现在，我们假设 $G_1(s)$ 和 $G_2(s)$ 在右半平面的零点的个数分别是 $m_1$ 和 $m_2$，$G_1(s)$ 和 $G_2(s)$ 在右半平面的极点的个数分别是 $n_1$ 和 $n_2$。并且假定所有这些零点和极点都互不相等，那么，$1/F_s(s)$ 在右半平面的极点的个数显然就是 $m_1+n_2$。现在，我们把 $1/F_s(s)$ 用 $K_2G_2(s)$ 除一下。这个演算就使表示式 $1/F_s(s)$ 增加了 $m_2$ 个极点和 $n_2$ 个零点，但是，还有这样一种可能性：在作除法的时候，因为有些 $1/F_s(s)$ 的极点或零点和 $G_2(s)$ 的一些极点或零点是相同的，所以这些零点和极点就互相抵消掉了。假设这样抵消掉的零点或极点的个数是 $\alpha$，那么 $1/F_s(s)K_2(s)$ 在右半平面的极点的个数就是 $m_1+n_2+m_2-\alpha$。现在就有
+\begin{equation}\label{eq:preparation_before_cauchy_theorem}
+\frac{1}{F_s(s)K_2G_2(s)} = \frac{1}{K_1K_2G_1(s)G_2(s)} + 1
+\end{equation}
+
+根据方程\eqref{eq:preparation_before_cauchy_theorem}，$1/F_sK_2G_2(s)$ 在右半平面的极点的个数和 $1/K_1K_2G_1(s)G_2(s)$ 在右半平面的极点的个数是相等的，所以也就等于 $m_1+m_2$。既然 $m_1+n_2+m_2-\alpha=m_1+m_2$，所以 $n_2-\alpha=0$。我们假设反馈系统是稳定的，因此，$1/F_s(s)$ 在右半平面没有零点，因而 $1/F_s(s)K_2G_2(s)$ 在右半平面的零点的个数就是 $n_2-\alpha$，也就是0。所以 $1/F_s(s)K_2G_2(s)$ 在右半平面也没有零点。为了清楚起见，我们把各个函数在右半平面的零点和极点的个数列在下列的表\ref{table:pole_and_zero_distribution}中。因此，当 $s$ 走过图\ref{fig:4_4}所表示的那条曲线 $C$ 的时候，向量 $1/F_s(s)K_2G_2(s)$ 就应该围绕原点以顺时针方向转动 $-(m_1+m_2)$ 圈。根据方程\eqref{eq:preparation_before_cauchy_theorem}，这个稳定条件也就相当于要求向量 $1/K_1K_2G_1(s)G_2(s)$ 围绕 -1 点以反时针方向转动 $m_1+m_2$ 圈，或者要求向量 $1/G_1(s)G_2(s)$ 围绕 $(-K_1K_2)$ 点以反时针方向转动 $m_1+m_2$ 圈。这就是一般的反馈伺服系统的稳定性的乃氏法。
+
+\begin{table}[h]
+    \centering
+    \caption{ }
+    \label{table:pole_and_zero_distribution}
+    \begin{tabular}{|l|c|l|}
+        \toprule
+        函数 & 在右半平面的零点个数 & 在右半平面的极点个数 \\
+        \midrule
+        $G_1(s)$ & $m_1$ & $n_1$ \\
+        
+        $G_2(s)$ & $m_2$ & $n_2$ \\
+        
+        $1/F_s(s)$ & $0$ & $m_1 + n_2$ \\
+       
+        $1/F_s(s)K_2G_2(s)$ & $n_2 - \alpha$ & $m_1 + n_2 + m_2 - \alpha = m_1 + m_2$ \\
+        \toprule
+    \end{tabular}
+\end{table}
+
+正如图\ref{fig:4_5}所表示的那个例子一样，乃氏法中所用的曲线的最重要的一部分就是相当于 $s=i\omega$ 的那一部分。因此，我们可以用前向线路和反馈线路的频率特性来直接解决系统的稳定性的问题。既然，系统的部件的频率特性的数据常常可以用实验方法确定，所以这种可以直接利用实验资料的方法是很有利的。这是乃氏法的优点。乃氏法的缺点在于它不能够确定稳定的程度，也就是说它不能回答这样一个问题：如果系统是稳定的，那么，它的阻尼到底有多么大呢？为了解答这个问题，我们可以把已有的准则改变成这样：要求 $1/F_s(s)$ 在一条位于左半平面而平行于虚轴的直线的右方没有零点。这条直线和虚轴的距离 $\lambda$ 就表示最低限度的阻尼。所以只要把路线 $C$ 适当地改换一下（沿着路线的 $s$ 以及 $C$ 内所包含的零点个数当然也随之改变了）乃氏准则仍然是可用的，但是这样做的时候，我们必须知道的是传递函数在直线 $s = -\lambda + i\omega$ 上的值，而不是在 $s = i\omega$ 上的值了。所以，关于频率特性的资料就不再能直接应用了，这样一来，乃氏法就失去了它的主要优点。但是，对于这个问题，艾文思(W. R. Evans)\footnote{W. R. Evans, \textit{Trans. AIEE}, \textbf{67}, 547--551 (1948)。}发明了一个不同的处理方法，这个方法比乃氏法要好得多了。在下一节里，我们就来讨论这个方法。
+
+\section{艾文思(Evans)法}
+
+我们先来考虑简单的反馈伺服系统的情形。这时，基本的问题就是求出下列方程的根
+\begin{equation}\label{eq:ch4_simple_feedback_server_system}
+0 = \frac{1}{F_s(s)} = 1 + \frac{1}{KG(s)}.
+\end{equation}
+其中的 $G(s)$ 是已知的函数。艾文思法的基本做法就是把这些根确定为放大 $K$ 的函数，所以这个方法也称为\underline{根轨迹法}。如果我们用艾文思法处理问题，那么，相应于对根所提出的任何要求，我们都可以找到合乎要求的放大 $K$ 的数值。因此，用这个方法所能做到的事情比仅只满足\ref{design_protocol_feedback_server_system}节中第\ref{design_protocol_1}准则要多得多，并且对于\ref{design_protocol_feedback_server_system}节中所提出的反馈伺服系统的所有三个设计准则来说，都可以用艾文思法把设计问题加以真正的解决。
+
+必须假设 $G(s)$ 是由它的零点 $p_1, p_2, \cdots, p_m$ 和它的极点 $q_1, q_2, \cdots, q_n$ 所给定的。根据由方程\eqref{eq:ch3_transfer_function_zero}, \eqref{eq:ch3_definition_of_amplification}与\eqref{eq:ch3_definition_of_amplification_modified}所给的放大的定义，
+\begin{equation}\label{eq:ch4_known_function}
+G(s) = A \frac{(s - p_1)(s - p_2)\cdots s - p_m}{(s - q_1)(s - q_2)\cdots s - q_n},
+\end{equation}
+其中
+\begin{equation*}
+A = \frac{(-q_1)(-q_2)\cdots (-q_n)}{(-p_1)(-p_2)\cdots (-p_m)}.
+\end{equation*}
+
+对于实际的物理系统来说，$G(s)$ 的分子多项式和分母多项式的系数都是实数。所以，这些 $p$ 或者是实数或者是成对出现的共轭复数，类似的，这些 $q$ 或者是实数或者是成对出现的共轭复数。因此，$A$ 必然是实数。不但如此，在安排普通的工程系统的时候，我们还经常使 $A$ 是一个正数。因此，在以下的讨论里，我们就把 $A$ 看作是一个正实数。在普通情况下 $G(s)$ 的分母多项式的次数总是大于或者等于分子多项式的次数，也就是 $n \geq m$。现在，我们把方程 \eqref{eq:ch4_known_function}里的每一个因子都写成向量形式：
+\begin{equation}\label{eq:ch4_numerator_vector_format}
+\left.
+\begin{array}{l}
+s - p_1 = P_1 e^{i \varphi_1},\\
+s - p_2 = P_2 e^{i \varphi_2},\\
+\cdots\cdots\\
+s - p_m = P_m e^{i \varphi_m},
+\end{array}
+\right\}
+\end{equation}
+
+\begin{equation}\label{eq:ch4_denominator_vector_format}
+\left.
+\begin{array}{l}
+s - q_1 = Q_1 e^{i \theta_1},\\
+s - q_2 = Q_2 e^{i \theta_2},\\
+\cdots\cdots\\
+s - q_n = Q_n e^{i \theta_n}.
+\end{array}
+\right\}
+\end{equation}
+
+$P_r e^{i \varphi_r}$ 就是从 $p_r$ 点到 $s$ 点的向量。$Q_r e^{i \theta_r}$ 就是从 $q_r$ 点到 $s$ 点的向量。$s$ 是复 $s$ 平面上的代表变数的点。利用方程\eqref{eq:ch4_numerator_vector_format}和\eqref{eq:ch4_denominator_vector_format}，$G(s)$ 就可以写作
+\begin{equation}\label{eq:ch4_known_function_vector_format}
+G(s) = A \frac{(P_1 e^{i \varphi_1}) (P_2 e^{i \varphi_2}) \cdots (P_m e^{i \varphi_m})}{(Q_1 e^{i \theta_1}) (Q_2 e^{i \theta_2}) \cdots (Q_n e^{i \theta_n})}.
+\end{equation}
+既然 $A$ 是正实数，我们又可以把方程\eqref{eq:ch4_known_function_vector_format}写作
+\begin{equation}
+G(s) = Re^{i\theta},
+\end{equation}
+在这个表示式里
+\begin{equation}
+R = A \frac{(P_1 P_2 \cdots P_m)}{(Q_1 Q_2 \cdots Q_n)},
+\end{equation}
+而
+\begin{equation}
+\theta = (\varphi_1 + \varphi_2 + \cdots + \varphi_m) - (\theta_1 + \theta_2 + \cdots + \theta_n).
+\end{equation}
+因为这些 $P$ 和 $Q$ 都是方程\eqref{eq:ch4_numerator_vector_format}和方程\eqref{eq:ch4_denominator_vector_format}所规定的向量的长度，所以，它们都是正数。因此，$R$ 是正数。这样一来，求传递函数的倒数的根的基本方程\eqref{eq:ch4_simple_feedback_server_system}就变为
+\begin{equation*}
+\frac{e^{i\theta}}{KR} = -1.
+\end{equation*}
+不难看出，如果希望满足这个方程，就必须有
+\begin{equation}\label{eq:ch4_KR_restriction}
+KR = 1,
+\end{equation}
+和
+\begin{equation}\label{eq:ch4_theta_value_condition}
+\theta = \pm \pi.
+\end{equation}
+艾文思法包含两个步骤：首先，要找出所有满足适当的角度条件\eqref{eq:ch4_theta_value_condition}的 $s$ 来，这样我们得出所谓根轨迹的曲线。然后，对于根轨迹上的每一点我们都可以算出相当的 $R$ 值，再用方程\eqref{eq:ch4_KR_restriction}我们就得出相当的 $K$ 值。关于描画根轨迹的方法，艾文思提出了一些有用的法则。现在我们把这些法则说明一下：
+
+\begin{enumerate}[label=法则 \arabic*, start=1]
+\item \label{ch4_law_1} 如果 $K = 0$，根据方程\eqref{eq:ch4_simple_feedback_server_system}必然有 $G(s) \to \infty$。所以，在 $K = 0$ 时 $1/F_s(s)$ 的根都是 $G(s)$ 的极点，或者说，根轨迹都是从 $G(s)$ 的极点开始的。在 $s$ 平面上用小圆点表示 $G(s)$ 的极点。
+
+\item \label{ch4_law_2} 如果 $K \to \infty$，就必然有 $G(s) \to 0$。所以，根轨迹上相当于 $K \to \infty$ 的点，可能是 $G(s)$ 的零点。在 $s$ 平面上我们用小圆圈表示 $G(s)$ 的零点。但是，如果 $n > m$，$G(s)$ 的零点的个数比 $1/F_s(s)$ 的零点的个数少。但是，在这种情形中，当 $s \to \infty$ 时，$G(s) \to 0$，所以，$s = \infty$ 就补充了那些缺少的根。此外，对于非常大的 $s$，
+\end{enumerate}
+
+\begin{equation*}
+G(s) \sim \frac{A}{s^{n-m}}。
+\end{equation*}
+因此，方程\eqref{eq:ch4_simple_feedback_server_system}可以近似地表示为
+\begin{equation*}
+s^{n-m} \approx -KA。
+\end{equation*}
+所以，根轨迹的渐近线的相角就是
+\begin{equation}\label{eq:ch4_phase_angle_root_locus}
+\frac{\pi}{n-m} + \frac{2k\pi}{n-m} \quad k=1,2,3,\cdots。
+\end{equation}
+
+\begin{enumerate}[label=法则 \arabic*, start=3]
+\item \label{ch4_law_3} 在实轴上的根轨迹是实轴上的一些交替的线段，这些线段的端点都是 $G(s)$ 的实零点或 $G(s)$ 的实极点，而且这些交替的线段从所有这些零点与极点中最右边的那一个点（可能是零点，也可能是极点）开始。
+\end{enumerate}
+
+这个法则是很容易验证的。我们在实轴上随便取一个点 $s$。从一对复共轭的零点到这个点的向量的角度就是 $+\varphi$ 与 $-\varphi$，从一对复共轭极点到这个点的向量的角度就是 $+\theta$ 与 $-\theta$（因为复共轭点对于实轴是对称的）。所以，相当于复共轭零点或复共轭极点的角度的总和等于零。如果实轴上的一个极点或是一个零点在 $s$ 点的左面，那么，从这个极点或零点到 $s$ 点的向量的角度就是0，如果这个点在 $s$ 点的右面，那么，从这个点到 $s$ 点的向量的角度就是 $\pi$。因此，如果在 $s$ 右面的零点与极点的总数是一个奇数，那么，角度的总和就是 $\pi$（因为 $2\pi$ 的整体数对问题毫无影响）。
+
+\begin{enumerate}[label=法则 \arabic*, start=4]
+\item \label{ch4_law_4} 如果发生根轨迹从实轴上离开的情况，我们可以用这样一个条件来估计根轨迹在实轴上的离开点的位置：如果根轨迹上的一点离开实轴的距离是一个非常小的数 $\Delta\omega$，那么，由于在右面的 $G(s)$ 的零点与极点所引起的角度增加一定恰好被在左面的零点与极点所引起的角度减少所抵消。
+\end{enumerate}
+\underline{例}\quad 考虑下列的传递函数，
+\begin{equation}\label{eq:ch4_transfer_function_example}
+G(s) = \frac{(0.001)(2)(6)}{(s+0.001)(s+2)(s+6)}
+\end{equation}
+
+当 $K=0$ 时，根轨迹从实轴上的 $-0.001, -2$ 和 $-6$ 出发。在实轴上的根轨迹就是 $-0.001$ 与 $-2$ 之间的线段以及 $-6$ 与 $-\infty$ 之间的线段。在这个情形里， $m=0, n=3$。所以，按照方程\eqref{eq:ch4_phase_angle_root_locus}渐近线的相角就是 $+\pi/3, -\pi/3, \pi$。假设根轨迹在实轴上的 $\lambda_1$ 点 ($\lambda_1$ 点当然要在 $-0.001$ 与 $-2$ 之间) 处离开实轴。应用\ref{ch4_law_4}就有
+\begin{equation*}
+\frac{\Delta \omega}{\lambda_1 + 0.001} + \frac{\Delta \omega}{\lambda_1 + 2} + \frac{\Delta \omega}{\lambda_1 + 6} = 0
+\end{equation*}
+或者
+\begin{equation*}
+(\lambda_1 + 2)(\lambda_1 + 6) + (\lambda_1 + 0.001)(\lambda_1 + 6) + (\lambda_1 + 0.001)(\lambda_1 + 2) = 0.
+\end{equation*}
+因而
+\begin{equation*}
+3\lambda_1^2 + 16.002\lambda_1 + 12.008 = 0.
+\end{equation*}
+所以
+\begin{equation*}
+\lambda_1 = -\frac{16.002}{6} - \sqrt{\left(\frac{16.002}{6}\right)^2 - \frac{12.008}{3}} = -0.904.
+\end{equation*}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图4.6.png} 
+\caption{}
+\label{fig:4_6}
+\end{figure}
+\begin{enumerate}[label=法则 \arabic*, start=5]
+\item \label{ch4_law_5} 常常可以利用直角的某些性质来估计根轨迹从左半平面过渡到右半平面时与虚轴的交点。
+\end{enumerate}
+\underline{例}\quad 让我们还是来考虑由方程\eqref{eq:ch4_transfer_function_example}所表示的传递函数。除了原点 $s=0$ 之外，这个传递函数可以非常近似地用下列关系式表示：
+\begin{equation*}
+G(s) \approx \frac{(0.001)(2)(6)}{s(s+2)(s+6)}。
+\end{equation*}
+正如图\ref{fig:4_6}所表示的那样，$\theta_1 \approx \pi/2$，因此，方程\eqref{eq:ch4_theta_value_condition}就给出
+\begin{equation*}
+\theta = -\pi \approx -\theta_2 - \theta_3 - \frac{\pi}{2},
+\end{equation*}
+或者
+\begin{equation*}
+\theta_2+\theta3\approx \frac{\pi}{2}.
+\end{equation*}
+但是，从图上可以看到有下列关系：
+\begin{equation*}
+\frac{\pi}{4} = \theta_3 + \beta, \quad \frac{\pi}{4} + \alpha = \theta_2,
+\end{equation*}
+因此
+\begin{equation*}
+\alpha \approx \beta。
+\end{equation*}
+这就是确定过渡点 $U$ 的几何条件。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图4.7.png} 
+\caption{}
+\label{fig:4_7}
+\end{figure}
+\begin{enumerate}[label=法则 \arabic*, start=6]
+\item \label{ch4_law_6} 根轨迹离开一个极点（或趋近于一个零点）时的方向也可以计算出来，只要把平面上所有的零点与极点到这个被考虑的极点（或零点）的角度加以计算就可以了。
+\end{enumerate}
+\underline{例} 图\ref{fig:4_7}所表示的是相应于某一个传递函数 $G(s)$ 的根轨迹，$G(s)$ 在实轴上有两个极点和两个零点，同时，还有一对复共轭的极点。在根轨迹上取与极点 $q_4$ 非常接近的一点 $s$。$q_4$ 到 $s$ 的向量的相角 $\theta_4$ 就是根轨迹离开 $q_4$ 时的方向。从各个极点和各个零点到 $s$ 点的向量的角度仍然可以看作是 $\varphi_1, \varphi_2, \theta_1, \theta_2$ 和 $\theta_3$。所以，根据方程\eqref{eq:ch4_theta_value_condition}，$\theta_4$ 就由下列方程所确定，
+\begin{equation*}
+(\varphi_1 + \varphi_2) - [(\theta_1 + \theta_2 + \theta_3) + \theta_4] = \pi。
+\end{equation*}
+从这个方程就能算出 $\theta_4$。
+
+根据以上所讲的六条法则就能得出根轨迹的主要的特性。对于中间的情形（$K$ 既不等于零，也不趋近于 $\infty$ 的情形），我们可以先在平面上适当地选取一些点，然后用试算的方法对这些点加以检验，根据检查的结果把属于根轨迹的点保留下来。这样就可以逐步地把根轨迹完全描绘出来。沿着根轨迹曲线，我们可以算出相应于每一点的放大 $K$ 的值。如果已经把符合设计要求的 $1/F_s(s)$ 的零点位置选择好了，那么相当的 $K$ 值也就可以完全确定。这样一来，反馈系统的设计问题就得到了解决（一般说来实际的设计过程当然要比所讲的要复杂得多$^{[5,9,27]}$）。
+
+\section{根轨迹的流体力学比拟}
+
+
+把方程\eqref{eq:ch4_simple_feedback_server_system}和方程\eqref{eq:ch4_known_function}合并起来，我们就得出
+\begin{equation*}
+\frac{(s-q_1)(s-q_2)\cdots(s-q_n)}{(s-p_1)(s-p_2)\cdots(s-p_m)} = -KA。
+\end{equation*}
+如果先取这个方程的对数，然后再用 $2\pi$ 除一下，我们就有
+\begin{equation}\label{eq:ch4_logarithm_of_function}
+W(s) = \frac{1}{2\pi} \sum_{i=1}^n \log(s-q_i) - \frac{1}{2\pi} \sum_{j=1}^m \log(s-p_j) = \frac{1}{2\pi} \log KA + i\left(\frac{1}{2}\right)。
+\end{equation}
+方程\eqref{eq:ch4_logarithm_of_function}这样一个数学表示式可以有很多种不同的物理解释。一个很明显的物理解释就是把 $W(s)$ 看作是完全不可压缩的流体的一个\underline{二维无旋运动的复势函数}\footnote{可以参阅 V. L. Streeter, \emph{Fluid Dynamics}, McGraw-Hill Book Company, Inc., New York, (1948)。也可以参阅[28,29]。}。如果 $\phi(\lambda,\omega)$ 是势函数，$\psi(\lambda,\omega)$ 是流函数，那么就有
+\begin{equation}
+W(s) = \phi(\lambda,\omega) + i\psi(\lambda,\omega),
+\end{equation}
+其中 $s=\lambda+i\omega$。因此，表示 $1/F_s(s)$ 的根轨迹的方程\eqref{eq:ch4_logarithm_of_function}可以这样解释：根轨迹就是流函数取常数值 $\frac{1}{2}$ 的那些曲线；所以，用流体力学的术语来说，根轨迹就是由 $\frac{1}{2}$ 流线的各个分支所组成的。沿着这条流线势函数的值是逐点改变的，它等于
+\begin{equation*}
+\frac{1}{2\pi} \log KA。
+\end{equation*}
+方程\eqref{eq:ch4_logarithm_of_function}还表示这样一个事实：这个流动是由 $n$ 个单位强度的\underline{源点}$q_1, q_2, \cdots, q_n$ 和 $m$ 个单位强度的\underline{汇点}$p_1, p_2, \cdots, p_m$ 所构成的。在我们的图形表示法里是用小圆点表示源点，用小圆圈表示汇点。有了这样一个解释，我们就可以“理解”图\ref{fig:4_6}和图\ref{fig:4_7}中根轨迹的图形。
+
+流体力学比拟还有另外一个很大的用处：它能够提示我们怎样把系统加以改变，使系统具有更好的性能。举例来说，假设有一个系统是由下列传递函数所代表的，
+\begin{equation*}
+G(s) = \frac{q_1 q_2}{s(s-q_1)(s-q_2)} \quad |q_1|<|q_2|，
+\end{equation*}
+如果放大 $K$ 的值太小，那么，在闭路控制的情形下，这个系统就可能是不稳定的，因而也就不能够满足第\ref{design_protocol_feedback_server_system}
+ 节的第\ref{design_protocol_3}准则。根轨迹的形状和图\ref{fig:4_6}中的根轨迹是相像的。这时，流体力学比拟立刻就提示我们这样作：只要在 $q_1$ 附近增加一个汇点 $p_c$，并且在 $q_2$ 附近增加一个源点 $q_c$，就可以把 $U$ 点附近的流线向左方推过一些距离，因而也就把过渡点 $U$ 的位置加高一些。因此，修改后的传递函数就是
+\begin{equation*}
+G(s) = \frac{q_c}{p_c} \frac{(s - p_c)}{(s - q_c)} \frac{q_1 q_2}{s(s - q_1)(s - q_2)}。
+\end{equation*}
+图\ref{fig:4_8}所表示的就是相当的根轨迹。因为 $|p_c| < |q_c|$，所以与原来的传递函数串联的附加传递函数 $\frac{q_c}{p_c} \frac{(s - p_c)}{(s - q_c)}$ 一定是相角超前的，这个函数与\ref{examples_of_first_order_system}节中方程\eqref{eq:transfer_function_other_format}所表示的相角超前电路的传递函数是同一类型的。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图4.8.png} 
+\caption{}
+\label{fig:4_8}
+\end{figure}
+
+流体力学比拟还可以使我们了解用反馈线路使一个反应缓慢的机构增大反应速度的可能性。根据\ref{design_protocol_feedback_server_system}节中的第\ref{design_protocol_2}准则，如果希望反应迅速就必须要求根的数值相当大。现在，为了简单起见，假定我们有一个一阶的线性机械系统，这个系统的特性是用负实轴上的一个数值很小的 $q_1$ 点来表示的。如果我们把这个系统与一个特性为相当大的负实数 $q_2$ 表示的反应很快的电路串接起来，这个系统的反应速度并不能够改进，因为，我们仍然还有一个数值很小的根 $q_1$。但是，如果我们再把反馈线路连接起来，从流线的形状、或者说是根轨迹，可以看出，当放大 $K$ 的值从 $K = 0$ 开始增加时，根也就从 $q_1$ 点开始向左方（也就是走向 $q_2$ 的方向）移动。因此，对于一个适当地选取的放大 $K$ 的值，我们就可以使得根的数值比 $q_1$ 大一些，因而也就可以使系统的反应速度更加快一些。
+
+以上讲过的一些描画根轨迹的办法，对于一般的反馈伺服系统也还可以应用。这时的问题就是要描画方程\eqref{eq:ch4_known_function_vector_format}所给的 $1/F_s(s)$ 的根轨迹，所以，表示根轨迹的条件就是
+\begin{equation*}
+\frac{1}{K_1 G_1(s)} = -K_2 G_2(s)。
+\end{equation*}
+因为 $1/F_s(s)$ 的根和 $G_2(s)$ 的零点不会相同，所以我们可以用 $G_2(s)/K_1$ 把上面的方程除一下，因此就有
+\begin{equation}\label{eq:ch4_condition_root_locus}
+\frac{1}{G_1(s) G_2(s)} = -K_1 K_2.
+\end{equation}
+所以，如果我们设
+\begin{equation}\label{eq:ch4_assumption_of_root}
+\left.
+\begin{array}{l}
+G(s) = G_1(s) G_2(s),\\
+K = K_1 K_2, 
+\end{array}
+\right\}
+\end{equation}
+
+然后，再把方程\eqref{eq:ch4_condition_root_locus}和方程\eqref{eq:ch4_simple_feedback_server_system}比较一下，就可以看到，求一般的反馈伺服系统的根轨迹的问题就化为前面讨论过的求简单的反馈伺服系统的根轨迹的问题了。在\ref{nyquist_method}节里我们曾经比较谨慎地分析了把乃氏法应用到一般的反馈伺服系统上去的问题，事实上，对于那个问题也可以用现在的由方程\eqref{eq:ch4_assumption_of_root}所表示的简化方法进行分析。因此，如果只就\ref{design_protocol_feedback_server_system}节的\ref{design_protocol_1}、\ref{design_protocol_2}、\ref{design_protocol_3}这三个准则来考虑系统的定性的运转性能的话，简单的反馈伺服系统和一般的反馈伺服系统并没有什么区别，只不过不要忘记\eqref{eq:ch4_assumption_of_root}这个关系就是了。只有在需要对系统的运转性能进行定量的研究时，我们才必须对方程\eqref{eq:transfer_function_of_close_system}和方程\eqref{eq:transfer_function_other_format_simple}所表示的这两个系统传递函数的区别给予应有的注意。
+
+\section{伯德(Bode)法}
+
+根轨迹在 $U$ 点从左半 $s$ 平面过渡到右半 $s$ 平面，既然 $U$ 点在虚轴上，所以它当然就代表一个纯虚数根 $i\omega^*$。换句话说，方程\eqref{eq:ch4_simple_feedback_server_system}被 $s=i\omega^*$ 所满足，也就是
+\begin{equation*}
+KG(i\omega^*) = F(i\omega^*) = -1 = 1 \cdot e^{-i\pi}
+\end{equation*}
+因此，当频率特性 $F(i\omega)$ 的振幅 $M$ 等于 1，同时相角 $\theta$ 等于 $-\pi$ 时，就发生了从稳定过渡到不稳定的临界情况。这个临界条件也可以由乃氏稳定准则推导出来，因为在 $1/F(i\omega)$ 图上的 $-1$ 点就是临界点。其实，只要研究一个典型的例子（例如图\ref{fig:4_5}就可以看出来，在稳定的情形里，$1/F(i\omega)$ 曲线总是把 $-1$ 点包围在内的。因为，在一般情况下 $1/F(i\omega)$ 的振幅总是随着 $\omega$ 的增加而增加的，所以如果希望 $1/F(i\omega)$ 曲线把 $-1$ 点包围在内，只要要求当 $1/F(i\omega)$ 的相角 $\theta$ 等于 $-\pi$ 的时候，振幅 $M$ 比 1 大就可以了，或者也可以这样说：当 $\theta$ 等于 $-\pi$ 时，$M$ 必须小于 1；或者，当 $M=1$ 的时候，$\theta$ 应该比 $-\pi$ 还要大。这个稳定条件就是伯德法的根据。我们把频率特性的振幅等于 1 时的频率称为\underline{放大分界点}。这时的相角 $\theta$ 与 $-\pi$ 的差数称为\underline{相补角}。伯德稳定准则的叙述是这样的：在放大分界点处相补角应该在 $30^\circ$ 到 $50^\circ$ 之间。在一个伯德图里，$\log_{10}M=0$ 处的频率就是放大分界点。所以也就不难检验伯德稳定准则是否满足了。
+
+采用伯德法的时候，可以直接利用关于频率特性的资料，在这一点上伯德法与乃氏法是相似的。伯德法的优点是简单易行，但是它与艾文思的根轨迹法比较起来也还有一个很大的缺点，因为根据伯德法是不能知道稳定的程度的。为了补救这个缺点，\underline{奥斯本}（R. M. Osborn）\footnote{R. M. Osborn，1949年8月在旧金山（San Francisco）举行的 IRE（Institute of Radio Engineers）的夏季年会上发表的论文。}给了一个半经验的公式，利用这个公式就可以计算相当于最危险的根（也就是离虚轴最近的根）的阻尼系数 $\zeta$。他的公式是
+\begin{equation}
+\zeta \approx \frac{1}{60} \frac{\alpha}{m},
+\end{equation}
+其中 $\alpha$ 是在放大分界点处的相补角的数值，度量单位是“度”（“$^\circ$”），$m$ 是在放大分界点处 $\log_{10}M$ 曲线对于 $\omega$ 而言的斜率。量度 $\zeta$ 时所用的时间单位和量度 $\omega$ 时所用的时间单位是相同的。譬如说，如果 $\alpha=30^\circ$ 而 $m=1.7$，那么 $\zeta \approx 1/(2 \times 1.7)=0.3$。
+
+\section{传递函数的设计}
+
+以前各节里所讨论的确定系统的稳定性的各种方法主要是\underline{分析}的方法（也就是对已有的系统或者已经设计好的系统加以分析的方法），其中也有一部分牵涉到\underline{综合}的方法（也就是设计传递函数的方法），但是，关于综合方法所能做到的仅仅是怎样确定放大 $K$ 的可能范围的问题。当然，这两种方法都能够提示我们如何变更传递函数的构造以改进系统的性能。根轨迹法在这一方面的作用是特别明显的。至于如何通过变更系统的实际部件的方法来改进系统的传递函数，使传递函数发生合乎要求的改变，这主要是伺服控制工程中的实际技术问题。
+
+不像分析方法那样有一定的处理方法，综合方法还没有一个普遍适用的方法。综合方法的问题只是一种问题上已经有了完全的解决，这种问题就是：如何设计一个包含有电阻和电容的电路（RC电路），使得这个电路系统的传递函数具有事先指定的零点和极点。因为这种\underline{补偿电路}有着很大的可变性，而且常常被用来“\underline{补偿}”（也就是改进）系统中的其他部件的传递函数的特性，并且还因为我们确实也常常可以用增加一些零点和极点的方法使系统的传递函数得到合乎需要的改进，所以，这个问题的完全解决是十分重要的。基尔曼（E. A. Guillemin）\footnote{E. A. Guillemin, J. Math. and Phys., 28, 22--44 (1949).}和外茵贝尔克（L. Weinberg）\footnote{L. Weinberg, J. Appl. Phys., 24, 207--216 (1953).}\footnote{如果想知道这方面比较详细的情况，可以参阅[25]。}对于这个问题都有重要的贡献。在这里，我们并不讨论这个问题，我们要强调指出只是：我们经常可能组成一个具有很复杂的规定性质的电阻电容电路。
+
+\section{多回路伺服系统}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图4.9.png} 
+\caption{}
+\label{fig:4_9}
+\end{figure}
+到目前为止，我们所讨论过的伺服系统都是\underline{单回路}的（也就是说，伺服系统的方块图里只有一个闭合的路线）。但是，在实际的工程问题中往往需要更复杂的系统；例如，图\ref{fig:4_9}所表示的方块图就是一个典型的控制系统，这个系统是用来控制飞机对于一个轴的转动的\footnote{L. Becker, Aeronaut. Eng. Rev., September, 17 (1951).} 。图中的内回路（也就是 $\beta$ 所在的回路）称为控制面位置的反馈（所谓“控制面”就是飞机表面的起控制作用的可动部分，例如舵、副翼等部分），或者称为硬式反馈。如果没有把内回路闭合起来，我们就得到普通的反馈控制系统，而且
+\begin{equation}
+\frac{Y(s)}{X(s)} = \frac{F_1(s)F_2(s)}{1 + F_1(s)F_2(s)F_3(s)}.
+\end{equation}
+如果把内回路和外回路（$F_3(s)$ 所在的回路）都闭合起来，就有
+\begin{equation*}
+\Delta(s) = F_1(s)[X(s) - \beta \Delta(s) - F_3(s)Y(s)]
+\end{equation*}
+（这里的 $\Delta(s)$ 表示控制面的运动），以及
+\begin{equation*}
+Y(s) = F_2(s)\Delta(s)。
+\end{equation*}
+因此，就得到
+\begin{equation}
+\frac{\Delta(s)}{X(s)} = \frac{F_1(s)}{1 + \beta F_1(s) + F_1(s)F_2(s)F_3(s)} 
+\end{equation}
+和
+\begin{equation}
+\frac{Y(s)}{X(s)} = \frac{F_1(s)F_2(s)}{1 + \beta F_1(s) + F_1(s)F_2(s)F_3(s)}. 
+\end{equation}
+这个控制系统的稳定性与反应速度是由函数 $1 + \beta F_1(s) + F_1(s)F_2(s)F_3(s)$ 所决定的。因为在这个系统中，补偿电路、放大器以及内回路的放大 $\beta$ 都是很容易改变的，所以我们也就不难设计出一个特性相当理想的传递函数来，而且并不需要改变飞机的结构设计以及它的机械装置。
+
+在设计一个良好的控制系统时，常常遇到这样一个困难：如何使系统不但能进行很准确的控制（也就是要求放大 $K$ 的值相当大），而且还有相当快的反应速度和合适的阻尼性质。这个问题就使人产生了把开路控制方法与闭路控制方法结合起来的想法，这个想法是莫尔（J. R. Moore）最先提出来的\footnote{J. R. Moore, Proc. IRE, 39, 1421--1432 (1951)，可以参阅[30]。}。我们来考虑图\ref{fig:4_10}所表示的系统，在这个系统中开路控制部分和闭路控制部分是平行安排的。因此，我们就有
+\begin{equation}
+\left.
+\begin{array}{l}
+F_4(s)X(s) = Y_1(s)\\
+\mbox{和}\\
+Y(s) = F_2(s)\{Y_1(s) + F_1(s)[X(s) - F_3(s)Y(s)]\}.
+\end{array}
+\right\}
+\end{equation}
+把输出 $Y(s)$ 解出来，就得
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图4.10.png} 
+\caption{}
+\label{fig:4_10}
+\end{figure}
+\begin{equation}
+\frac{Y(s)}{X(s)} = \frac{F_2(s)F_4(s) + F_1(s)F_2(s)}{1 + F_1(s)F_2(s)F_3(s)}.
+\end{equation}
+因此，系统的稳定性和反应速度的特性决定于 $1 + F_1(s)F_2(s)F_3(s)$ 的零点，而与 $F_4(s)$ 无关。既然 $F_2(s)$ 是不能改变的，所以关于稳定性的设计问题就是要寻求适当的传递函数 $F_1(s)$ 和 $F_3(s)$。系统的放大 $K = \left| \frac{F_2(0)F_4(0) + F_1(0)F_2(0)}{1 + F_1(0)F_2(0)F_3(0)} \right|$，实际的反应速度以及稳态误差不但与 $F_1(s), F_2(s), F_3(s)$ 有关，而且还与开路控制部分的传递函数 $F_4(s)$ 有关。因此，反馈回路的设计可以完全决定系统的稳定性和反应的动力特性；至于系统的稳定状态或是“同步运转”的情况就与系统的开路控制部分有密切的关系了。所以，只要适当地设计 $F_1(s), F_3(s)$ 和 $F_4(s)$ 就可以使系统不恒定而且还具有相当好的控制性能。
+
+如果系统中有许多需要同时加以控制的变数，而且这些变数之间也有关联的话（例如火力发电站的情形），那么，系统的方块图也就是\underline{多回路}的，而且其中的反馈关系也比较复杂\footnote{例如，可以参阅 J. Hanny, \emph{Regelung Theorie}, A. G. Gebr. Leemann Co., Zürich, (1946)。}。这种复杂系统的一个极端的例子大概就是飞机的自动控制系统和导航系统了\footnote{J. B. Rea, \emph{Aeronaut. Eng. Rev.}, November, 39 (1951).}。对于这样一个系统的分析工作，虽然也还是根据这一章对于简单的伺服系统所提出的同样的一些原则进行的，但是由于系统过分复杂，如果不依靠\underline{模拟计算机}，这种分析工作简直是无法进行的，然而这不是我们这里所要讨论的问题，因为它只是一个“工程推演”的工作——把理论变成实践的工作。
