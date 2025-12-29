@@ -1,0 +1,513 @@
+
+% To be included
+\chapter{不互相影响的控制}
+
+如果在一个复杂系统中有若干个被控制量，而且在这些被控制量之间也还存在着相互作用，那么，一般说来，对于这种系统就必须再增加一个新的设计准则，这就是不互相影响的准则。举例来说，一个有补充燃烧的涡轮喷气发动机的变数是：压缩机的转速、燃烧室的喷油速率、补充燃烧室的喷油速率以及尾喷管开口面积。然而，发动机的运转状态可以设法只由压缩机的转速、燃烧室的喷油速率和补充燃烧室的喷油速率这三个量所完全控制。但是，在一般的情况下，这三个量是互相有影响的。不难想到，在这个情况下，系统的伺服控制就有一个新的设计准则，也就是要求对这三个不同的量的控制是不互相影响的：补充燃烧室的喷油速率的改变不应该使压缩机的转速受到影响，而且改变压缩机转速的时候也不需要改变燃烧室的喷油速率。这也就是说解决这个特殊的设计问题的关键就是：设法使尾喷管的开口随着其余的变数发生适当的变化而且适当地设计自动控制机构。这一章的目的就是要给出一个设计这一类不互相影响的控制系统的一般方法，这个方法对于不论多么复杂的系统都是适用的。这个方法最初是由勃克森包姆（A. S. Boksenbom）和胡德（R. Hood）所提出的\footnote{A. S. Boksenbom and R. Hood, NACA TR, 980 (1950)。}后来卡瓦那（R. J. Kavanagh）用矩阵表示法把这类问题作了一般性的处理\footnote{R. J. Kavanagh, J. Franklin Inst., 262, No. 5, 349 (1956)。}。早在1934年苏联学者沃斯涅先斯基（\rufont{И. И. Вознесенский}）就提出过类似的方法$^{[31]}$。
+
+\section{单变数系统的控制}
+
+我们先来考虑一个简单的系统，这个系统只有一个被控制的输出 $y(t)$ 和一个作为控制信号的输入 $x(t)$。$y(t)$ 和 $x(t)$ 的拉氏变换就是 $Y(s)$ 和 $X(s)$。我们来考虑按照图\ref{fig:5_1}所设计的控制系统。$E(s)$ 是“发动机”的传递函数。$L(s)$ 是测量仪器的传递函数（也就是反馈线路的传递函数），$S(s)$ 是伺服马达的传递函数，$C(s)$ 是“控制”的传递函数。可以由设计者容易地加以改变的只有 $C(s)$ 这一个传递函数。这个系统与图\ref{fig:4_2}的反馈伺服系统之间的一点很小的区别就是：在伺服马达与发动机之间加上了一个任意的扰动 $V(s)$，用这个扰动来表示某些意外的外界影响。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图5.1.png} 
+\caption{}
+\label{fig:5_1}
+\end{figure}
+
+发动机的输入 $W(s)$ 与输出 $Y(s)$ 之间的关系是
+\begin{equation}\label{eq:ch5_relation_between_input_and_output}
+Y(s) = E(s)W(s) = E(s)[S(s)U(s) + V(s)], 
+\end{equation}
+$U(s)$ 是控制传递函数的输出，并且又有下列关系：
+\begin{equation}\label{eq:ch5_output_of_transfer_function}
+U(s) = C(s)[X(s) - Z(s)] = C(s)[X(s) - L(s)Y(s)]. 
+\end{equation}
+从方程\eqref{eq:ch5_relation_between_input_and_output}和\eqref{eq:ch5_output_of_transfer_function}里把 $U(s)$ 消去，就有
+\begin{equation}\label{eq:ch5_relation_without_us}
+Y(s) = \frac{E(s)S(s)C(s)}{E(s)S(s)C(s)L(s) + 1}X(s) + \frac{E(s)}{E(s)S(s)C(s)L(s) + 1}V(s). 
+\end{equation}
+这就是在 $x(t)$ 与 $y(t)$ 的适当的初始条件之下的输出的拉氏变换。如果不考虑包含扰动 $V(s)$ 的第二项，方程\eqref{eq:ch5_relation_without_us}就与以前关于一般的反馈伺服系统的方程\eqref{eq:transfer_function_of_close_system}是相同的。系统的性能的分析也还可以按照与以前类似的方法来进行。然而，对于更复杂的系统来说，就必须把这个简单的情况加以推广。现在我们就来作这件事情。
+
+\section{多变数系统的控制}
+
+假定发动机的输出 $Y_1(s), Y_2(s), \cdots, Y_\nu(s), \cdots, Y_i(s)$ 的个数是 $i$，输入 $W_1(s), \allowbreak W_2(s), \cdots, W_k(s), \cdots, W_n(s)$ 的个数是$n$。那么，方程\eqref{eq:ch5_relation_between_input_and_output}的推广就是：
+
+\begin{equation}\label{eq:ch5_generalization_of_equation5_1}
+\left.
+\begin{array}{l}
+Y_1(s) = E_{11}(s)W_1(s) + E_{12}(s)W_2(s) + \cdots + E_{1n}(s)W_n(s), \\
+Y_2(s) = E_{21}(s)W_1(s) + E_{22}(s)W_2(s) + \cdots + E_{2n}(s)W_n(s), \\
+\vdots \\
+Y_i(s) = E_{i1}(s)W_1(s) + E_{i2}(s)W_2(s) + \cdots + E_{in}(s)W_n(s).
+\end{array}
+\right\}
+\end{equation}
+
+其中每一个 $E_{jk}$ 都是一个传递函数，当这个传递函数“作用”在输入 $W_k(s)$ 上的时候，就得出输出 $Y_j(s)$ 的相应的组成部分。在普通情况下，$E_{jk}(s)$ 是两个 $s$ 的多项式的比值，因此 $E_{jk}(s)$ 可以由发动机的特性的理论分析得到，也可以用实验的方法由频率特性确定。方程\eqref{eq:ch5_generalization_of_equation5_1}可以简写为
+\begin{equation}
+Y_\nu(s) = \sum_{k=1}^n E_{\nu k}(s) W_k(s) \quad (\nu = 1,2,\cdots,i)。
+\end{equation}
+所有的 $E_{jk}(s)$ 按照方程\eqref{eq:ch5_generalization_of_equation5_1}中的位置所排成的矩形表格可以称为发动机的传递函数矩阵 $E$。我们可以这样想像：所有的输入 $W_k(s)$ 在纵方向上“进入”矩阵，所有的输出 $Y_\nu(s)$ 在横方向上“离开”矩阵$^{[24]}$。图\ref{fig:5_2}所表示的就是这种情况。下面我们来考虑输入的个数大于（或等于）输出的个数的情形，也就是 $n \geq i$。因此，矩阵 $E$ 就是一个纵行比横行多的矩形矩阵。为了以后的需要，我们把只由前 $i$ 个纵行所组成的正方矩阵用 $E^*$ 来表示。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图5.2.png} 
+\caption{}
+\label{fig:5_2}
+\end{figure}
+
+既然发动机的输入的个数大于输出的个数，所以，如果希望完全确定系统的运转状态，除了要设法使所有输出 $Y_{\mu}(s)$ 随预定的数值 $X_j(s)(j=1,2,\cdots,i)$ 相应地变化之外，还要设法使变数 $W_{\mu}(s)(\mu=i+1,i+2,\cdots,n)$ 也取预定的数值 $\Xi_{\mu}(s)$。因此，被控制量就是 $i$ 个输出 $Y_{\nu}(s)(\nu=1,2,\cdots,i)$ 和 $n-i$ 个发动机输入 $W_{\mu}(s)(\mu=i+1,i+2,\cdots,n)$。如果由测量仪器对 $W_{\mu}(s)$ 所测出来的值是 $Y_{\mu}(s)$，那么，误差就是 $\Xi_{\mu}(s)-Y_{\mu}(s)$。发动机的输出的偏差的定义是 $X_{\nu}(s)-Z_{\nu}(s), Z_{\nu}(s)(\nu=1,2,\cdots,i)$ 就是 $Y_{\nu}(s)$ 经过测量仪器所测量出的数值，就像图\ref{fig:5_1}的那种情形。控制的作用就在于把这些偏差当作输入来产生伺服马达的改正信号 $U_k(s)$。这就是系统的反馈作用。在我们所讨论的一般的系统\eqref{eq:ch5_generalization_of_equation5_1}里，改正信号 $U_k(s)$ 与所有偏差的关系是线性的。既然有 $n$ 个偏差信号，也就有 $n$ 个改正信号，所以 $k=1,2,\cdots,n$。因此就有
+
+\begin{equation}\label{eq:ch5_correct_signal}
+\left.
+\begin{cases}
+U_1(s) &= C_{11}(X_1 - Z_1) + C_{12}(X_2 - Z_2) + \cdots + C_{1i}(X_i - Z_i) \\
+&+ C'_{1,i+1}(\Xi_{i+1} - \gamma_{i+1}) + \cdots + C'_{1n}(\Xi_n - \gamma_n),\\
+U_2(s) &= C_{21}(X_1 - Z_1) + C_{22}(X_2 - Z_2) + \cdots + C_{2i}(X_i - Z_i) \\
+&+ C'_{2,i+1}(\Xi_{i+1} - \gamma_{i+1}) + \cdots + C'_{2n}(\Xi_n - \gamma_n),\\
+&\ldots\ldots\ldots\ldots\ldots\ldots\ldots\\
+U_n(s) &= C_{n1}(X_1 - Z_1) + C_{n2}(X_2 - Z_2) + \cdots + C_{ni}(X_i - Z_i) \\
+&+ C'_{n,i+1}(\Xi_{i+1} - \gamma_{i+1}) + \cdots + C'_{nm}(\Xi_n - \gamma_n),
+\end{cases}
+\right\}
+\end{equation}
+在这个关系式中，我们已经把控制矩阵用不同的符号分成 $C$ 和 $C'$ 两部分，以便区别两种不同的误差信号。方程\eqref{eq:ch5_correct_signal}可以简写成
+\begin{equation}\label{eq:ch5_simplify_of_correct_signal}
+U_k(s) = \sum_{\nu=1}^{i} C_{k\nu}(X_\nu - Z_\nu) + \sum_{\mu=i+1}^{n} C_{k\mu}^{\prime}(\Xi_\mu - \gamma_\mu) \quad 
+\begin{array}{l}
+\nu = 1,2,\cdots,i\\
+k = 1,2,\cdots,n.
+\end{array}
+\end{equation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+\centering
+\includegraphics[width=0.4\textwidth]{图5.3.png} 
+\caption{}
+\label{fig:5_3}
+\end{wrapfigure}
+当然，每一个 $C_{k\nu}$ 和 $C_{k\mu}^{\prime}$ 都是两个 $s$ 的多项式的比值。方程\eqref{eq:ch5_correct_signal}或方程\eqref{eq:ch5_simplify_of_correct_signal}也可以用图\ref{fig:5_3}来表示：
+
+测量出的数值 $Z_\nu(s)$ 和 $\gamma_\mu(s)$ 与被测量的 $Y_\nu(s)$ 和 $W_\mu(s)$ 之间关系，由测量仪器的传递函数 $L_{\nu\nu}(s)$ 和 $L_{\mu\mu}(s)$ 所确定：
+
+\begin{equation}
+Z_\nu(s) = L_{\nu\nu}(s)Y_\nu(s),
+\end{equation}
+
+\begin{equation}
+\gamma_\mu(s) = L_{\mu\mu}(s)W_\mu(s).
+\end{equation}
+
+每一个改正信号都个别地作用在伺服马达上。伺服马达的输出与意外的外界扰动 $V_k(s)$ 合并在一起组成发动机的输入 $W_k(s)$。如果 $S_{kk}(s)$ 是伺服马达的传递函数，那么
+
+\begin{equation}\label{eq:ch5_input_to_engine}
+W_k(s) = S_{kk}(s)U_k(s) + V_k(s) \quad k=1,2,\cdots,n.
+\end{equation}
+从\eqref{eq:ch5_generalization_of_equation5_1}到\eqref{eq:ch5_input_to_engine}的所有方程就是描述多变数控制系统的完备的方程组。图\ref{fig:5_4}是一个多变数控制系统的方块图，这个系统有三个发动机输出 $Y_1(s)$、$Y_2(s)$ 和 $Y_3(s)$，还有两个被控制的发动机输入 $W_4(s)$ 和 $W_5(s)$。除了规定的控制信号 $X_\nu(s)$、$\Xi_\mu(s)$ 与可以对系统起作用的外界扰动信号 $V_k(s)$ 以外，整个控制系统是闭合的。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图5.4.png} 
+\caption{}
+\label{fig:5_4}
+\end{figure}
+
+在以上的控制系统方程组中把 $U_k(s)$、$Z_\nu(s)$ 和 $\gamma_\mu(s)$ 消去，就得到
+\begin{equation}\label{eq:ch5_generalization_of_equation_without_uzr_y}
+\begin{array}{ll}
+Y_j(s) &= \sum_{k=1}^n \left\{ \sum_{\nu=1}^i E_{jk}(s) S_{kk}(s) C_{k\nu}(s) [X_\nu(s) - L_{\nu\nu}(s) Y_\nu(s)]\right.\\
+& + \sum_{\mu=i+1}^n E_{jk}(s) S_{kk}(s) C'_{k\mu}(s) [\Xi_\mu(s) - L_{\mu\mu}(s) W_\mu(s)] \\
+&+ \left. E_{jk}(s) V_k(s) \right\}
+\end{array}
+\end{equation}
+和
+\begin{equation}\label{eq:ch5_generalization_of_equation_without_uzr_w}
+\begin{array}{ll}
+W_k(s) &= \sum_{\nu=1}^i S_{kk}(s) C_{k\nu}(s) [X_\nu(s) - L_{\nu\nu}(s) Y_\nu(s)] \\
+&+ \sum_{\mu = i+1}^{n} S_{kk}(s) C'_{k\mu}(s) [\Xi_{\mu}(s) - L_{\mu\mu}(s) W_{\mu}(s)] + V_k(s).
+\end{array}
+\end{equation}
+
+根据方程\eqref{eq:ch5_generalization_of_equation_without_uzr_y}和\eqref{eq:ch5_generalization_of_equation_without_uzr_w}就可以把系统画成一个比图\ref{fig:5_4}更简单一些的方块图（图\ref{fig:5_5}）。在这个图里只有一个系统矩阵，这个矩阵的输入是那些被控制量的偏差，输出就是那些被控制量。在图\ref{fig:5_5}中的$ESC$矩阵中，位于第 $j$ 横行与第 $v$ 纵行的交点的元素是 $\sum_{k=1}^{n} E_{jk} S_{kk} C_{kv}$。同样，在 $ESC'$ 矩阵中，第 $j$ 横行与第 $\mu$ 纵行的交点处的元素是 $\sum_{k=1}^{n} E_{jk} S_{kk} C'_{k\mu}$。也还是一样，$SC$ 矩阵中的元素是 $S_{kk} C_{k\mu}$。$SC'$ 矩阵中的元素是 $S_{kk} C'_{k\mu}$。外界扰动是通过另外一个矩阵加进来的，那个矩阵主要是由发动机矩阵 $E$ 所组成的。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图5.5.png} 
+\caption{}
+\label{fig:5_5}
+\end{figure}
+
+\section{不互相影响的条件}
+
+以上我们所讨论的是多变数系统的控制作用的机理，在这个基础上我们就可以把控制系统的不互相影响准则具体地表达出来。现在的问题就是：设法确定控制矩阵的元素 $C_{k\nu}(s)$ 与 $C_{k_i}(s)$ 须要满足什么条件才能使规定的控制信号 $X_j(s)$ 与 $\Xi_{\mu}(s)$ 只影响和它们相应的被控制量 $Y_j(s)$ 和 $W_{\mu}(s)$(这里，$j=1,2,\cdots,i$ 而 $\mu=i+1,i+2,\cdots,n$)，而不影响其余的被控制量。譬如说，控制信号 $X_2(s)$ 只能影响 $Y_2(s),\Xi_{i+1}(s)$ 只能影响 $W_{i+1}(s)$。这里的数学问题也就是如何把图\ref{fig:5_5}中的系统矩阵加以对角线化的问题。我们所以要把设计条件放在控制矩阵 $C$ 和 $C'$ 上，是因为在整个系统中只有这一部分是最容易由设计者加以变动的。发动机的特性、伺服马达以及测量仪器都认为是已经固定的，它们也不能由控制工程师随意改变。
+
+让我们来考虑一个特定的输出 $Y_g(s)$，$g$ 是 $1,2,\cdots,i$ 这些数中的任意一个数。方程\eqref{eq:ch5_generalization_of_equation_without_uzr_y}和方程\eqref{eq:ch5_generalization_of_equation_without_uzr_w}可以写成
+
+\begin{equation*}
+\begin{array}{ll}
+Y_j(s) = &\sum_{k=1}^n \left[ \sum_{\nu=1,\nu\neq g}^{i} E_{jk} S_{kk} C_{k\nu}(X_\nu - L_\nu Y_\nu)\right.\\
+		 & \left. + \sum_{\mu=i+1}^n E_{jk} S_{kk} C_{k\mu}' (E_\mu - L_{\mu\nu} W_\mu) + E_{jk} V_k \right]\\
+		 & + \sum_{k=1}^n E_{jk} S_{kk} C_{kg} (X_g - L_{gg} Y_g)
+\end{array}
+\end{equation*}
+和
+\begin{equation*}
+\begin{array}{ll}
+W_k(s) = &\sum_{\nu=1,\nu\neq g}^{i} S_{kk} C_{k\nu}(X_\nu - L_\nu Y_\nu)\\
+		 & + \sum_{\mu=i+1}^n S_{kk} C_{k\mu}' (E_\mu - L_{\mu\nu} W_\mu) + V_k + S_{kk} C_{kg} (X_g - L_{gg} X_g).
+\end{array}
+\end{equation*}
+现在为了使得控制信号 $X_g$ 除了 $Y_g$ 之外不影响任何一个 $Y_j$ 或 $W_\mu$，所以，在 $j\neq g$ 与 $k>i$ 的情况下，以上两个方程的最后一项都必须等于零。因此，对于 $1,2,\cdots,i$ 中的任意一个数 $g$ 都有：
+\begin{equation}\label{eq:ch5_restriction_condition}
+\mbox{如果} j \neq g，\sum_{k=1}^n E_{jk} S_{kk} C_{kg} = 0，
+\end{equation}
+以及
+\begin{equation}\label{eq:ch5_condition_k_ckg}
+\mbox{如果} k > i，C_{kg} = 0。
+\end{equation}
+
+方程\eqref{eq:ch5_condition_k_ckg}使我们的控制矩阵立刻就得到简化。以图\ref{fig:5_4}所表示的系统为例，这时 $i=3,n=5$。在这个情形下，方程\eqref{eq:ch5_condition_k_ckg}就表示
+\begin{equation*}
+C_{41} = C_{42} = C_{43} = C_{51} = C_{52} = C_{53} = 0。
+\end{equation*}
+方程\eqref{eq:ch5_condition_k_ckg}也可以用来简化方程\eqref{eq:ch5_restriction_condition}，方程\eqref{eq:ch5_restriction_condition}也就是
+\begin{equation}\label{eq:ch5_restriction_condition_simplify}
+\sum_{k=1}^i E_{jk} S_{kk} C_{kg} = \sum_{k=1}^i \delta_{jk} E_{gk} S_{kk} C_{kg},
+\end{equation}
+这里的 $g$ 是 $1,2,\cdots,i$ 中的任意一个数，$\delta_{jk}$ 是克隆内克符号(Kronecker delta)，它的定义是
+\begin{equation}
+\left.
+\begin{array}{l}
+\mbox{如果} j \neq g，\delta_{jk} = 0,\\
+\mbox{如果} j = g，\delta_{jk} = 1.
+\end{array}
+\right\}
+\end{equation}
+对于任意一个特定的 $g$ 来说，方程\eqref{eq:ch5_condition_k_ckg}就是一个线性代数方程组，这个方程组包含 $i-1$ 个方程和 $i$ 个未知数 $S_{kk}C_{kg}$ (这里 $k=1,2,\cdots,i$)。因此，我们只能确定这些未知数的比值，而不能确定这些未知数本身。然而，这正是我们所希望的，因为我们并不希望控制传递函数已经被完全确定，在现在这种情况下，我们的设计工作反而可以更加自由一些。
+
+为了求出控制传递函数的这些比值，我们要利用行列式的一个性质：假设行列式 $\left| E^* \right|$ ($\left| E^* \right|$ 是正方矩阵 $E^*$ 的行列式)中的元素 $E_{jl}$ 的余因式是 $\left| E_{jl}^* \right|$，那么，下面的关系式成立$^{[24]}$：
+
+\begin{equation}\label{eq:ch5_determinant_property}
+\left.
+\begin{array}{ll}
+\text{如果} k \neq l, & \sum_{j=1}^{i} E_{jk} | E_{jl}^* | = 0, \\
+\text{如果 } k = l, & \sum_{j=1}^{i} E_{jk} | E_{jl}^* | = | E^* |.
+\end{array}
+\right\}
+\end{equation}
+
+把方程\eqref{eq:ch5_restriction_condition_simplify}先用 $\left| E_{jl}^* \right|$ 乘一下，然后再对 $j$ 求和，我们就得到
+
+\begin{equation*}
+\sum_{k=1}^{i} \sum_{j=1}^{i} \left| E_{ji}^* \right| \delta_{jg} E_{gk} S_{kk} C_{kg} = \sum_{k=1}^{i} \sum_{j=1}^{i} \left| E_{ji}^* \right| E_{jk} S_{kk} C_{kg}.
+\end{equation*}
+因此，根据方程\eqref{eq:ch5_determinant_property}，就有
+\begin{equation}\label{eq:ch5_Sll_Clg}
+S_{ll} C_{lg} = \left| E_{gl}^* \right| \sum_{k=1}^{i} E_{gk} S_{kk} C_{kg} / \left| E^* \right| \quad l = 1,2,\cdots,i.
+\end{equation}
+特别当 $l=g$ 时，有
+\begin{equation*}
+S_{gg} C_{gg} = \left| E_{gg}^* \right| \sum_{k=1}^{i} E_{gk} S_{kk} C_{kg} / \left| E^* \right|.
+\end{equation*}
+取方程\eqref{eq:ch5_Sll_Clg}和上面这个方程的比值，我们就可以写
+\begin{equation}\label{eq:ch5_control_ratio}
+\frac{S_{jj} C_{j\nu}}{S_{\nu\nu} C_{\nu\nu}} = \left| \frac{E_{\nu j}^*}{E_{\nu\nu}^*} \right|, \quad j,\nu = 1,2,\cdots,i.
+\end{equation}
+利用这个方程就可以把$SC$矩阵中不在对角线上元素用对角线上的元素表示出来。
+
+方程\eqref{eq:ch5_condition_k_ckg}和方程\eqref{eq:ch5_control_ratio}所表示的条件就是被控制量 $Y_g$ 不互相影响的必要条件。这些条件最先是由勃克森包姆和胡德提出来的。他们两个人还进一步证明：这些条件也是不互相影响的充分条件。因此，设计一个合适的控制矩阵 $C$ 的问题就完全解决了。
+
+为了解决控制矩阵的另外一部分 $C'$ 的设计问题，我们就必须考虑被控制量 $W_{\mu}(\mu=i+1,i+2,\cdots,n)$ 的不互相影响的条件，为了这个目的，我们把方程\eqref{eq:ch5_generalization_of_equation_without_uzr_y}和方程\eqref{eq:ch5_generalization_of_equation_without_uzr_w}改写为
+\begin{equation}\label{eq:ch5_Yj_rewritten}
+\begin{array}{ll}
+Y_j(s) = &\sum_{k=1}^{n} \left[ \sum_{\nu=1}^{i} E_{jk} S_{kk} C_{k\nu}(X_\nu - L_{\nu\nu} Y_\nu)\right.\\
+		& \left.+ \sum_{\mu=i+1 \mu\neq r}^{n} E_{jk} S_{kk} C'_{k\mu} (\Xi_{\mu} - L_{\mu \nu} W_{\mu}) + E_{jk} V_k\right]\\
+		& + \sum_{k=1}^{n} E_{jk} S_{kk} C'_{kr} (\Xi_r - L_{rr} W_r)
+\end{array}
+\end{equation}
+和
+\begin{equation}\label{eq:ch5_Wk_rewritten}
+\begin{array}{ll}
+W_k(s) = & \sum_{v=1}^{i} S_{kk} C_{k\nu} (X_\nu - L_{\nu\nu} Y_\nu)\\
+		 & + \sum_{\mu=i+1 \mu \neq r}^{n} S_{kk} C'_{k\mu} (\Xi_\mu - L_{\mu \nu} W_\mu) + V_k\\
+		 & + S_{kk} C'_{kr} (\Xi_r - L_{rr} W_r),
+\end{array}
+\end{equation}
+这里 $r$ 是 $i+1, i+2, \cdots, n$ 中的任意一个数，而 $j=1, 2, \cdots, i$。为了现在的目的，方程\eqref{eq:ch5_Wk_rewritten}中的 $k$ 只是 $i+1, i+2, \cdots, n$ 中的任意一个数，因为只有这些 $W_k$ 才是被控制量。根据方程\eqref{eq:ch5_Yj_rewritten}和方程\eqref{eq:ch5_Wk_rewritten}显然可以看出，如果控制信号 $E_r$ 仅只影响被控制量 $W_r$，那么，这两个方程的最后一项就必须等于零。也就是
+\begin{equation}\label{eq:ch5_control_signal_zero}
+\sum_{k=1}^{n} E_{jk} S_{kk} C'_{kr} = 0 \quad j=1, 2, \cdots, i
+\end{equation}
+和
+\begin{equation}\label{eq:ch5_control_matrix_zero}
+C'_{kr} = 0, \quad k, r = i+1, i+2, \cdots, n; k \neq r_0.
+\end{equation}
+
+和以前一样，方程\eqref{eq:ch5_control_matrix_zero}也使控制矩阵得到简化。以图\ref{fig:5_4}所表示的系统为例，$i=3, n=5$。就有
+\begin{equation*}
+C'_{45} = C'_{54} = 0.
+\end{equation*}
+方程\eqref{eq:ch5_control_matrix_zero}也可以用来简化方程\eqref{eq:ch5_control_signal_zero}。方程\eqref{eq:ch5_control_signal_zero}化为
+\begin{equation*}
+\sum_{k=1}^{i} E_{jk} S_{kk} C'_{kr} = -E_{jr} S_{rr} C'_{rr}.
+\end{equation*}
+把这个方程的两端先用 $|E_{jl}|$ 乘，然后再对 $j$ 求和，就得
+\begin{equation*}
+\sum_{k=1}^{i} \sum_{j=1}^{i} |E_{jl}^{*}| E_{jk} S_{kk} C'_{kr} = -S_{rr} C'_{rr} \sum_{j=1}^{i} |E_{jl}^{*}| E_{jr}.
+\end{equation*}
+根据方程\eqref{eq:ch5_determinant_property}所表示的行列式的性质，就有
+\begin{equation*}
+|E^{*}| S_{ll} C'_{lr} = -S_{rr} C'_{rr} \sum_{j=1}^{i} |E_{jl}^{*}| E_{jr}.
+\end{equation*}
+如果把这个方程里的 $l$ 换成 $j, j$ 换成 $l$，这个方程可以写成下列形式：
+\begin{equation}\label{eq:ch5_control_matrix_ratio}
+\frac{S_{jj} C'_{jr}}{S_{rr} C_{rr}} = -\frac{1}{|E^{*}|} \sum_{l=1}^{i} |E_{ij}^{*}| E_{lr}, 
+\left. 
+\begin{array}{l}
+j=1, 2, \cdots, i,\\
+r=i+1, i+2, \cdots, n.
+\end{array} 
+\right.
+\end{equation}
+利用这个方程就可以把$SC'$矩阵中不在对角线上元素用对角线上的元素表示出来了。方程\eqref{eq:ch5_control_matrix_zero}和方程\eqref{eq:ch5_control_matrix_ratio}是被控制量 $W_\mu(s)(\mu=i+1,i+2,\cdots,n)$ 的不互相影响的必须而且充分的条件。
+
+如果希望全部被控制量都互相不影响，那么，就必须满足方程\eqref{eq:ch5_condition_k_ckg}、\eqref{eq:ch5_control_ratio}、\eqref{eq:ch5_control_matrix_zero}和\eqref{eq:ch5_control_matrix_ratio}所表示的条件。在整个的控制矩阵中，不在对角线上的元素或者等于零，或者可以由对角线上的元素表示。如果表示发动机的特性的发动机矩阵是已知的，那么，控制矩阵的对角线元素就完全确定了整个的控制矩阵。
+
+\section{反应方程}
+
+如果不互相影响的条件已经全部被满足，那么，方程\eqref{eq:ch5_generalization_of_equation_without_uzr_y}和\eqref{eq:ch5_generalization_of_equation_without_uzr_w}就变简单得多，例如，把方程\eqref{eq:ch5_generalization_of_equation_without_uzr_y}的求和的次序倒换一下，就有
+\begin{equation*}
+\begin{array}{ll}
+Y_j(s) = & \sum_{\nu=1}^{i} [X_\nu(s) - L_{\nu\nu}(s)Y_\nu(s)]\sum_{k=1}^{n} E_{jk}S_{kk}C_{k\nu}\\
+		 & + \sum_{\mu=i+1}^{n} [\Xi_\mu(s) - L_{\mu\mu}(s)W_\mu(s)]\sum_{k=1}^{n} E_{jk}S_{kk}C'_{k\mu} + \sum_{k=1}^{n} E_{jk}V_k.
+\end{array}
+\end{equation*}
+
+按照方程\eqref{eq:ch5_restriction_condition}和\eqref{eq:ch5_condition_k_ckg}，除了 $\nu=j$ 以外，第一项中对 $k$ 所作的和数都等于零。按照方程\eqref{eq:ch5_control_signal_zero}第二项也等于零。因此
+\begin{equation*}
+Y_j(s) = [X_j(s) - L_{jj}(s)Y_j(s)]\sum_{k=1}^{i} E_{jk}S_{kk}C_{kj} + \sum_{k=1}^{n} E_{jk}V_k。
+\end{equation*}
+按照方程\eqref{eq:ch5_control_ratio}，$S_{kk}C_{kj}$既然可以用对角线元素 $S_{jj}C_{jj}$来表示，于是，利用方程\eqref{eq:ch5_determinant_property}就有
+\begin{equation*}
+\sum_{k=1}^{i} E_{jk}S_{kk}C_{kj} = \frac{S_{jj}C_{jj}}{|E_{jj}^{*}|}\sum_{k=1}^{i} E_{jk} |E_{jk}^{*}| = S_{jj}C_{jj} \left| \frac{E^{*}}{E_{jj}^{*}} \right|。
+\end{equation*}
+所以，最后就得到
+\begin{equation}\label{eq:ch5_simplified_Yj}
+Y_j(s) = \frac{|E^{*}|}{|E_{jj}^{*}|}S_{jj}C_{jj}[X_j(s) - L_{jj}(s)Y_j(s)] + \sum_{k=1}^{n} E_{jk}V_k。
+\end{equation}
+
+根据不互相影响的条件，经过类似的计算，也可以把方程\eqref{eq:ch5_generalization_of_equation_without_uzr_w}简化为
+\begin{equation}\label{eq:ch5_Wmu_simplified}
+\begin{array}{l}
+W_\mu(s) = S_{\mu\mu}C'_{\mu\mu}[\Xi_\mu(s) - L_{\mu\mu}(s)W_\mu(s)] + V_\mu(s)\\
+\mu = i + 1, i + 2, \cdots, n
+\end{array}
+\end{equation}
+我们规定两个符号：
+\begin{equation}\label{eq:ch5_Rjj_def}
+R_{jj} = \frac{|E^{*}|S_{jj}C_{jj}}{|E^{*}|S_{jj}C_{jj}L_{jj} + |E_{jj}^{*}|}
+\end{equation}
+和
+\begin{equation}\label{eq:ch5_Rpp_def}
+R'_{\mu\mu} = \frac{S_{\mu\mu}C'_{\mu\mu}}{S_{\mu\mu}C'_{\mu\mu}L_{\mu\mu} + 1}
+\end{equation}
+
+方程\eqref{eq:ch5_simplified_Yj}和\eqref{eq:ch5_Wmu_simplified}的解就可以写作
+
+\begin{equation}\label{eq:ch5_Yj_solution}
+Y_j(s) = R_{jj}(s)X_j(s) - [R_{jj}(s)L_{jj}(s) - 1] \sum_{k=1}^n E_k(s)V_k(s)
+\end{equation}
+和
+\begin{equation}\label{eq:ch5_Wmu_solution}
+W_\mu(s) = R'_{\mu\mu}(s)E_\mu(s) - [R'_{\mu\mu}(s)L_{\mu\mu}(s) - 1]V_\mu(s)
+\end{equation}
+
+方程\eqref{eq:ch5_Yj_solution}和\eqref{eq:ch5_Wmu_solution}给出了由控制信号和外界扰动来计算被控制量的关系，这两个方程就称为反应方程。这些关系式与只有一个被控制量的简单系统的关系式\eqref{eq:ch5_relation_without_us}是十分相像的。函数 $R_{jj}(s)$ 是从输入 $X_j(s)$ 到输出 $Y_j(s)$ 的总的传递函数。函数 $R'_{\mu\mu}(s)$ 是从输入 $E_\mu(s)$ 到输出 $W_\mu(s)$ 的总的传递函数。按照方程\eqref{eq:ch5_Rjj_def}和\eqref{eq:ch5_Rpp_def}，根据发动机，伺服马达，测量仪器和控制部分这四方面的特性就可以把这两个总的传递函数计算出来。实际的设计手续就是先按照第四章所讲的办法对于每一个 $j$ 和 $\mu$ 确定合适的控制传递函数 $C_{jj}(s)$ 和 $C'_{\mu\mu}(s)$，使它们具有满意的性能，然后，再按照方程\eqref{eq:ch5_condition_k_ckg}、\eqref{eq:ch5_control_ratio}、\eqref{eq:ch5_control_matrix_zero}和\eqref{eq:ch5_control_matrix_ratio}把不在对角线上元素也确定下来。这样作了以后，对于复杂的多变数系统我们就得到一个性能良好的不互相影响的控制系统。
+
+\section{涡轮螺旋桨发动机的控制}
+
+作为不互相影响的控制的普遍理论的一个简单的例子，我们来考虑一个涡轮螺旋桨发动机的控制问题(图\ref{fig:5_6})。这样一个发动机的运转状态的变数是:转速、涡轮的进气温度、螺旋桨的桨叶角以及喷油速率。控制系统的设计要求是使发动机能够产生各种可能的正规的稳态运转状态。对于每一种稳态运转状态，我们都必须研究在那个运转点附近的过渡状态之下的控制性能。假设 $W_1(s)$ 是螺旋桨桨叶角与正规值之间的偏差的拉氏变换，$W_2(s)$ 是喷油速率与正规值之间的偏差的拉氏变换。既然我们只对离正规运转点很近的过渡状态发生兴趣，所以涡轮转矩被压缩机与螺旋桨用掉一部分以后的剩余转矩，螺旋桨桨叶角，喷油速率这三者之间的关系可以线性化。因此，剩余转矩就可以表示为 $W_1(s)$ 与 $W_2(s)$ 的线性组合。假设转速与它的正规值之间的偏差的拉氏变换是 $Y_1(s)$，剩余转矩就可以用 $(1+rs)Y_1(s)$ 来表示，这里的 $r$ 是由于发动机的转动部分的惯性所产生的时间常数（可以参看方程\eqref{eq:generator_differential_equation_open}）。$r$ 的值与所考虑的正规运转点有关，因为方程\eqref{eq:generator_differential_equation_open}中的阻尼系数 $c$ 与转速有关。因此，
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图5.6.png} 
+\caption{}
+\label{fig:5_6}
+\end{figure}
+
+\begin{equation}\label{eq:ch5_torque_balance}
+(1+rs)Y_1(s) = -aW_1(s) + bW_2(s),
+\end{equation}
+其中的 $a$ 和 $b$ 都是正实常数，这两个常数都可以由正规运转点附近的发动机特性推算出来。$a$ 和 $b$ 的物理意义是这样的：如果喷油速率一直保持正规值，$W_2(s) \equiv 0$。由于方程\eqref{eq:ch5_torque_balance}就得出$a = -Y_1(0)/W_1(0)$。但是 $s=0$ 相当于稳态状态，所以，$a$ 就是当喷油速率保持常数时，发动机的稳态转速的减少与螺旋桨桨叶角的增加的比值。如果，对于有各种不同的常数喷油速率的稳态运转状态，把转速对于螺旋桨桨叶角画出图线来，那么，在图线上被选定的正规运转点处的斜率就是 $a$。同样地，如果螺旋桨桨叶角是常数，我们也可以把稳态状态的转速对于喷油速率画出图线来，在这种图线上被选定的正规运转点处的斜率就是 $b^{[32,33]}$。所以，$a$ 和 $b$ 这两个常数可以由表示发动机的稳态状态的图线表达出来。
+
+对于轴式压缩机来说，在给定的压缩机转速和一定的进口条件之下，经过压缩机的空气的质量几乎是不变的。所以，在一个给定的进口条件之下，加到气体中去的热量与气体的质量的比值就是发动机转速与喷油速率的函数。因而，发动机转速和喷油速率就确定了进口温度。假设涡轮的进口温度及它的正规值之间的偏差的拉氏变换是 $Y_2(s)$，那么，在 $Y_2(s)$、$Y_1(s)$ 与 $W_2(s)$ 之间也可以建立一个类似于方程\eqref{eq:ch5_torque_balance}的方程。然而气体达到热平衡状态的时间常数实际上等于零，所以，方程也比较简单些：
+
+\begin{equation}\label{eq:ch5_temp_balance}
+Y_2(s) = cW_2(s) - eY_1(s),
+\end{equation}
+这里的 $c$ 和 $e$ 也还是正实常数。事实上，如果对于不变的发动机转速画出涡轮进口温度与喷油速率之间的关系图线，那么，在选定的正规的稳态运转点处的斜率就是 $c$。同样地，如果，对于不变的喷油速率，画出涡轮进口温度与发动机转速之间的关系图线，那么，在选定的正规的稳态运转点处的斜率就是 $e$。
+
+从方程\eqref{eq:ch5_torque_balance}和\eqref{eq:ch5_temp_balance}中把 $Y_1(s)$ 和 $Y_2(s)$ 解出来，我们就得到
+
+\begin{equation}\label{eq:ch5_engine_matrix_eq}
+\left.
+\begin{array}{l}
+Y_1(s) = \frac{-a}{1+rs}W_1(s) + \frac{b}{1+rs}W_2(s), \\
+Y_2(s) = \frac{ae}{1+rs}W_1(s) + \frac{(c-be)+crs}{1+rs}W_2(s).
+\end{array}
+\right\}
+\end{equation}
+这个方程组就给出了我们在理论分析中所用的发动机矩阵 $E$。我们注意到这样一个有趣的事实：在发动机矩阵里只包含一个时间常数 $\tau$。只有这一个时间常数是发动机本身所固有的。当然，整个的控制系统中还有其他的时间常数，但是，那些时间常数是由控制部分，伺服马达以及测量仪器所引进来的，所以它们不包含在发动机矩阵里面。
+
+让我们先来考虑控制发动机转速的喷油速率的情形。这时，被控制量就是 $Y_1(s)$ 和 $W_2(s)$。在这个情况下，我们只需要方程组\eqref{eq:ch5_engine_matrix_eq}的第一个方程，并且 $i=1, n=2$。因此，发动机矩阵 $E$ 只有两个元素：
+\begin{equation}\label{eq:ch5_engine_matrix_element}
+E_{11} = \frac{-a}{1+\tau s}, \quad E_{12} = \frac{b}{1+\tau s},
+\end{equation}
+而
+\begin{equation}\label{eq:ch5_engine_matrix_value}
+|E^*| = |E_{11}^*| E_{11} = E_{11}, \quad |E_{11}^*| = 1.
+\end{equation}
+控制系统是由下列方程组所表示的：
+\begin{equation}\label{eq:ch5_control_eq_U1_U2}
+\left.
+\begin{array}{l}
+U_1(s) = C_{11}(s)[X_1(s) - L_{11}(s)Y_1(s)] + C_{12}(s)[E_2(s) - L_{22}(s)W_2(s)],\\
+U_2(s) = C_{21}(s)[X_1(s) - L_{11}(s)Y_1(s)] + C_{22}(s)[E_2(s) - L_{22}(s)W_2(s)]
+\end{array}
+\right\}
+\end{equation}
+不互相影响的条件要求有下列关系：
+\begin{equation}\label{eq:ch5_noninteraction_C21}
+C_{21}(s) = 0,
+\end{equation}
+并且利用方程\eqref{eq:ch5_engine_matrix_value},
+\begin{equation}\label{eq:ch5_noninteraction_ratio_1}
+\frac{S_{11}(s)C_{12}(s)}{S_{22}(s)C_{22}(s)} = \frac{-|E_{11}^*| E_{12}}{|E^*|} = \frac{E_{12}}{E_{11}} = \frac{b}{a}.
+\end{equation}
+既然 $-a$ 是发动机转速对于螺旋桨桨叶角的偏导数，而 $b$ 是发动机转速对于喷油速率的偏导数，所以，比值 $b/a$ 就是当发动机转速不变时，螺旋桨桨叶角对于喷油速率的变化率。很明显，这个比值是涡轮螺旋桨发动机的飞行状况的函数。譬如说，比值 $b/a$ 是随着高度的增加而增大的。因此，一个设计得很好的控制系统就必须能够随时补偿由于飞行状态的变化和发动机运转状况的变化而引起的差异。
+
+对于发动机转速的反应函数 $R_{11}(s)$ 就是
+\begin{equation}\label{eq:ch5_response_R11_R22}
+\left.
+\begin{array}{l}
+R_{11}(s) = \frac{aS_{11}(s)C_{11}(s)}{aS_{11}(s)C_{11}(s)L_{11}(s) - (1+\tau s)},\\
+\text{对于喷油速率的反应函数}R_{22}(s)\text{就是}\\
+R_{22}(s) = \frac{S_{22}(s)C_{22}(s)}{S_{22}(s)C_{22}(s)L_{22}(s) + 1}.
+\end{array}
+\right\}
+\end{equation}
+这两个方程就确定了发动机转速与喷油速率在不互相影响的控制状态中的反应特性。现在的问题就归结为如何设计控制传递函数 $C_{11}(s)$ 和 $C_{22}(s)$ 使得系统在我们所需要的所有运转状态下都具有使人满意的性能。
+
+现在，我们再来考虑控制涡轮螺旋桨发动机的第二种可能的办法。我们要来控制发动机转速和涡轮的进口温度，现在的被控制量就是 $Y_1(s)$ 和 $Y_2(s)$，所以在这个情形里，我们需要用到方程组\eqref{eq:ch5_engine_matrix_eq}的两个方程，而 $i=n-2$。由不互相影响的条件就有
+
+\begin{equation}\label{eq:ch5_noninteraction_ratio_2}
+\left.
+\begin{array}{l}
+\frac{S_{22}(s)C_{21}(s)}{S_{11}(s)C_{11}(s)} = -\frac{ae}{(c-be)+c\overline{s}},\\
+\text{和}\\
+\frac{S_{11}(s)C_{12}(s)}{S_{22}(s)C_{22}(s)} = \frac{b}{a}.
+\end{array}
+\right\}
+\end{equation}
+对于发动机转速的反应函数就是
+\begin{equation}\label{eq:ch5_response_R11_R22_v2}
+\left.
+\begin{array}{l}
+R_{11}(s) = \frac{S_{11}(s)C_{11}(s)}{S_{11}(s)C_{11}(s)L_{11}(s) - \frac{(c-be)+c\overline{s}}{ac}},\\
+\text{对于涡轮的进口温度的反应函数就是}\\
+R_{22}(s) = \frac{S_{22}(s)C_{22}(s)}{S_{22}(s)C_{22}(s)L_{22}(s)+(1/c)}.
+\end{array}
+\right\}
+\end{equation}
+
+\section{有补充燃料的涡轮喷漆发动机的控制}
+
+在这一章开始我们曾经谈到有补充燃烧的涡轮喷气发动机，现在我们来研究这种发动机的控制问题。图\ref{fig:5_7}就是这种发动机的简略构造图。我们还是只来研究在一个选定的正规稳态运转点附近的过渡状态的控制问题，所以，把各个变数之间的关系加以线性化还是合理的。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{图5.7.png} 
+\caption{}
+\label{fig:5_7}
+\end{figure}
+
+假设 $Y_1(s)$ 仍然是发动机转速与它的正规值之间的偏差的拉氏变换，$W_1(s)$ 是尾喷管开口面积与正规值之间的偏差的拉氏变换；$W_2(s)$ 是燃烧室的喷油速率与正规值之间的偏差的拉氏变换；最后，$W_3(s)$ 是尾喷管的喷油速率与正规值之间的偏差的拉氏变换。与涡轮螺旋桨发动机的方程\eqref{eq:ch5_torque_balance}类似，我们可以写出下列关系：
+\begin{equation}\label{eq:ch5_feder_hood_relation}
+(1 + \tau s)Y_1(s) = a_1 W_1(s) + a_2 W_2(s) + a_3 W_3(s),
+\end{equation}
+这里的 $a_1, a_2$ 和 $a_3$ 都是实常数。和涡轮螺旋桨发动机的情形相像，这些常数都是发动机的稳态状态曲线的斜率。所以，当燃烧室的喷油速率和尾喷管的喷油速率都是常数的时候，发动机转速对于尾喷管开口面积的变化率就是 $a_1$。同样地，$a_2$ 就是发动机转速对于燃烧室喷油速率的变化率；$a_3$ 就是发动机转速对于尾喷管喷油速率的变化率。方程\eqref{eq:ch5_feder_hood_relation}里的 $\tau$ 也还是发动机的唯一的时间常数，它表示转动部件的惯性的影响。这一个关于发动机转速与其他的发动机输入之间的线性关系是费德尔(M.S.Feder)和胡德(R.Hood)推导出来的\footnote{M. S, Feder and R. Hood, NACA TN,2183(1950)。}。
+
+如果发动机的压缩机是轴式压缩机的话，前一节的方程\eqref{eq:ch5_temp_balance}在这里仍然是适用的。$Y_2(s)$所表示的是涡轮的进口温度，所以
+\begin{equation*}
+Y_2(s) = -eY_1(s) + cW_2(s).
+\end{equation*}
+从这个方程和方程\eqref{eq:ch5_feder_hood_relation}里把 $Y_1(s)$ 和 $Y_2(s)$ 解出来，就得到
+\begin{equation}\label{eq:ch5_solution_of_feder_hood_relation}
+\left.
+\begin{array}{ll}
+Y_1(s) = & \frac{a_1}{1+\tau s} W_1(s) + \frac{a_2}{1+\tau s} W_2(s) + \frac{a_3}{1+\tau s} W_3(s),\\
+Y_2(s) = &-\frac{a_1 e}{1+\tau s} W_1(s) + \frac{(c-a_2 e) + c\tau s}{1+\tau s} W_2(s) \\
+		 & - \frac{a_3 e}{1+\tau s} W_3(s).
+\end{array}
+\right\}
+\end{equation}
+所以，发动机矩阵的元素就是
+\begin{equation}
+\left.
+\begin{array}{l}
+E_{11} = \frac{a_1}{1+\tau s}, \quad E_{12} = \frac{a_2}{1+\tau s}, \quad E_{13} = \frac{a_3}{1+\tau s},\\
+E_{21} = -\frac{a_1 e}{1+\tau s}, \quad E_{22} = \frac{(c-a_2 e) + c\tau s}{1+\tau s}, \quad E_{23} = -\frac{a_3 e}{1+\tau s}.
+\end{array}
+\right\}
+\end{equation}
+我们来考虑控制发动机转速、涡轮的进口温度与尾喷管喷油速率的问题。这时的被控制量是 $Y_1(s), Y_2(s)$ 和 $W_3(s)$。而控制方程就是：
+\begin{equation}
+\left.
+\begin{array}{ll}
+U_1(s) = &  C_{11}(s)[X_1(s) - L_{11}(s)Y_1(s)] + C_{12}(s)[X_2(s)\\
+		 &  - L_{22}(s)Y_2(s)] + C_{13}(s)[E_3(s) - L_{33}(s)W_3(s)],\\
+
+U_2(s) = &  C_{21}(s)[X_1(s) - L_{11}(s)Y_1(s)] + C_{22}(s)[X_2(s)\\
+		 &  - L_{22}(s)Y_2(s)] + C_{23}(s)[E_3(s) - L_{33}(s)W_3(s)],\\
+U_3(s) = &  C_{31}(s)[X_1(s) - L_{11}(s)Y_1(s)] + C_{32}(s)[X_2(s) \\
+		 &  - L_{22}(s)Y_2(s)] + C_{33}(s)[E_3(s) - L_{33}(s)W_3(s)],
+\end{array}
+\right\}
+\end{equation}
+这里的 $X_1(s), X_2(s)$ 和 $E_3(s)$ 分别是发动机转速、涡轮进口温度和尾喷管喷油速率的控制信号。
+
+方程\eqref{eq:ch5_condition_k_ckg}的不互相影响条件要求
+\begin{equation}\label{eq:ch5_nonint_cond_31_32}
+C_{31}(s) = C_{32}(s) = 0.
+\end{equation}
+
+方程\eqref{eq:ch5_control_ratio}的条件给出：
+\begin{equation}\label{eq:ch5_nonint_cond_12_22}
+\left.
+\begin{array}{l}
+\frac{S_{11}(s)C_{12}(s)}{S_{22}(s)C_{22}(s)} = -\frac{a_2}{a_1},\\
+\frac{S_{22}(s)C_{21}(s)}{S_{11}(s)C_{11}(s)} = \frac{a_1 e}{(c - a_2 e) + c \tau s}。
+\end{array}
+\right\}
+\end{equation}
+方程\eqref{eq:ch5_control_matrix_ratio}的不互相影响条件给出
+\begin{equation*}
+\frac{S_{11}(s)C_{13}^{\prime}(s)}{S_{33}(s)C_{33}^{\prime}(s)} = -\frac{a_3}{a_1}
+\end{equation*}
+和
+\begin{equation}\label{eq:ch5_nonint_cond_23_zero}
+C_{23}^{\prime}(s) = 0。
+\end{equation}
+以上这些方程里的比值 $-a_2 / a_1$ 和 $-a_3 / a_1$ 都有很简单的物理意义：当发动机转速和尾喷管喷油速率都是常数的时候，尾喷管的开口面积对于燃烧室喷油速率的变化率就是 $-a_2 / a_1$。当发动机转速和燃烧室喷油速率都是常数的时候，尾喷管的开口面积对于尾喷管喷油速率的变化率就是 $-a_3 / a_1$。
+
+如果方程\eqref{eq:ch5_nonint_cond_31_32}、\eqref{eq:ch5_nonint_cond_12_22}和\eqref{eq:ch5_nonint_cond_23_zero}都被满足了，我们就得到不互相影响的控制。这时，对于发动机转速的反应函数就是
+\begin{equation}\label{eq:ch5_response_R11_jet}
+R_{11}(s) = \frac{S_{11}(s)C_{11}(s)}{S_{11}(s)C_{11}(s)L_{11}(s) + \frac{(c - a_2 e) + c \tau s}{a_1 c}}。
+\end{equation}
+对于涡轮进口温度的反应函数就是
+\begin{equation}\label{eq:ch5_response_R22_jet}
+R_{22}(s) = \frac{S_{22}(s)C_{22}(s)}{S_{22}(s)C_{22}(s)L_{22}(s) + (1/c)}。
+\end{equation}
+对于尾喷管喷油速率的反应函数就是
+\begin{equation}\label{eq:ch5_response_R33_jet}
+R_{33}^{\prime}(s) = \frac{S_{33}(s)C_{33}^{\prime}(s)}{S_{33}(s)C_{33}^{\prime}(s)L_{33}(s) + 1}。
+\end{equation}
+根据以上这些方程就可以适当地设计控制传递函数 $C_{11}(s), C_{22}(s), C_{33}^{\prime}(s)$，因而也就可以确定 $C_{12}(s), C_{21}(s)$ 和 $C_{13}^{\prime}(s)$。

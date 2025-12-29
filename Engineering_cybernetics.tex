@@ -21,7 +21,7 @@
 % 需动用 imakeidx + xindy (两份索引), biblatex + biber (书目). 
 % 索引用土法进行中文排序: 如 \index{zhongwen@中文} 等.
 \documentclass[
-%	draftmark = true,
+	draftmark = true,
 	colors = true,
 %	colors = false,
 	coverpage = coverpage.tex,
@@ -41,7 +41,12 @@
 \usepackage{tqft}
 \usepackage{ytableau}
 
+%----------------------------------------------------------
+%俄文字体设置 指令采用\rufont{Это русский текст в Times New Roman}
 \usepackage[normalem]{ulem} % normalem 选项保持默认强调方式不变
+\newfontfamily\russianfont{Times New Roman}  % 俄文特殊字体
+\newcommand{\rufont}[1]{{\russianfont #1}}
+%----------------------------------------------------------
 
 \usepackage{booktabs} % 加粗表格线效果
 
@@ -110,7 +115,7 @@
 	\include{chapter2}
 	\include{chapter3}
 	\include{chapter4}
-	%\include{chapter5}
+	\include{chapter5}
 	%\include{chapter6}
 	%\include{chapter7}
 	%\include{chapter8}
