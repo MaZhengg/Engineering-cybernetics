@@ -1,0 +1,291 @@
+
+% To be included
+\chapter{交流伺服系统与振荡控制伺服系统}
+
+在第二章和第三章里我们曾经讨论了关于普通的伺服系统的概念和方法，在这一章和以后的两章里,我们要把这些概念和方法推广到一些更复杂的线性系统上去,这些系统虽然比较复杂,可是它们都还是可以用以前的方法进行相当“近似”的处理。这个情况也就可以说明伺服系统的基本设计原则有很大的用处。这一章和下一章的内容基本上就是麦克斯尔(L.A. MacColl)在他的书\footnote{L.A. MacColl, Fundamental Theory of Servomechanisms ,D, Van Nostrand Company, Inc. , New York,(1945) ,可以参阅[34] 。} 里所提出的方法。
+
+\section{交流系统}
+
+在以前各章的讨论中,凡是伺服系统中的电动机都假定是直流电动机。但是,在实际工程中希望用的还是交流电动机。因此,很明显,当我们在伺服系统中应用交流电动机的时候就必须把以前的讨论中的某些部分加以重新考虑。
+
+现在我们来考虑图\ref{fig:6_1}所画的伺服系统。这个系统的设计目的就是要求电动机的转角$\phi$随着输入信号变化。系统的输出角度$\phi$是用一个电位计来测量的。电位计上的电压就是反馈信号。在这个系统的电动机,放大器以及电位计上的电流和电压都是已\underline{调幅}的正弦波,也就是说,它们都是频率不变而振幅随时间变化的正弦函数。假定它们的频率是$\omega_0$。基本的交流电流是由振荡器所供给的。这就是\underline{交流伺服系统}的一个例子。在一定的条件之下(下面我们就要讨论到这些条件),以前的理论中有很大一部分也可以应用到这种系统上来。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图6.1.png} 
+\caption{}
+\label{fig:6_1}
+\end{figure}
+
+我们先来考虑常系数线性系统在已调幅的正弦式的输入信号作用之下的概念理论。这里所说的“稳态”是对于调幅信号是单纯的正弦式时间函数的情况而言的。假设未调幅的\underline{载波}是$\cos\omega_0 t$。在这里我们虽然把载波的相角取作零,但是并不影响讨论的普遍性。既然已经把载波写成实数形式,为了方便起见显然应该把调幅信号写成复数形式 $e^{i\omega t}$。这时已调幅的载波就是
+
+\begin{equation}\label{eq:ch6_modulated_carrier}
+x(t) = e^{i\omega t} \cos \omega_0 t = \frac{1}{2} [e^{i(\omega + \omega_0)t} + e^{i(\omega - \omega_0)t}] ,
+\end{equation}
+如果系统的传递函数是 $F(s)$，按照方程\eqref{eq:ratio_of_steady_solution_to_function}系统的稳态输出 $[y(t)]_{st}$ 就应该是
+\begin{equation}\label{eq:ch6_steady_output}
+[y(t)]_{st} = \frac{1}{2} [F(i\omega + i\omega_0)e^{i\omega_0 t} + F(i\omega - i\omega_0)e^{-i\omega_0 t}] e^{i\omega t} .
+\end{equation}
+对于实际的系统来说，函数 $F(s)$ 通常是 $s$ 的两个实系数多项式的比值。所以，正如方程\eqref{eq:complex_function_F_iw}所表示的那样
+\begin{equation}\label{eq:ch6_F_conjugate}
+F(-i\omega) = \overline{F(i\omega)} ,
+\end{equation}
+这里，用符号上面的横线表示复共轭值。因此，方程\eqref{eq:ch6_steady_output}的右端就可以写作
+\begin{equation}\label{eq:ch6_steady_output_right_part}
+\frac{1}{2} [F^*(i\omega)e^{i\omega_0 t} + \overline{F^*(-i\omega)}e^{-i\omega_0 t}] e^{i\omega t} ,
+\end{equation}
+其中
+\begin{equation}\label{eq:ch6_F_star_def}
+F^*(i\omega) = F(i\omega + i\omega_0) .
+\end{equation}
+
+现在我们假设系统具有以下的性质：
+\begin{equation}\label{eq:ch6_symmetry_condition}
+F(i\omega_0 + i\omega) = F(i\omega_0 - i\omega) .
+\end{equation}
+这时，表示式\eqref{eq:ch6_steady_output_right_part}就可以写成下列形式：
+\begin{equation*}
+F^*(i\omega)e^{i\omega t}\cos \omega_0 t .
+\end{equation*}
+这个结果表明：如果另外一个对于频率是 $\omega$ 的输入，频率特性是 $F^*(i\omega)$ 的系统，当条件\eqref{eq:ch6_symmetry_condition}被满足时，原来系统对于已调幅的载波\eqref{eq:ch6_modulated_carrier}的振幅的频率特性 $F^*(i\omega)$ 与那个系统的频率特性是完全相同的。利用线性系统的\underline{可叠加性}，可以把以上的讨论结果推广到更一般的输入函数上去，因为很多种输入函数都可以用富利埃级数或富利埃积分表示出来，如果在输入调幅信号 $x(t)$ 的\underline{富利埃谱}的最重要的部分上，方程\eqref{eq:ch6_symmetry_condition}至少都能近似地成立，那么，已调幅的输出信号的振幅对于输入信号而言的频率特性差不多就是 $F^*(i\omega)$。在第四章中我们曾经证明，反馈伺服系统的性能可以完全由频率特性所决定，既然现在频率特性的近似值是 $F^*(i\omega)$，所以，第四章中所有确定系统性能的方法完全可以应用到交流系统上来，唯一的区别只是在进行分析时把 $F(i\omega)$ 用 $F^*(i\omega) = F(i\omega + i\omega_0)$ 来代替。
+
+\section{把直流系统变为交流系统时传递函数的变化方法}
+
+如果我们不考虑某些过于简单的情形（例如，单纯的电阻），那么，根据方程\eqref{eq:ch6_F_conjugate}就有
+\begin{equation*}
+F(i\omega + i\omega_0) = \overline{F(-i\omega - i\omega_0)}
+\end{equation*}
+这个关系和条件\eqref{eq:ch6_symmetry_condition}是不同的，所以，不可能对于所有的实 $\omega$ 值都能精确地满足条件\eqref{eq:ch6_symmetry_condition}。或者，稍微改变一下我们的看法，可以这样说，如果两个物理系统的频率特性分别是 $F^*(i\omega)$ 和 $F(i\omega)$，那么，关系\eqref{eq:ch6_F_star_def}不可能对于所有实 $\omega$ 值都严格地被满足。但是，对于特定的输入信号而言，在它的富利埃谱的主要部分上，完全可能有，而确实也往往有一个足够大的 $\omega$ 的范围，在这个范围之内，条件\eqref{eq:ch6_F_star_def}可以近似地被满足。在以下的讨论中我们就会看到这种情况。
+
+我们考虑一个频率是 $\omega'$ 时由电感 $L$ 与电容 $C$ 串联起来的\underline{阻抗}$Z$，
+\begin{equation*}
+\begin{array}{ll}
+Z &= Li\omega' + \frac{1}{Ci\omega'}\\
+  &= Li\omega' \left( 1 - \frac{1}{LC\omega'^2} \right)
+\end{array}
+\end{equation*}
+如果我们使 $L$ 和 $C$ 的大小满足下列条件
+\begin{equation}\label{eq:ch6_LC_condition}
+\omega_0^2 = \frac{1}{LC},
+\end{equation}
+那么
+\begin{equation*}
+Z = Li\omega' \left( 1 - \frac{\omega_0^2}{\omega'^2} \right) = Li(\omega' - \omega_0) \left( 1 + \frac{\omega_0}{\omega'} \right)
+\end{equation*}
+如果 $\omega' - \omega_0 = \omega$ 相当小，或者说 $\omega + \omega_0$ 与 $\omega_0$ 相当接近，就有
+\begin{equation*}
+Z \approx 2Li(\omega' - \omega_0) = 2Li\omega
+\end{equation*}
+这个关系表明：当频率是 $\omega' = \omega_0 + \omega$ 时，满足方程\eqref{eq:ch6_LC_condition}的电感 $L$ 与电容 $C$ 的串联组合的阻抗差不多就等于电感 $2L$ 在频率是 $\omega$ 时的阻抗。
+
+类似地，如果满足条件\eqref{eq:ch6_LC_condition}，电感 $L$ 与电容 $C$ 的并联组合的阻抗 $Z$ 也就满足下列关系：
+\begin{equation*}
+\begin{array}{ll}
+\frac{1}{Z} & = \frac{1}{Li\omega'} + Ci\omega'\\
+		    & \approx 2Ci(\omega' - \omega_0) = 2Ci\omega,
+\end{array}
+\end{equation*}
+因此，在频率是 $\omega' = \omega + \omega_0$ 时，$L$ 与 $C$ 的并联组合的阻抗差不多就等于电容 $2C$ 在频率是 $\omega$ 时的阻抗。
+
+一个单纯电阻的阻抗当然是与频率没有关系的，所以它在频率是 $\omega + \omega_0$ 时的阻抗和它在频率是 $\omega$ 时的阻抗是相等的。因此，如果已经有了一个由电感、电容和电阻组成的物理系统，这个系统的传递函数是 $F^*(s)$。我们把这个系统里的每一个电感 $L$ 都用电感 $L_1 = \frac{1}{2}L$ 与电容 $C_1 = 2/L\omega_0^2$ 的串联组合来代替；把系统中的每一个电容 $C$ 都用电容 $C_2 = \frac{1}{2}C$ 和电感 $L_2 = 2/C\omega_0^2$ 的并联组合来代替；所有电阻都不予变动；这样一来，我们就得到一个新的系统，这个系统的传递函数就是 $F(s)$，只要 $\omega$ 值足够小，方程 \eqref{eq:ch6_symmetry_condition} 的关系就可以近似地满足。以上所讲的由 $F^*(s)$ 变到 $F(s)$ 的做法就称为把传递函数提高一个频率 $\omega_0$。
+
+如果 $\omega_0$ 是振荡器所供给的电流的频率，很显然，系统中各个电流和各个电压都是载波 $\cos \omega_0 t$ 的已调幅波。因此，根据以上的结果立刻就得出下列的方法：如果我们想为一个交流系统设计一个放大器，我们只要按照第四章的方法先为一个直流系统设计一个合适的放大器，然后再按照上述的方法把系统提高一个频率 $\omega_0$ 就可以了。
+
+正如我们所提到的那样，以上的讨论中用到不少各种各样的近似方法，所以得到的结果也不是绝对精确的。如果想对于交流伺服系统作一个详尽严密的讨论，就必须把这些近似方法所引起的效果加以严密的分析。我们不研究这个问题，因为这个问题的分析相当复杂繁重，而且对于伺服控制技术来说，这也不是一个很迫切需要解决的问题。
+
+\section{振荡控制伺服系统}
+
+现在我们来考虑另外一类系统，这类系统就是\underline{振荡控制伺服系统}，与有交流电动机的\underline{交流伺服系统}相似，振荡控制伺服系统的信号也是用来\underline{调制}一个周期振荡的，不过，在振荡控制伺服系统中，信号调制的方法不再是普通的调幅方法。为了能够简单明了地介绍振荡控制伺服系统的概念，我们必须先提出一些预备知识。
+
+我们来介绍一种很原始的但是也很普通的伺服系统。假如我们在系统里加一个包含一个继电器的电路，而且这个继电器的特性是这样的：如果输入电压 $x(t)$ 的绝对值不超过一个一定的\underline{阈限}（也就是一个一定的常数）的话，输出端就没有电压，如果输入电压 $x(t)$ 的绝对值 $|x(t)|$ 超过那个阈限的话，输出就是一个常数电动势 $E$。这个电动势是由一个电源所供给的，这个电动势的极性决定于偏差信号的符号，它总是倾向于使偏差信号的绝对值逐渐减少。这就是所谓\underline{开关伺服系统}（也就是包含有继电器的伺服系统）的一个例子。
+
+开关伺服系统有一个很大的优点：我们可以用相当简单的开关系统来操纵相当大的功率。这个优点对于其他类型的伺服系统来说往往是很难做到的。但是，从另外一方面来说，开关伺服系统当然是一个非线性系统，并且在第十章的讨论中我们还要看到，它们的运转性能也不如以前讨论过的各种系统好。简言之，振荡控制伺服系统是开关伺服系统的一种变形，它保持了线性性质的优点可是还能够操纵相当大的功率。
+
+在进行讨论振荡控制伺服系统之前，我们先提出一个理论的结果，所有这一类系统的理论都是以这个结果为基础的。让我们考虑一个具有下列性质的装置：如果输入 $x(t)$ 是正数，输出就是 $+A$，如果输入 $x(t)$ 是负数，输出就是 $-A$。$A$ 是一个固定的常数。我们可以把这样一个装置想像为一个理想的继电器（一个阈限是零的开关伺服系统）。假定继电器的输入信号是
+\begin{equation}\label{eq:ch6_input_signal}
+x(t) = E_0 \sin \omega_0 t + kE_0 \sin \omega t,
+\end{equation}
+这里 $E_0, k, \omega_0$ 和 $\omega$ 都是常数。在振荡控制伺服系统的情形中，$E_0 \sin \omega_0 t$ 是系统中的\underline{持续振荡}，$kE_0 \sin \omega t$ 是所用的信号，也就是\underline{调制信号}。现在我们来计算相应的输出 $y(t)$。
+
+\section{继电器的频率特性}\label{ch6_section_frequency_characteristics_of_relay}
+
+
+如果输入是由方程 \eqref{eq:ch6_input_signal} 所表示的，那么，继电器的输出就可以写成下列形状：
+\begin{equation}\label{eq:ch6_output_of_relay}
+\sum_{m=0}^{\infty} \sum_{n=-\infty}^{\infty} a_{nm} \sin[(m\omega_0 + n\omega)t],
+\end{equation}
+这里的各个系数 $a$ 都是与 $t$ 无关的常数。当 $m=0$ 时，内部的求和只对于正的 $n$ 值进行。为了我们预定的目的，最有兴趣的系数就是 $a_{10}$ 和 $a_{01}$，因为振荡控制伺服系统在正规的运转状态之下，其他的系数或者是非常小，或者由于适当的滤波手续而被过滤掉。
+
+当 $k=0$ 时，也就是当继电器的输入是一个频率是 $\omega_0$ 的单纯的正弦函数时，继电器的输出就是正负交替的矩形波，这个矩形波的高度是 $A$ 而每一个矩形的长度都是 $\pi / \omega_0$。我们已经知道这样一个矩形波的富利埃展开式的第一项的系数等于
+\begin{equation}\label{eq:ch6_a01}
+a_{01} = \frac{4A}{\pi}。
+\end{equation}
+
+当 $k \neq 0$ 时，继电器的输出就是图\ref{fig:6_2}所表示的样子。$k \neq 0$ 时的输出与 $k = 0$ 时的输出的差别就是一系列高度是 $2A$ 的矩形，在图\ref{fig:6_2}里我们用阴影的区域表示这些矩形。当 $|k| \ll 1$ 时，\underline{开关点}（也就是输出变换符号的时刻）与均匀分布的各点 $t_n = n\pi / \omega_0$ 之间的差别是十分微小的。因此，正如图中所表示的样子，表示输出信号的修正量的那些矩形也是很狭窄的。这些矩形的宽度可以这样近似地计算：在 $t_n$ 处的矩形的宽度等于调制信号在 $t_n$ 处的值被持续振荡在 $t_n$ 处的斜率除得的商数。因此，这个宽度就是
+\begin{equation*}
+\left| \frac{kE_0 \sin \omega t_n}{E_0 \omega_0 \cos \omega_0 t_n} \right| = \frac{k}{\omega_0} |\sin \omega t_n|
+\end{equation*}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图6.2.png} 
+\caption{}
+\label{fig:6_2}
+\end{figure}
+如果 $\sin \omega t_n$ 是正数就要把矩形加到 $(+)$ 未调制的输出上去，如果 $\sin \omega t_n$ 是负数就要把矩形从未调制的输出上减去 $(-)$。所以矩形的面积可以看作是
+\begin{equation*}
+\frac{2Ak}{\omega_0} \sin \omega t_n。
+\end{equation*}
+方程\eqref{eq:ch6_output_of_relay}里的系数 $a_{10}$ 就是这一系列狭窄矩形波的富利埃展开式中的第一项 $\sin \omega t$ 的系数。因为 $\sin \omega t$ 在矩形区域中的值是 $\sin \omega t_n$，所以，如果取 $N$ 个这类的“改正矩形”就有
+\begin{equation*}
+a_{10} \int_{0}^{N\pi/\omega_0} \sin^2 \omega t \, dt = 2A \frac{k}{\omega_0} \sum_{n=0}^{N} \sin^2 \omega t_n。
+\end{equation*}
+但是
+\begin{equation*}
+\begin{array}{ll}
+\int_{0}^{N\pi/\omega_0} \sin^2\omega t \, dt & = \frac{1}{2} \int_{0}^{N\pi/\omega_0} (1 - \cos 2\omega t) \, dt\\
+&= \frac{1}{2} \frac{N\pi}{\omega_0} - \frac{1}{4\omega} \sin \left( 2N\pi \frac{\omega}{\omega_0} \right),
+\end{array}
+\end{equation*}
+而
+\begin{equation*}
+\begin{array}{ll}
+\sum_{n=0}^{N} \sin^2\omega t_n &= \sum_{n=1}^{N} \sin^2 \left( n\pi \frac{\omega}{\omega_0} \right) = \frac{1}{2} \sum_{n=1}^{N} \left[ 1 - \cos \left( 2n\pi \frac{\omega}{\omega_0} \right) \right]\\
+&= \frac{N}{2} - \frac{1}{2} \sum_{n=1}^{N} \cos \left( 2n\pi \frac{\omega}{\omega_0} \right).
+\end{array}
+\end{equation*}
+当我们把 $N$ 无限增大时，这个公式中的和数仍然保持有限，所以，让 $N$ 很大，我们就有
+\begin{equation}\label{eq:ch6_a10}
+a_{10} = 2 \frac{Ak}{\pi}.
+\end{equation}
+
+方程 \eqref{eq:ch6_a01} 和 \eqref{eq:ch6_a10} 对于 $k$ 很小的情况给出了两个重要的系数 $a_{01}$ 与 $a_{10}$。对于一般的 $k$ 值，卡尔普（R.M. Kalb）和本尼特（W.R. Bennett）\footnote{Bell System Tech. J. 14,322~359(1935)。} 曾经计算了这两个系数。当 $0 < k < 1$ 时，
+
+\begin{equation}\label{eq:ch6_a01_a10_elliptic}
+\left.
+\begin{array}{l}
+a_{01} = \frac{8A}{\pi^2} E(k),\\
+a_{10} = \frac{8A}{\pi^2 k} [E(k) - (1 - k^2)K(k)],
+\end{array}
+\right\}
+\end{equation}
+这里 $K(k)$ 和 $E(k)$ 分别表示第一类与第二类的完全椭圆积分。如果 $k$ 相当小，椭圆积分是可以展开的，这时就有
+
+\begin{equation}\label{eq:ch6_a01_a10_expansion}
+\left.
+\begin{array}{l}
+a_{01} = \frac{4A}{\pi} \left( 1 - \frac{k^2}{4} - \cdots \right),\\
+a_{10} = \frac{2Ak}{\pi} \left( 1 + \frac{k^2}{8} + \cdots \right).
+\end{array}
+\right\}
+\end{equation}
+
+方程 \eqref{eq:ch6_a01_a10_expansion}表明，我们原来的简单计算方法在分析的准确度上是相当正确的。然而它也表明方程 \eqref{eq:ch6_a01} 与 \eqref{eq:ch6_a10} 所给的简单结果对于不是很小的 $k$ 值也还能适用，因为 \eqref{eq:ch6_a01_a10_expansion} 与 \eqref{eq:ch6_a01}\eqref{eq:ch6_a10} 的差别的数量级是 $k^2$。因此，输出中频率是 $\omega$ 的成分与输入中同样频率的成分的比，也就是频率特性 $F_i(i\omega)$ 近似地等于
+
+\begin{equation}\label{eq:ch6_Fi_approx}
+F_i(i\omega) = \frac{2A}{\pi E_0}.
+\end{equation}
+
+正如方程 \eqref{eq:ch6_a01} 与 \eqref{eq:ch6_a01_a10_expansion} 所表明的情况，当 $k$ 相当小的时候，输出中频率是 $\omega_0$ 的成分的振幅差不多是一个常数，而这个常数是由继电器本身的特性所完全确定的。而且，输出中频率是 $\omega_0$ 的成分与输入中间频率的成分的比是 $4A/\pi E_0$。所以，继电器对于频率是 $\omega_0$ 的成分的放大率比对于频率是 $\omega$ 的成分的放大率多6分贝（db）。
+
+不难看出，以上的讨论可以推广到这样的情形中去：输出不是 $kE_0 \sin \omega t$ 而是 $x(t), x(t)$ 是任意形状的函数而且 $x(t)$ 的大小比持续振荡的振幅 $E_0$ 小得多。在这种情况下，主要的结果可以这样表述：如果调制信号中的高次项小到可以忽略不计的程度或者可以用适当的滤波的方法把它们最后过滤掉；如果继电器的输入是
+\begin{equation*}
+E_0 \sin \omega_0 t + x(t),
+\end{equation*}
+而 $x(t)$ 比 $E_0$ 小得多，那么，对于信号 $x(t)$ 的传递来说，继电器的性质就与一个线性系统一样，这时的频率特性就是方程 \eqref{eq:ch6_Fi_approx} 所表示的常数。
+
+\section{利用固有振荡的振荡控制伺服系统}
+
+
+
+现在我们来进一步讨论振荡控制伺服系统。我们已经看到，如果只从信号的传递作用的角度来考虑问题，持续振荡的作用只是使继电器变成一个具有正实数频率特性的相当近似的线性元件。因此，从一开始我们就可以不必提到持续振荡 $E_0 \sin \omega_0 t$ 而把继电器看作是一个线性元件\footnote{借助于强振荡使非线性系统线性化的数学根据可以参阅[35一37]。}，因而也就可以利用以前各章的各种概念和方法来处理这种系统。这个很巧妙的新方法是罗吉埃（J. C. Lozier）所提出的。
+
+为了简单起见，我们一直假定伺服系统本身就具有滤波的性质，能够把继电器所产生的所有的不需要的调制项过滤掉。其实，我们还是可以想到，在实际情形中为了达到滤波的目的，有时候也还需要附加一些滤波器。自然，不论系统中的滤波器是怎样的，它们都必须能够使用信号通过。把这一点和其他方面的考虑联系起来就得到这样的结论：频率 $\omega_0$ 必须大于信号的富利埃谱的主要部分的频率。
+
+不论在系统采用哪一种滤波的方法，输出中总是包含一个频率是 $\omega_0$ 的振荡成分。特别应该注意：如果用滤波的方法把这个振荡成分的振幅减低到一定的数值以下，后果反而不好。因为在事实上这个振荡能起到“动力滑润”的作用，它能够减少静力摩擦，松弛以及其他各种与系统有关的非线性作用的影响，而这些作用都是使伺服系统的运转性能变坏的。
+
+我们一直还没有特别讨论用什么方法把持续振荡 $E_0 \sin \omega_0 t$ 加到继电器上去的问题，我们仅只附带地提到过，可以用一个附加的振荡器来供给这个振荡。用振荡器供给持续振荡的系统在可变化性方面是有优点的，因为持续振荡的振幅 $E_0$ 与频率 $\omega_0$ 都不难加以改变；可是这种系统总是需要一定数量的额外的设备，这是它们的一个重大缺点。以下我们将要简单地介绍一类振荡控制伺服系统，这类伺服系统本身就能够供给持续振荡而不需要额外的设备。
+
+我们来看图\ref{fig:6_3}所表示的系统。假定这个系统被设计得具有这样的性能：当没有输入信号时系统也能以某一个固定的频率 $\omega_0$ 振荡，这个 $\omega_0$ 的值是由反馈回路中的线性元件的频率特性的相角偏移所确定的。正如我们已经看到的，对于持续振荡而言，继电器所起的作用就像一个线性元件一样，而且频率特性 $4A/(\pi E_0)$ 是一个与振幅成反比的正实数。正因为如此，振荡的振幅也能自行调整，使得由于回路中的继电器和线性元件而产生的放大率最后变为一。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图6.3.png} 
+\caption{}
+\label{fig:6_3}
+\end{figure}
+
+现在假定有一个信号加在系统上。如果在继电器的输入部分上相应的偏差信号相当小，那么，继电器对于持续振荡的放大率基本上就不受到影响，因而还可以以原有的频率和振幅继续振荡。我们已经证明，继电器对于信号所起的作用也是线性的，继电器对于信号的放大比对于持续振荡的放大小6个分贝。很明显，在这种情况下，我们就得到一种振荡控制伺服系统。这种系统基本上与以前所讨论过的那种系统是相同的，唯一的区别在于：这种系统的持续振荡 $E_0 \sin \omega_0 t$ 的频率和振幅都是由系统本身所确定的（这种振荡称为固有振荡），然而在以前的那种情形中我们实际上假设持续振荡是与系统无关的\footnote{这是自持振荡系统的主要特性，由于系统里有继电器使得存在自持振划，参阅[1,6，13,38,39]。}。
+
+如果把系统当作一个伺服系统来考虑，那么，在所有的讨论里我们只需要考虑继电器对于信号的频率特性，也可以按照以前各章所提出的方法进行处理。并不需要顾虑持续振荡。但是，因为要维持系统的持续振荡，所以，从伺服系统的角度来说，性能的改善还是受到一定的限制的。在以下的讨论里就可以看到这一点。
+
+假设 $F(s)$ 是控制线路对于信号而言的传递函数，这个函数是按照方程\eqref{eq:ch6_Fi_approx}计算的。对于持续振荡而言的传递函数当然就是 $2F(s)$。既然系统有持续振荡，所以系统的传递函数 $1 + [1/2F(s)]$ 有一个纯虚数零点 $s = i\omega_0$。所以
+\begin{equation*}
+2F(i\omega_0) = -1.
+\end{equation*}
+因此，当 $s$ 沿着虚轴变化时，乃氏图的 $1/F(s)$ 图线必须经过 $-2$ 点。另一方面，当我们把系统看作伺服系统时，为了保证它具有满意的性能，$1/F(s)$ 图线就必须满足第四章所讨论的那些条件，包括必须离开 $-1$ 点相当远的条件在内；很明显，由于多了一个限制条件，就使得系统比没有这个限制条件的系统更难满足这些条件。在这个意义上，从可变化性的角度来看，这一类利用本身的固有振荡的系统是不如那些利用外加的振荡器供给持续振荡的振荡控制伺服系统的。所以，当系统能进行持续振荡时，$1/F(i\omega)$ 图线必须经过 $-2$ 点。为了避免图线经过 $-1$ 点的附近，可以采取这样一个办法：设法使图线在 $-2$ 点与实轴垂直地相交。这也就表示，在系统的固有频率 $\omega_0$ 处，向量 $1/F(i\omega)$ 的长度变化得非常缓慢，而相角变化得比较快。
+
+\section{一般的振荡控制伺服系统}
+
+继电器是非线性装置。但是如果把一个高频率大振幅的正弦振荡加到信号上去，那么，对于信号而言，就可以使得输出与输入之间的关系变成线性的。所以，振荡控制伺服系统的基本概念就是把非线性系统线性化。罗埃布（J. M. Loeb）\footnote{J. M. Loeb, Ann. de Télécommunications, 5, 65-71(1950)。}已经证明：这个概念可以应用到任何非线性系统上去，并且他把这个方法称为\underline{非线性控制系统的一般线性化方法}。因此，我们也就把利用这种方法的问题系统称为\underline{一般的振荡控制伺服系统}。
+
+我们来考虑一个一般的函数 $y(x)$，这里的 $y$ 是输出，$x$ 是输入。如果把变数 $x$ 换成 $x + \epsilon$。而 $\epsilon$ 是一个比 $x$ 小得多的数。如果 $y(x)$ 是一个正则函数，我们就可以把 $y(x+\epsilon)$ 展开为泰勒（Taylor）级数：
+
+\begin{equation}\label{eq:ch6_taylor_series_of_y}
+y(x+\epsilon) = y(x) + \epsilon \left( \frac{dy}{dx} \right)_x + \epsilon^2 \frac{1}{2} \left( \frac{d^2 y}{dx^2} \right)_x + \cdots 。
+\end{equation}
+
+现在我们假定输入 $x$ 是一个时间 $t$ 的周期函数，周期是 $T$，并且 $\epsilon$ 是一个常数。显然，$y(x)$ 也是时间 $t$ 的周期函数，周期也还是 $T$。不难想到，$dy/dx$ 与 $d^2 y/dx^2$ 也是时间 $t$ 的周期函数，而且周期也是 $T$。周期函数可以展开为富利埃级数，所以，如果把 $\epsilon$ 的高于一次的方幂忽略不计，我们就得到
+
+\begin{equation}\label{eq:ch6_fourier_expansion}
+\begin{array}{ll}
+y(x + \varepsilon) &\approx a_{00} + \sum_{n=1}^{\infty} (a_{0n} \cos n \omega t + b_{0n} \sin n \omega t) \\
+&+ \varepsilon \left[ a_{10} + \sum_{n=1}^{\infty} (a_{1n} \cos n \omega t + b_{1n} \sin n \omega t) \right],
+\end{array}
+\end{equation}
+其中 $\omega = 2\pi / T$ 是输入 $x$ 的频率。
+
+如果 $\varepsilon$ 不是一个真正的常数，而是一个变化得相当缓慢的时间函数，它的基本频率比 $\omega$ 小得很多。这时，方程\eqref{eq:ch6_fourier_expansion}仍然近似地正确。现在把 $y(x)$ 看作是非线性装置的输入与输出之间的关系，把 $\varepsilon(t)$ 看作是信号，把 $x(t)$ 看作是附加上去的高频率大振幅的持续振荡，这个持续振荡不必须是正弦振荡。在非线性元件的输出中表示信号的是方程\eqref{eq:ch6_fourier_expansion}的第二项。既然频率 $\omega$ 比 $\varepsilon(t)$ 的频率高得多。所以，我们就可以把下列富利埃级数所表示的周期函数看作是载波，
+
+\begin{equation*}
+a_{10} + \sum_{n=1}^{\infty} (a_{1n} \cos n \omega t + b_{1n} \sin n \omega t),
+\end{equation*}
+把 $\varepsilon(t)$ 看作是调幅信号。在以上的讨论中，我们都是假定非线性元件的输入 $x$ 与输出 $y$ 之间有直接的函数关系 $y(x)$。罗埃布(J.M. Loeb)曾经证明：即使 $y$ 与 $x$ 之间的关系是一般的\underline{泛函数关系}（也就是说，$y$ 在时刻 $t$ 的值不仅仅与 $x$ 在时刻 $t$ 的瞬时值有关，而且也与所有过去时刻的 $x$ 值有关），方程\eqref{eq:ch6_fourier_expansion}也还是成立的。这种更广泛的输入输出关系的概念就可以把例如齿轮松驰等等的\underline{滞后}现象包括在内，而且这种概念几乎对于所有的实际的非线性装置都能适用。因此，对于一般的振荡控制伺服系统来说，输出中的信号的形式是被调制的载波，而且对于信号而言，输入输出之间的关系是线性的。
+
+现在，我们假定附加的持续振荡的波形是对称的，例如正弦波或图\ref{fig:6_4}所表示的锯齿波等等。如果 $y(x)$ 是偶函数，或者说
+
+\begin{equation}\label{eq:ch6_even_condition}
+\left.
+\begin{array}{l}
+y(x) = y(-x), \\
+\left( \frac{dy}{dx} \right)_{x} = - \left( \frac{dy}{dx} \right)_{-x},
+\end{array}
+\right\}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图6.4.png} 
+\caption{}
+\label{fig:6_4}
+\end{figure}
+那么，对于周期函数 $y(x)$ 与 $dy/dx$ 就有下列关系：
+\begin{equation}
+\left.
+\begin{array}{l}
+y(x)_t = y(x)_{t+\frac{T}{2}}, \\
+\left( \frac{dy}{dx} \right)_t = - \left( \frac{dy}{dx} \right)_{t+\frac{T}{2}}.
+\end{array}
+\right\}
+\end{equation}
+从这两个条件就推导出
+\begin{equation}\label{eq:ch6_even_coeffs}
+a_{01} = b_{01} = 0, \quad a_{10} = 0 \quad (y(x) \text{是偶函数时}).
+\end{equation}
+因此，如果把高次谐波忽略不计，载波就是一个频率是 $\omega$ 的正弦振荡。这也就是前一节所讨论过的交流伺服系统的情形。在那里所提出的设计方法仍然可以用到这类一般的振荡控制伺服系统上来。如果 $y(x)$ 是奇函数，或者说 $y(x) = -y(-x)$，我们也还可以写出一组类似于方程\eqref{eq:ch6_even_condition}和\eqref{eq:ch6_even_coeffs}的条件，而且可以导出下列条件：
+
+\begin{equation}\label{eq:ch6_odd_coeffs}
+a_{00} = 0, \quad a_{11} = b_{11} = 0 \quad (y(x) \text{是奇函数时}).
+\end{equation}
+如果忽略掉高次谐波，这个情形与第\ref{ch6_section_frequency_characteristics_of_relay}节所讨论过的振荡控制伺服系统是完全相同的。
+
+以上的讨论表明：如果伺服系统中包含有非线性元件，我们就可以用在输入信号上附加持续振荡的方法使非线性元件的特性线性化，同时把原来的系统变为性能较好的振荡控制伺服系统。而且，完全可以用这一章所讲的各种方法来设计这一类伺服系统。
