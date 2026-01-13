@@ -1,0 +1,290 @@
+
+% To be included
+\chapter{采样伺服系统}
+
+直到现在为止,在我们所讨论的各种伺服系统中,被处理的信号都是连续的时间变数$t$的函数。可是,实际上会碰到这种情况:伺服系统所需要处理的信号是以\underline{离散变数}的函数所给定的。举例来说,一个输入信号只是由某一个函数 $x(t)$ 在间隔相等的各个时刻 $0,t_0,2t_0,\cdots$ 的值所确定,而在这些所谓\underline{采样时刻}之间的时间间隔中,输入是没有被确定的。这就是信号是离散变数的一种情况。
+
+如果遇到刚才所讲的那种情形,我们自然对在各个采样时刻的输出信号的值发生兴趣。同时也希望伺服系统具有这样一种性质:伺服系统只根据这些输出值对输出信号进行改正作用,在采样间隔之内的输出值并不影响改正作用。如果一个伺服系统具有这种性质,我们就把它叫作\underline{采样伺服系统}。在这一章里,我们将要简单地讲一讲线性采样伺服系统的理论,我们所要采取的观点和做法与以前各章关于连续作用的伺服系统的讨论是十分相像的。
+
+\section{一个采样线路的输出}
+
+图\ref{fig:7_1}所画的是我们将要讨论的采样伺服系统的简图。这个系统也包含有普通的前向控制线路和反馈线路,这个系统的主要不同之处是在反馈线上有一个作用期性运动的开关,这个开关只在等间隔的各个采样时刻 $0,t_0,2t_0,\cdots$ 上闭合很短的时间,在其余时间这个开关总是开断的。如果在系统中还包含有能够储藏能量的元件或者具有频率选择性的元件,那么,理论的叙述只在细节上有所不同,而没有根本的改变。既然如此,我们就可以假定前向控制线路的传递函数与频率无关,因而使得叙述可以简单一些。至于前向线路是一个$s$的有理分式的情形,也可以类似地加以处理,齐普金$^{[41]}$(\rufont{Я.З. Цыпкин})以及拉格基尼(J.R.Ragazzini)和扎第(L.A.Zadeh)\footnote{J.R.Ragazzini and L.A.Zadeh,Trans. AIEE,71.Part II,228(1952)。}曾经在这方面进行过较详细的分析。开关被安装在图\ref{fig:7_1}所表示的部位上也是一件很有影响的事实。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图7.1.png} 
+\caption{}
+\label{fig:7_1}
+\end{figure}
+
+以下的分析都是根据这样一个假设的：开关闭合的时间非常短，以至于我们可以认为反馈线路所受到的是一系列的冲量。我们还假定：反馈线路对于单位冲量的反应 $h_2(t)$ 是时间的连续函数，这也就是说，对于小的 $t$ 值，$h_2(t)$ 的变化情况与 $t^n$ 的变化情况是相像的。这里 $n \geq 1$。这时 $h_2(t)$ 在 $t = 0$ 处没有跳跃。如果反馈线路的传递函数是 $F_2(s)$，根据一般的公式，方程\eqref{eq:impulse_solution},
+
+\begin{equation}\label{eq:ch7_impulse_response}
+h_2(t) = \frac{1}{2\pi i} \int_{-\infty}^{+\infty} F_2(s) e^{st} ds, 
+\end{equation}
+这里，$\gamma$ 是一个比 $F_2(s)$ 的所有极点的实数部分都大的一个实常数。如果对于很大的 $s$ 值，$F_2(s)$ 的变化情况与 $1/s^m$ 的变化情况相像，按照拉氏变换表 (表\ref{table:2_1})，对于很小的 $t$ 值，$h_2(t)$ 的变化情况与 $t^{m-1}$ 的变化情况相像。我们假设的 $h_2(t)$ 在 $t=0$ 处的连续条件，要求 $m$ 至少要等于 2。所以，对于趋近于无限大的 $s$ 值来说，$F_2(s)$ 趋近于零的速度至少要和 $1/s^2$ 趋近于零的速度一样快。
+
+这样一来就很清楚了，如果在 $t < 0$ 时，输入信号 $x(t)$ 恒等于零，那么，在一个一般的采样时刻 $nt_0$ 时，输出信号的值 $y(nt_0)$ 就是以前所有的冲量的影响和总和来计算的，它可以用下列公式给出：
+
+\begin{equation}\label{eq:ch7_output_discrete}
+y(nt_0) = F_1 \left[ x(nt_0) - \theta t_0 \sum_{k=0}^n y(kt_0) h_2(nt_0 - kt_0) \right],
+\end{equation}
+这里的 $F_1$ 表示前向控制线路的传递函数（也就是放大器的放大），它是一个常数。$\theta$ 表示开关每一次闭合的时间与\underline{采样周期}$t_0$ 的比值，$\theta < 1$。因此，$\theta t_0 y(kt_0)$ 是在 $t = kt_0$ 时反馈线路的输入冲量。
+
+如果在各个采样时刻 $x(t)$ 与 $h_2(t)$ 的值都是已知的，我们就可以根据公式 \eqref{eq:ch7_output_discrete} 用初等方法把 $y(0), y(t_0), y(2t_0), \cdots$ 依次计算出来；但是，我们所要采用的不是这种方法，而是另外一种更清楚的计算方法，利用这个新方法我们就能够把采样伺服系统的理论化为与第四章所讨论的普通的伺服系统的理论相似的形式。这个方法是施梯必茨 (G.R. Stibitz) 与申南 (C.E. Shannon) 创始的。
+
+
+\section{施梯必茨-申南(Stibitz-Shannon)理论}  
+
+我们先来规定下列三个函数：
+
+\begin{equation}\label{eq:ch7_Xstar_def}
+X^*(s) = \sum_{n=0}^{\infty} x(nt_0)e^{-nt_0 s},
+\end{equation}
+\begin{equation}\label{eq:ch7_Ystar_def}
+Y^*(s) = \sum_{n=0}^{\infty} y(nt_0)e^{-nt_0 s},
+\end{equation}
+\begin{equation}\label{eq:ch7_F2star_def}
+F_2^*(s) = t_0 \sum_{n=0}^{\infty} h_2(nt_0)e^{-nt_0 s}.
+\end{equation}
+这些函数都是 $s$ 的周期函数，它们的周期都是虚数 $2\pi i / t_0$。在以上三个公式中，$nt_0$ 的函数就是富利埃系数。从 $x(t), y(t), h_2(t)$ 变为 $X^*(s), Y^*(s)$ 和 $F_2^*(s)$ 的步骤与方程\eqref{eq:inversion_formula}所表示的求相当的拉氏变换 $X(s), Y(s), F_2(s)$ 的步骤是非常相像的。在那里被考虑的是连续的时间变数 $t$，但是现在所考虑的是离散的时刻 $nt_0$。所以，那里的积分符号也就被换为求和符号。不难看出，方程 \eqref{eq:ch7_Xstar_def}、\eqref{eq:ch7_Ystar_def} 和 \eqref{eq:ch7_F2star_def} 所表示的是拉氏变换的一种变形，这种变形自然适用于采样伺服系统的情形。
+
+我们暂时先来考虑 $F_2(s)$ 的所有极点都在虚轴左方的情形。在这种情况下，当 $t$ 趋向于无限大的时候，$h_2(t)$ 就按指数律衰减下去，而且对于实数部分大于某一个负常数的所有 $s$ 值。公式 \eqref{eq:ch7_F2star_def} 的级数都是收敛的。当然，公式 \eqref{eq:ch7_Xstar_def} 和 \eqref{eq:ch7_Ystar_def} 的级数的收敛性是与输入信号的性质有关的。我们只限于考虑这样一类输入信号：它们使得 \eqref{eq:ch7_Xstar_def} 和 \eqref{eq:ch7_Ystar_def} 的级数的收敛状态和 \eqref{eq:ch7_F2star_def} 的级数相同。其实，对于 $x(t)$ 来说，这个限制是很微弱的，在\underline{过渡过程理论}中，我们也常常引进这个限制。
+
+把方程 \eqref{eq:ch7_output_discrete} 先用 $e^{-nt_0 s}$ 乘，然后再对所有的 $n$ 值求和，我们就得到
+\begin{equation*}
+Y^*(s) = F_1 \left[ X^*(s) - \theta t_0 \sum_{n=0}^{\infty} e^{-nt_0 s} \sum_{k=0}^{n} y(kt_0) h_2(nt_0 - kt_0) \right].
+\end{equation*}
+但是
+\begin{equation*}
+\begin{array}{l}
+\theta t_0 \sum_{n=0}^{\infty} e^{-nt_0 s} \sum_{k=0}^{n} y(kt_0) h_2(nt_0 - kt_0)\\
+= \theta t_0 \sum_{n=0}^{\infty} \sum_{k=0}^{n} y(kt_0) e^{-kt_0 s} e^{-(n-k)t_0 s} h_2(nt_0 - kt_0)\\
+= \theta t_0 \sum_{m=0}^{\infty} \sum_{k=0}^{\infty} y(kt_0) e^{-kt_0 s} e^{-mt_0 s} h_2(mt_0)\\
+= \theta F_2^*(s) Y^*(s).
+\end{array}
+\end{equation*}
+
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.48\textwidth]{图7.2.png}
+    \caption{ }
+    \label{fig:7_2}
+\end{wrapfigure}
+在以上的数学计算中，我们把对于 $n$ 与 $k$ 的求和换成对于 $k$ 与 $m=n-k$ 的求和。这个数学的变换可以用图\ref{fig:7_2}来说明。图中用矢线表示求和的顺序和求和的区域。根据这个计算的结果，就得到
+\begin{equation*}
+Y^*(s) = F_1 \left[ X^*(s) - \theta F_2^*(s) Y^*(s) \right]
+\end{equation*}
+或
+\begin{equation}\label{eq:ch7_system_eq}
+\frac{Y^*(s)}{X^*(s)} = \frac{F_1}{1 + \theta F_1 F_2^*(s)}
+\end{equation}
+
+方程\eqref{eq:ch7_system_eq}与以前讨论过的反馈伺服系统的基本方程\eqref{eq:transfer_function_of_close_system}是类似的。这两种情况的区别在于所牵涉到的函数的解析性质是不同的。以后我们还要讨论这个问题。
+
+现在我们假设 $y(nt_0)$ 具有这样的特性：只要 $s$ 的实数部分不是负数，$Y^*(s)$ 的级数就是收敛的。对于纯虚数的 $s$ 值，级数当然也是收敛的。假设 $s = i\omega$，就有
+
+\begin{equation*}
+Y^*(i\omega)e^{int_0\omega} = \sum_{m=0}^{\infty}y(mt_0)e^{-i(\omega m-n)}
+\end{equation*}
+因而有
+
+\begin{equation*}
+\int_{\omega_0}^{\omega_0+(2\pi/t_0)}Y^*(i\omega)e^{int_0\omega}d\omega = y(nt_0)\frac{2\pi}{t_0}
+\end{equation*}
+或者
+
+\begin{equation*}
+y(nt_0) = \frac{t_0}{2\pi i}\int_{\omega_0}^{\omega_0+(2\pi/t_0)}Y^*(i\omega)e^{int_0\omega}d\omega
+\end{equation*}
+设 $i\omega=s$，并且 $i\omega_0=s_0$，最后就得到
+\begin{equation*}
+y(nt_0) = \frac{t_0}{2\pi i}\int_{s_0}^{s_0+(2\pi/t_0)}Y^*(s)e^{nt_0s}ds
+\end{equation*}
+根据关于复变函数积分的柯西(Cauchy)定理，
+
+\begin{equation}\label{eq:ch7_output_integral}
+y(nt_0) = \frac{t_0}{2\pi i}\int_{\Gamma}Y^*(s)e^{nt_0s}ds = \frac{t_0}{2\pi i}\int_{\Gamma}\frac{F_1 X^*(s)e^{nt_0s}}{1+\theta F_1 F_2^*(s)}ds 
+\end{equation}
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.48\textwidth]{图7.3.png}
+    \caption{ }
+    \label{fig:7_3}
+\end{wrapfigure}
+正如图\ref{fig:7_3}所表示的那样，$\Gamma$ 是连接 $s$ 平面的虚轴上距离为 $2\pi/t_0$ 的两点的一条积分路径，而且被积函数的所有奇点都必须在 $\Gamma$ 的左方。以上所讲的是 $Y^*(s)$ 的奇点都在左半 $s$ 平面的情形。但是如果按照同样的条件规定积分路径 $\Gamma$，那么，即使 $Y^*(s)$ 在右半 $s$ 平面上有极点。方程\eqref{eq:ch7_output_integral}也还是成立的。
+
+根据 $X^*(s)$ 和 $F_2^*(s)$ 的周期性，我们可以在积分路径 $\Gamma$ 上再增加两条与实轴平行的虚直线而不会影响积分\eqref{eq:ch7_output_integral}的值(图\ref{fig:7_3})。这样一来，被积函数的全部极点都被包含在新的积分路径之内了。可以证明：对于合理的输入信号来说，$X^*(s)$ 不会有实数部分是正数的极点。因此，使输出不稳定的原因只可能是这样的：方程\eqref{eq:ch7_output_integral}的被积函数的分母有实数部分是正数的零点。所以，和普通的伺服控制系统非常相似，稳定性的必须而且充分的条件就是：方程
+
+\begin{equation}\label{eq:ch7_stability_eq}
+1 + \theta F_1 F_2^*(s) = 0, 
+\end{equation}
+
+在右半 $s$ 平面没有零点。下面我们就来讲一讲如何把第\ref{nyquist_method}节的乃氏准则适当地加以修改，使得这个准则也能应用在目前的稳定条件上。
+
+\section{采样伺服系统的乃氏准则}
+
+因为 $F_2^* (s)$ 是周期函数，所以，如果希望知道方程 \eqref{eq:ch7_stability_eq} 在右半平面有没有零点，我们只要看一看在一个宽度是 $2\pi / t_0$ 从虚轴开始向右方无限延展的条形区域里有没有方程 \eqref{eq:ch7_stability_eq} 的零点就足够了（图\ref{fig:7_4}）。假定 $F_2^* (s)$ 在虚轴上和虚轴的右方没有奇点，并且假定 $1 + \theta F_1 F_2^* (s)$在虚轴上没有零点，我们就能够（而且实际上也是这样做的）把条形区域在铅直方向适当地移动一下，使得条形区域的水平边上没有 $1 + \theta F_1 F_2^* (s)$ 的零点。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图7.4.png} 
+\caption{}
+\label{fig:7_4}
+\end{figure}
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{图7.5.png}
+    \caption{ }
+    \label{fig:7_5}
+\end{wrapfigure}
+现在我们让$s$点在图\ref{fig:7_4}所表示的闭合曲线$ABCDA$上转动一周。这时，向量 $\theta F_1 F_2^* (s)$ 的顶点也就相应地描绘出某一条闭合曲线 $A'B'C'D'A'$，就像图\ref{fig:7_5}所表示的那种情形一样。我们并不想把这条向量 $\theta F_1 F_2^* (s)$ 的顶点曲线真正画出来。当 $s$ 走过 $AB$ 时，我们就得到 $A'B'$ 弧。当 $s$ 走过 $BC$ 时，我们又得到一个弧线 $B'C'$，因为 $F_2^* (s)$ 的周期性，$B'C'$ 是一条闭合曲线。当 $s$ 走过 $CD$ 时，我们就得到 $C'D'$ 弧；同样，由于 $F_2^* (s)$ 的周期性，$C'D'$ 与 $A'B'$ 相重合但是方向相反。最后，当 $s$ 走过 $DA$ 时，我们就得到 $D'A'$ 弧，不难看出 $D'A'$ 也是一条闭合曲线。
+
+根据柯西定理，如果想知道在矩形区域 $ABCDA$ 内有没有方程 \eqref{eq:ch7_stability_eq} 的零点，我们只需要研究一下当动点 $\theta F_1 F_2^*(s)$ 在闭曲线 $A'B'C'D'A'$ 上走一周时，从 $-1$ 到 $\theta F_1 F_2^*(s)$ 点的向量是否围绕 $-1$ 点转动了不等于零的总圈数就够了。现在我们来考虑一下，当图\ref{fig:7_4}的矩形的 $BC$ 边无限地向右移动时的情况。由方程 \eqref{eq:ch7_F2star_def} 很容易看出：图\ref{fig:7_5}中的闭合曲线弧 $B'C'$ 必然要逐渐收缩成一个点。所以，实际上起作用的只是闭合曲线弧 $D'A'$。很明显，方程 \eqref{eq:ch7_stability_eq} 在条形区域内是否有零点的问题就化为这样一个问题：当动点 $\theta F_1 F_2^*(s)$ 在 $D'A'$ 上转动一周时，从 $-1$ 点到动点的向量是否围绕 $-1$ 点转动了不等于零的总圈数。这就是简单的采样伺服系统 \eqref{eq:ch7_output_discrete} 的\underline{乃氏准则}$^{[5]}$。
+
+以上我们所讲的就是关于采样伺服系统的施梯必茨-申南理论的基本内容，这个理论不论在观点上还是在形式上都与连续作用的伺服系统的理论十分相像。
+
+
+\section{稳态误差}
+
+
+如果输入是单位阶跃函数 $1(t)$，
+
+\begin{equation*}
+X^*(s) = \sum_{n=0}^{\infty} e^{-nt_0 s} = \sum_{n=0}^{\infty} (e^{-t_0 s})^n = \frac{1}{1 - e^{-t_0 s}},
+\end{equation*}
+根据方程 \eqref{eq:ch7_output_integral} 就有
+\begin{equation*}
+y(n t_0) = \frac{t_0 F_1}{2 \pi i} \int_{\Gamma} \frac{e^{nt_0 s} ds}{[1 - e^{-t_0 s}][1 + \theta F_1 F_2^* (s)]}.
+\end{equation*}
+当 $n \to \infty$ 时，只有原点是有重要作用的极点，
+\begin{equation}\label{eq:ch7_limit_n_infty_y}
+\lim_{n \to \infty} y(n t_0) = \frac{F_1}{1 + \theta F_1 F_2^* (0)}.
+\end{equation}
+如果输入是一个常数 $1(t)$，这个方程就给出输出的稳态值。因此，稳态误差相当小的条件就是
+\begin{equation*}
+F_1 \approx 1 + \theta F_1 F_2^* (0)
+\end{equation*}
+或者
+\begin{equation}\label{eq:ch7_steady_error_condition}
+F_1 \approx \frac{1}{1 - \theta F_2^* (0)}.
+\end{equation}
+如果要求输出与输入的差数相当微小，我们就必须按照条件 \eqref{eq:ch7_steady_error_condition} 来规定前向控制线路的放大 $F_1$ 的近似值。采样伺服系统的条件 \eqref{eq:ch7_steady_error_condition} 与连续作用伺服系统的条件\eqref{eq:ch4_condition_of_param_k1_k2}是类似的。
+
+\section{$F_2^* (s)$的计算}
+
+
+为了使以上的采样伺服系统理论更加切合实际，我们还必须作进一步的讨论。
+
+$F_2(s)$ 与 $F_2^*(s)$ 这两个函数都是用来表示反馈线路的特性的；当反馈线路是连续作用的伺服的组成部分的时候，$F_2(s)$ 就是很重要的特性。但是，当反馈线路用在采样伺服系统上的时候，$F_2^*(s)$ 就成为重要的特性了。从数学上来看，$F_2(s)$ 比 $F_2^*(s)$ 简单得多，而且，我们也常常把 $F_2(s)$ 直接用到设计线路的方法上去。因此，找出 $F_2^*(s)$ 与 $F_2(s)$ 的关系，就是很重要的事情了，而且我们还希望这个关系越直接越好。再重复一次：$F_2^*(s)$ 是 $s$ 的周期函数，周期是虚数 $i2\pi / t_0$。并且，当我们用万氏准则分析系统的性能的时候，只需要在 $-\pi / t_0 < \omega < \pi / t_0$ 的范围内研究频率特性 $F_2^*(i\omega)$ 就够了。
+
+假定 $s$ 的实数部分比 $\gamma$ 大，按照以前的假设，$\gamma$ 是一个负数，根据方程 \eqref{eq:ch7_impulse_response} 和方程 \eqref{eq:ch7_F2star_def} 我们就得到
+
+\begin{equation}\label{eq:ch7_F2star_integral}
+\begin{array}{ll}
+F_2^*(s) &= \frac{t_0}{2\pi i} \sum_{n=0}^{\infty} e^{-nt_0 s} \int_{\gamma - i\infty}^{\gamma + i\infty} F_2(q)e^{nt_0 q} dq\\
+&= \frac{t_0}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty} F_2(q)dq \sum_{n=0}^{\infty} e^{-nt_0 (s-q)}\\
+&= \frac{t_0}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty} \frac{F_2(q)dq}{1-e^{-t_0 (s-q)}} 
+\end{array}
+\end{equation}
+以下我们就用\underline{留数}方法（\underline{残数}方法）来计算 \eqref{eq:ch7_F2star_integral} 右端的积分。
+
+被积函数有若干个极点：$F_2(s)$ 的极点都在积分路径线的左方；但是那些由方程 $1-e^{-t_0 (s-q)} = 0$ 的零点所构成的极点都在积分路径线的右方。不难看出：沿着从 $\gamma - i\infty$ 到 $\gamma + i\infty$ 的直线的积分值等于在顺时针方向上沿着这样一条闭合积分路径线上的积分值：这条闭合路径是由原来的直线和右半平面上以那条直线为直径的一个无限大的半圆周所组成的。因此，方程 \eqref{eq:ch7_F2star_integral} 右端的积分值等于 $-t_0$ 与被积函数在方程 $1-e^{-t_0 (s-q)} = 0$ 的各个零点的留数的和的乘积。
+
+方程 $1-e^{-t_0 (s-q)} = 0$ 的零点的一般形式是 $q = s + (2\pi im/t_0)$，$m$ 是任何整数。被积函数在这样一个极点处的留数是 $-(1/t_0) F_2[s + (2\pi im/t_0)]$。所以，就得出
+
+\begin{equation}\label{eq:ch7_F2star_series}
+F_2^*(s) = \sum_{m=-\infty}^{m=\infty} F_2\left(s + \frac{2\pi im}{t_0}\right) 
+\end{equation}
+这个公式使我们能够相当深刻地看出 $F_2^*(s)$ 的性质，有时候也可以利用这个公式进行近似的计算。但是，我们还可以用相当简单的有限形式把 $F_2^*(s)$ 精确地表示出来。
+
+函数 $F_2(s)$ 可以写成有限多个部分分式的和，
+\begin{equation}\label{eq:ch7_F2_partial_frac}
+F_2(s) = \sum_{k=1}^{n} \frac{a_k}{s-s_k},
+\end{equation}
+这里的各个 $a_k$ 和 $s_k$ 都是常数，$n$ 是 $F_2(s)$ 的分母多项式的次数。这样一来，利用方程 \eqref{eq:ch7_F2star_series} 就有
+\begin{equation}\label{eq:ch7_F2star_series_modified}
+\begin{array}{ll}
+F_2^*(s) &= \sum_{k=1}^{n} a_k \left\{ \frac{1}{s-s_k} + \sum_{m=1}^{\infty} \left[ \frac{1}{(2\pi im/t_0) + (s-s_k)} - \frac{1}{(2\pi im/t_0) - (s-s_k)} \right] \right\}\\
+&= \sum_{k=1}^{n} a_k \left[ \frac{1}{s-s_k} + \sum_{m=1}^{\infty} \frac{2(s-s_k)}{(4\pi^2 m^2 / t_0^2) + (s-s_k)^2} \right].
+\end{array}
+\end{equation}
+但是,我们知道 $\coth z$ 有如下的展开式：
+\begin{equation*}
+\coth z = \frac{1}{z} + 2z \sum_{m=1}^{\infty} \frac{1}{m^2 \pi^2 + z^2}.
+\end{equation*}
+所以,方程 \eqref{eq:ch7_F2star_series_modified} 中对 $m$ 所求的和数可以计算出来,因此就得出
+\begin{equation}\label{eq:ch7_F2star_coth}
+F_2^*(s) = \frac{t_0}{2} \sum_{k=1}^{n} a_k \coth \left[ \frac{(s-s_k)t_0}{2} \right].
+\end{equation}
+利用这个公式,对于任意的 $s$ 值都可以把 $F_2^*(s)$ 准确地计算出来。
+
+如果 $t_0$ 很小, $F_2(i\omega)$ 的值在 $-\pi / t_0 < \omega < \pi / t_0$ 间隔之外小到略去不计的程度,那么,根据方程 \eqref{eq:ch7_F2star_series} 就可以很清楚地看出 $F_2^*(s)$ 的定性的性质。事实上,在间隔 $-\pi / t_0 < \omega < \pi / t_0$ 里 $F_2^*(i\omega)$ 差不多就等于 $F_2(i\omega)$。我们将要看到,如果 $t_0$ 相当大,我们也还可以得到一个相当简单的 $F_2^*(i\omega)$ 的近似表示式。把各个零点 $s_k$ 写作
+
+\begin{equation}
+s_k = -\lambda_k + i\omega_k,
+\end{equation}
+这些 $\lambda_k$ 和 $\omega_k$ 都是实数。根据我们的假设,所有的 $\lambda_k$ 都是正数。按照方程 \eqref{eq:ch7_F2star_coth},现在就得出：
+\begin{equation*}
+F_2^*(i\omega) = \frac{t_0}{2} \sum_{k=1}^{n} a_k \coth \left\{ \frac{t_0}{2} [\lambda_k + i(\omega - \omega_k)] \right\}
+= \frac{t_0}{2} \sum_{k=1}^{n} a_k \frac{1 + e^{-t_0[\lambda_k + i(\omega - \omega_k)]}}{1 - e^{-t_0[\lambda_k + i(\omega - \omega_k)]}}.
+\end{equation*}
+因此,对于大的 $t_0$ 值就有
+\begin{equation}\label{eq:ch7_F2star_approx}
+F_2^*(i\omega) \approx \frac{t_0}{2} \sum_{k=1}^{n} a_k \{1 + 2e^{-t_0[\lambda_k + i(\omega - \omega_k)]}\}.
+\end{equation}
+当 $s$ 很大的时候,方程 \eqref{eq:ch7_F2_partial_frac} 可以写作
+\begin{equation*}
+F_2(s) = \frac{1}{s} \sum_{k=1}^{n} a_k + \frac{1}{s^2} \sum_{k=1}^{n} a_k s_k + \cdots.
+\end{equation*}
+但是我们曾经假定：反馈线路对于冲量的反应是连续的，所以，当 $s$ 很大时，$F_2(s) \sim 1/s^2$，因此
+\begin{equation}\label{eq:ch7_a_k}
+\sum_{k=1}^n a_k = 0。
+\end{equation}
+这样一来，方程 \eqref{eq:ch7_F2star_approx} 就变成
+\begin{equation}\label{eq:ch7_F2star_circle}
+F_2^*(i\omega) \approx t_0 e^{-it_0 \omega} \sum_{k=1}^n a_k e^{t_0 s_k}.
+\end{equation}
+对于实际的物理系统来说，$s_k$ 或者是实数，或者成复共轭对出现，所以方程 \eqref{eq:ch7_F2star_circle} 中的和数一定是实数。因此，当 $\omega$ 从 $-\pi/t_0$ 变到 $\pi/t_0$ 的时候，$F_2^*(i\omega)$ 的图线是一个圆，这个圆的半径是
+\begin{equation}\label{eq:ch7_radius_of_circle}
+\left| t_0 \sum_{k=1}^n a_k e^{t_0 s_k} \right|.
+\end{equation}
+
+\section{连续作用伺服系统与采样伺服系统的比较}
+
+我们已经看到，如果 $t_0$ 的值很小，$F_2^* (i\omega)$ 差不多就等于 $F_2 (i\omega)$。对于连续作用伺服系统来说，稳定性的判断准则就是 $F_1 F_2 (i\omega)$ 图线应该不绕过 $-1$ 点。对于采样伺服系统来说，$\theta F_1 F_2^* (i\omega)$ 图线应该不绕过 $-1$ 点，或者说，$F_1 F_2 (i\omega)$ 图线应该不绕过 $1/\theta$ 点。因此，如果只考虑系统的稳定性，采样伺服系统的放大 $F_1$ 就可以比普通的连续作用伺服系统大得多。
+
+如果 $t_0$ 的值很大，根据方程\eqref{eq:ch7_F2star_circle}和\eqref{eq:ch7_radius_of_circle}乃氏准则就变为
+\begin{equation*}
+\theta F_1 \left| t_0 \sum_{k=1}^n a_k e^{t_0 s_k} \right| < 1.
+\end{equation*}
+既然 $s_k$ 的实数部分都是负数，$F_2^* (i\omega)$ 图线的半径就很小，又因为开关闭合时间与采样周期的比值 $\theta$ 也是一个很小的数，所以，我们可以使放大 $F_1$ 相当大而不会引起系统的不稳定。
+
+由此可见，不论采样周期 $t_0$ 大小如何，采样伺服系统的稳定运转的条件总是比普通的反馈伺服系统的稳定运转条件宽松得多。这个事实也许是可以预料到的：因为只在很小的一部分时间之内，系统才具有反馈作用，所以，除了采样时刻的值以外，对于输出并没有任何限制，因此，稳定性条件当然也就可以弱一些。
+
+\section{$F_2(s)$在原点有极点的情况}
+
+在实际情况下，$F_2(s)$ 很可能在 $s=0$ 处有一个极点。为了避免某些不必要的麻烦，以前我们并没有考虑这种情形。现在，我们把这种情况简短地讨论一下。
+
+首先，我们可以看到，如果 $s=0$ 是 $F_2(s)$ 的一个极点，那么常数 $\gamma$ 就必须是正数，而且 $F_2^*(s)$ 的无穷级数表示式 \eqref{eq:ch7_F2star_series}只在 $s$ 的实数部分是正数时成立。其次，系统的乃氏图也要发生变化；最显著的变化就是：乃氏图不再是闭合曲线，而是一条开放的曲线了。我们也可以认为这条曲线在无限远处的两个端点是被一个顺时针方向的无限大的半圆周所连接起来的。然而，在这种情况下，$F_2^*(s)$ 的有限表示式 \eqref{eq:ch7_F2star_coth} 仍然成立。如果，设 $s_1=0$，那么，方程 \eqref{eq:ch7_F2star_coth} 就变为
+\begin{equation*}
+F_2^*(i\omega)=\frac{t_0}{2}\left[-ia_1\cot\frac{\omega t_0}{2}+\sum_{k=2}^n a_k\coth\frac{t_0[\lambda_k+i(\omega-\omega_k)]}{2}\right].
+\end{equation*}
+如果 $t_0$ 的值很大，我们就得到一个类似于方程 \eqref{eq:ch7_F2star_approx} 的公式，
+\begin{equation*}
+F_2^*(i\omega)=\frac{t_0}{2}\left[-ia_1\cot\frac{\omega t_0}{2}+\sum_{k=2}^n a_k\left[1+2e^{-t_0[\lambda_k+i(\omega-\omega_k)]}\right]\right].
+\end{equation*}
+
+但是按照方程\eqref{eq:ch7_a_k}，
+\begin{equation*}
+a_2+a_3+\cdots+a_n=-a_1,
+\end{equation*}
+所以
+\begin{equation}\label{eq:ch7_F2star_pole_at_zero}
+F_2^*(i\omega)=-\frac{a_1 t_0}{2}\left[1+i\cot\frac{\omega t_0}{2}\right]+t_0 e^{-it_0\omega}\sum_{k=2}^n a_k e^{t_0 s_k}.
+\tag{7.21}
+\end{equation}
+
+常数 $a_1$ 当然是一个正实数。当 $\omega$ 从 $-\pi/t_0$ 变化到 $\pi/t_0$ 时，\eqref{eq:ch7_F2star_pole_at_zero}的第一项就给出一条平行于虚轴的直线。第二项是一个正弦函数。因此，乃氏图就是一条被变为正弦波形状的直线。
+
