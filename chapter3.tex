@@ -84,7 +84,7 @@ F(s) = \frac{1}{\tau_1 s + 1}.
     \end{minipage}
 \end{figure}
 
-首先，我们来考虑输入 $x(t)$ 是\underline{单位阶跃函数} $1(t)$ 的情形（参看图\ref{fig:3_3}）。
+首先，我们来考虑输入 $x(t)$ 是\underline{单位阶跃函数}$1(t)$ 的情形（参看图\ref{fig:3_3}）。
 \begin{equation*}
 x(t) = 1(t) = 
 \begin{array}{l} 
@@ -104,12 +104,12 @@ Y_i(s) = \frac{1}{s(\tau_1 s + 1)} = \frac{1}{s} - \frac{1}{s + (1/\tau_1)}.
 \begin{equation}
 y_i(t) = 1 - e^{-t/\tau_1}.
 \end{equation}
-根据方程\eqref{eq:output_of_system_from_initial} ，由于初始条件而产生的输出就是
+根据方程\eqref{eq:output_of_system_from_initial}，由于初始条件而产生的输出就是
 \begin{equation}\label{eq:output_of_system_from_initial_time_domain}
 y_e(t) = y_0 e^{-t/\tau_1}.
 \end{equation}
 
-图\ref{fig:3_4} 表示出输出的特征。由于初始条件而产生的输出 $y_e(t)$ 是一个单纯的衰减函数，这个衰减函数的时间常数就是 $\tau_1$ [图\ref{fig:3_4}(b)]。由于输入而产生的输出 $y_i(t)$ 按照指数律趋近于水平渐近线，时间常数也是 $\tau_1$。事实上，当 $t = \tau_1$ 的时候，输出 $y_i(t)$ 的数值就达到了最后渐近值的 $63\%$。
+图\ref{fig:3_4}表示出输出的特征。由于初始条件而产生的输出 $y_e(t)$ 是一个单纯的衰减函数，这个衰减函数的时间常数就是 $\tau_1$ [图\ref{fig:3_4}(b)]。由于输入而产生的输出 $y_i(t)$ 按照指数律趋近于水平渐近线，时间常数也是 $\tau_1$。事实上，当 $t = \tau_1$ 的时候，输出 $y_i(t)$ 的数值就达到了最后渐近值的 $63\%$。
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \centering
@@ -143,7 +143,7 @@ y_i(t) = -\frac{x_m}{1+i\omega\tau_1} e^{-t/\tau_1} + \frac{x_m}{1+i\omega\tau_1
 \begin{equation*}
 \frac{[y(t)]_{st}}{x(t)} = \frac{1}{1+i\omega\tau_1} = F(i\omega).
 \end{equation*}
-这个关系和我们在方程\eqref{eq:ratio_of_steady_solution_to_function} 中所表达的普通结果是完全一致的。由于
+这个关系和我们在方程\eqref{eq:ratio_of_steady_solution_to_function}中所表达的普通结果是完全一致的。由于
 \begin{equation}\label{eq:3_13_equation}
 \frac{1}{1+i\omega\tau_1} = \frac{1}{\sqrt{1+\omega^2\tau_1^2}} e^{-i\tan^{-1}\omega\tau_1},
 \end{equation}
@@ -161,7 +161,7 @@ y_i(t) = -\frac{x_m}{1+i\omega\tau_1} e^{-t/\tau_1} + \frac{x_m}{1+i\omega\tau_1
 [y(t)]_{st} \approx \frac{x_m}{\omega \tau_1} e^{i[\omega t - (\pi/2)]} \quad \tau_1 \omega \gg 1.
 \end{equation}
 
-在这种情形中，振幅被减少到 $1/\omega \tau_1$ 倍，而相角落后的数量是 $\pi/2$。我们把以上所讨论的两种极端的输出情形表示在图\ref{fig:3_5} 中。
+在这种情形中，振幅被减少到 $1/\omega \tau_1$ 倍，而相角落后的数量是 $\pi/2$。我们把以上所讨论的两种极端的输出情形表示在图\ref{fig:3_5}中。
 
 \begin{figure}[htbp]
     \centering
@@ -190,19 +190,19 @@ y_i(t) = -\frac{x_m}{1+i\omega\tau_1} e^{-t/\tau_1} + \frac{x_m}{1+i\omega\tau_1
 \begin{equation}\label{eq:ch3_transfer_function_zero}
 |F(0)| = K
 \end{equation}
-是系统的放大，也就是系统在常数输入的情况下输出的稳态值与输入的比值。又因为对于大多数的实际情形，$F(0)$ 常常是正数，因而 $F(0)=K$。所以，传递函数 $F(s)$ 就可以由零点、极点和放大唯一地确定。这也就是传递函数的一种可能的表示方法。举例来说，我们可以这样来表示方程\eqref{eq:transfer_function_of_fs} 所给的传递函数：它的放大是$1$；在$-1/\tau_1$有一个单极点；没有零点。
+是系统的放大，也就是系统在常数输入的情况下输出的稳态值与输入的比值。又因为对于大多数的实际情形，$F(0)$ 常常是正数，因而 $F(0)=K$。所以，传递函数 $F(s)$ 就可以由零点、极点和放大唯一地确定。这也就是传递函数的一种可能的表示方法。举例来说，我们可以这样来表示方程\eqref{eq:transfer_function_of_fs}所给的传递函数：它的放大是$1$；在$-1/\tau_1$有一个单极点；没有零点。
 
 根据复变函数论的结果，如果在 $s$ 平面的虚轴上，$F(s)$ 的实数部分和虚数部分都已经完全给定的话，那么，用解析开拓的方法$^{[14]}$就可以把 $s$ 平面上其他部分的 $F(s)$ 值也确定下来。因此，我们也可以用复函数 $F(i\omega)$ ($\omega$ 是实数，$-\infty < \omega < +\infty$) 来代表函数 $F(s)$。这就是传递函数的另外一种表示方法。对于实际的物理系统来说，$F(s) = N(s)/D(s)$ 的分子多项式 $N(s)$ 和分母多项式 $D(s)$ 的系数都是实数，所以，如果我们用 $\overline{F}$ 表示 $F$ 的复共轭数的话，就有
 \begin{equation}\label{eq:complex_function_F_iw}
 F(-i\omega) = \overline{F(i\omega)}.
 \end{equation}
-因此，对于实际的物理系统，只要知道 $\omega \geq 0$ 的 $F(i\omega)$ 值，就可以知道 $\omega \leq 0$ 的 $F(i\omega)$ 值，从而也就可以定出对于任意 $s$ 的 $F(s)$ 的值。从方程 \eqref{eq:ratio_of_steady_solution_to_function} 我们已经知道函数 $F(i\omega)$ 是频率 $\omega$ 的稳态输出与正弦输入之比，$F(i\omega)$ ($-\infty < \omega < +\infty$) 就是系统的频率特性，所以，频率特性也是传递函数 $F(s)$ 的一种表示方法。例如，方程\eqref{eq:3_13_equation} 就是简单的一阶系统\eqref{eq:motion_system} 的频率特性。
+因此，对于实际的物理系统，只要知道 $\omega \geq 0$ 的 $F(i\omega)$ 值，就可以知道 $\omega \leq 0$ 的 $F(i\omega)$ 值，从而也就可以定出对于任意 $s$ 的 $F(s)$ 的值。从方程 \eqref{eq:ratio_of_steady_solution_to_function}我们已经知道函数 $F(i\omega)$ 是频率 $\omega$ 的稳态输出与正弦输入之比，$F(i\omega)$ ($-\infty < \omega < +\infty$) 就是系统的频率特性，所以，频率特性也是传递函数 $F(s)$ 的一种表示方法。例如，方程\eqref{eq:3_13_equation}就是简单的一阶系统\eqref{eq:motion_system}的频率特性。
 
 伯德 (H.W. Bode) 创造了一种表示频率特性的方法，这种方法就称为\underline{伯德图}。假定复数 $F(i\omega)$ 的绝对值是 $M$，相角是 $\theta$ ($M$ 和 $\theta$ 当然都是 $\omega$ 的函数)，也就是说
 \begin{equation}\label{eq:bode_transfer_function_format}
 F(i\omega) = Me^{i\theta}.
 \end{equation}
-把 $\log \omega$ 取作自变数，然后再把因变数 $\log M$ 和 $\theta$ 对 $\log \omega$ 的函数关系画在两张图上，这样得出的图就是\underline{伯德图}。（$\log M$ 对 $\log \omega$ 的函数关系通常称为系统的\underline{对数振幅特性}，而 $\theta$ 对 $\log \omega$ 的函数关系称为系统的\underline{对数相特性}）。至于为什么在这里 $M$ 取了对数尺度而 $\theta$ 并不取对数尺度，这个道理可以在以后的讨论中看出来。以方程 \eqref{eq:3_13_equation} 所表示的简单系统为例，
+把 $\log \omega$ 取作自变数，然后再把因变数 $\log M$ 和 $\theta$ 对 $\log \omega$ 的函数关系画在两张图上，这样得出的图就是\underline{伯德图}。（$\log M$ 对 $\log \omega$ 的函数关系通常称为系统的\underline{对数振幅特性}，而 $\theta$ 对 $\log \omega$ 的函数关系称为系统的\underline{对数相特性}）。至于为什么在这里 $M$ 取了对数尺度而 $\theta$ 并不取对数尺度，这个道理可以在以后的讨论中看出来。以方程 \eqref{eq:3_13_equation}所表示的简单系统为例，
 \begin{equation}
 \left.
 \begin{aligned}
@@ -211,7 +211,7 @@ M &= \frac{1}{\sqrt{1+\omega^2 \tau_1^2}} = \frac{1}{\sqrt{1+u^2}},\\
 \end{aligned}
 \right\} \quad u = \omega \tau_1
 \end{equation}
-其中 $u = \omega \tau_1$ 是无量纲频率$^{[9,16]}$ 。这个系统的伯德图就是图\ref{fig:3_6}。频率特性在低频率和高频率时的情况已经用方程\eqref{eq:steady_output_format_2} 和\eqref{eq:steady_output_format_3} 表示出来了。当 $u \to \infty$ 时，$\log_{10} M$ 对 $\log_{10} u$ 的图的斜率是 $-1$，对于很小的 $u$ 值来说，斜率差不多是 0。因此，一个一阶系统的 $M \sim u$ 图可以用两条直线来近似地代替，这两条直线就是图\ref{fig:3_6} 中的虚折线。这条虚折线称为\underline{渐近对数振幅特性}或者\underline{梯形对数振幅特性}$^{[9]}$。
+其中 $u = \omega \tau_1$ 是无量纲频率$^{[9,16]}$ 。这个系统的伯德图就是图\ref{fig:3_6}。频率特性在低频率和高频率时的情况已经用方程\eqref{eq:steady_output_format_2}和\eqref{eq:steady_output_format_3}表示出来了。当 $u \to \infty$ 时，$\log_{10} M$ 对 $\log_{10} u$ 的图的斜率是 $-1$，对于很小的 $u$ 值来说，斜率差不多是 0。因此，一个一阶系统的 $M \sim u$ 图可以用两条直线来近似地代替，这两条直线就是图\ref{fig:3_6}中的虚折线。这条虚折线称为\underline{渐近对数振幅特性}或者\underline{梯形对数振幅特性}$^{[9]}$。
 \begin{figure}
 \centering
 \includegraphics[width=0.7\textwidth]{图3.6.png} 
@@ -219,9 +219,9 @@ M &= \frac{1}{\sqrt{1+\omega^2 \tau_1^2}} = \frac{1}{\sqrt{1+u^2}},\\
 \label{fig:3_6}
 \end{figure}
 
-在声学和电学的文献里，为了把振幅的度量单位化为\underline{分贝} (decibel，简写为 db)，常常改用 $20 \log_{10} M$ 作为 $M \sim u$ 图中的因变数。频率增加一倍就称为一个\underline{倍频程} (octave，简写为 oct)。因此，图\ref{fig:3_6} 中斜率等于 $-1$ 的部分，用分贝和倍频程作单位，这部分的斜率就是 $-20 \log_{10} 2 = -6.02$ 分贝/倍频程 (db/oct)。在图\ref{fig:3_6}里我们还看到这样一个事实：近似于 $\log_{10} M$ 的虚线在 $u = 1$ 点，也就是 $\omega = 1/\tau_1$ 处通过 $0$ 值。因此，我们就可以用实验方法测量一个一阶系统的频率特性，把测量的结果按照上述的方式画成伯德图。只要记下伯德图上 $\log_{10} M$ 的近似直线穿过横轴时的角频率 $\omega_c$ 就可以简单地估计出系统的时间常数，$\tau_1 \approx 1/\omega_c$。
+在声学和电学的文献里，为了把振幅的度量单位化为\underline{分贝}(decibel，简写为 db)，常常改用 $20 \log_{10} M$ 作为 $M \sim u$ 图中的因变数。频率增加一倍就称为一个\underline{倍频程}(octave，简写为 oct)。因此，图\ref{fig:3_6}中斜率等于 $-1$ 的部分，用分贝和倍频程作单位，这部分的斜率就是 $-20 \log_{10} 2 = -6.02$ 分贝/倍频程 (db/oct)。在图\ref{fig:3_6}里我们还看到这样一个事实：近似于 $\log_{10} M$ 的虚线在 $u = 1$ 点，也就是 $\omega = 1/\tau_1$ 处通过 $0$ 值。因此，我们就可以用实验方法测量一个一阶系统的频率特性，把测量的结果按照上述的方式画成伯德图。只要记下伯德图上 $\log_{10} M$ 的近似直线穿过横轴时的角频率 $\omega_c$ 就可以简单地估计出系统的时间常数，$\tau_1 \approx 1/\omega_c$。
 
-另外一个表示频率特性的方法是\underline{乃奎斯特}（H. Nyquist）所创始的，称为\underline{乃氏图}。这种方法是把复数 $F(i\omega)$ 或 $1/F(i\omega)$ 直接画到 $F$ 平面或 $1/F$ 平面上去，曲线的参数就是角频率 $\omega$。函数 $1/F$ 有时候称为\underline{反振幅相角特性}。$F$ 平面上的图线 $F(i\omega)$ 就称为\underline{振幅相角特性}。对于一个简单的一阶系统来说，$F(i\omega) = 1/(1+i\omega\tau_1)$ 的图线是一个半圆，在 $\omega = 0$ 时，图线从 1 点出发；在 $\omega \tau_1 = u = 1$ 时，图线通过 $1/(1+i) = (1/2)(1-i)$ 点；当 $\omega \to \infty$ 时，图线趋向于原点，并且以原点为终点。在这种情况下，$1/F$ 图线比 $F$ 图线还要简单得多：$1/F = 1 + i\omega\tau_1$。所以，在 $1/F$ 平面上，这条图线就是从 $1$ 点出发的一条与虚轴平行的直线。图\ref{fig:3_7} 就是一阶系统的两种乃氏图。
+另外一个表示频率特性的方法是\underline{乃奎斯特}（H. Nyquist）所创始的，称为\underline{乃氏图}。这种方法是把复数 $F(i\omega)$ 或 $1/F(i\omega)$ 直接画到 $F$ 平面或 $1/F$ 平面上去，曲线的参数就是角频率 $\omega$。函数 $1/F$ 有时候称为\underline{反振幅相角特性}。$F$ 平面上的图线 $F(i\omega)$ 就称为\underline{振幅相角特性}。对于一个简单的一阶系统来说，$F(i\omega) = 1/(1+i\omega\tau_1)$ 的图线是一个半圆，在 $\omega = 0$ 时，图线从 1 点出发；在 $\omega \tau_1 = u = 1$ 时，图线通过 $1/(1+i) = (1/2)(1-i)$ 点；当 $\omega \to \infty$ 时，图线趋向于原点，并且以原点为终点。在这种情况下，$1/F$ 图线比 $F$ 图线还要简单得多：$1/F = 1 + i\omega\tau_1$。所以，在 $1/F$ 平面上，这条图线就是从 $1$ 点出发的一条与虚轴平行的直线。图\ref{fig:3_7}就是一阶系统的两种乃氏图。
 \begin{figure}
 \centering
 \includegraphics[width=0.7\textwidth]{图3.7.png} 
@@ -279,7 +279,7 @@ M = \frac{K}{\omega}, \quad \theta = -\frac{\pi}{2}.
 \[ 
 v = K \frac{d\varphi}{dt},
 \]
-其中 $K$ 是比例常数。这个情形和前面讨论的电动机的情形恰好相反。传递函数 $F(s) = Ks$ 在原点有一个零点。因此，对于一个\underline{微分系统} ，即对传递函数 $F(s)$ 在原点 $s=0$ 有一个单零点的系统来说，放大 $K$ 的定义应该改为
+其中 $K$ 是比例常数。这个情形和前面讨论的电动机的情形恰好相反。传递函数 $F(s) = Ks$ 在原点有一个零点。因此，对于一个\underline{微分系统}，即对传递函数 $F(s)$ 在原点 $s=0$ 有一个单零点的系统来说，放大 $K$ 的定义应该改为
 \begin{equation}\label{eq:ch3_definition_of_amplification_modified}
 K = \lim_{s \to 0} \left| \frac{F(s)}{s} \right|.
 \end{equation}
@@ -313,7 +313,7 @@ K = \lim_{s \to 0} \left| \frac{F(s)}{s} \right|.
     \caption{ }
     \label{fig:3_14}
 \end{wrapfigure}
-\underline{简单的相角落后电路}\quad 考虑图\ref{fig:3_14} 的包含电阻 $R$ 和电容 $C$ 的电路。$v_1$ 和 $v_2$ 分别是输入电压和输出电压。假设 $j = j(t)$ 是流入电阻 $R$ 和电容 $C$ 的电流，如果在 $t = 0$ 的时候，电容 $C$ 上没有电荷。那么
+\underline{简单的相角落后电路}\quad 考虑图\ref{fig:3_14}的包含电阻 $R$ 和电容 $C$ 的电路。$v_1$ 和 $v_2$ 分别是输入电压和输出电压。假设 $j = j(t)$ 是流入电阻 $R$ 和电容 $C$ 的电流，如果在 $t = 0$ 的时候，电容 $C$ 上没有电荷。那么
 \begin{equation*}
 jR + \frac{1}{C} \int_{0}^{t} j(t) dt = v_1,
 \end{equation*}
@@ -331,7 +331,7 @@ jR + \frac{1}{C} \int_{0}^{t} j(t) dt = v_1,
 \begin{equation}\label{eq:v1_to_v2_laplace_transform}
 \frac{V_2(s)}{V_1(s)} = F(s) = \frac{1}{1+RCs}.
 \end{equation}
-从方程\eqref{eq:v1_to_v2_laplace_transform} 可以看出，这个电阻电容电路的传递函数和有阻尼器的悬臂弹簧的传递函数\eqref{eq:transfer_function_of_fs}是相同的，这个电路系统的时间常数就是 $\tau_1 = RC$。这个系统的伯德图和万氏图就是图\ref{fig:3_6} 和图\ref{fig:3_7} 。这个电路常常用来产生系统的相角落后。
+从方程\eqref{eq:v1_to_v2_laplace_transform}可以看出，这个电阻电容电路的传递函数和有阻尼器的悬臂弹簧的传递函数\eqref{eq:transfer_function_of_fs}是相同的，这个电路系统的时间常数就是 $\tau_1 = RC$。这个系统的伯德图和万氏图就是图\ref{fig:3_6}和图\ref{fig:3_7}。这个电路常常用来产生系统的相角落后。
 
 可以在这里附带提一下：虽然上述的悬臂弹簧系统和这个电路系统的动态特性是相同的，但是我们知道：在实际工程中改变和调整那个系统的参数 $c$ 和 $k$ 往往是比较困难的，而且 $c$ 和 $k$ 的可能变动范围也很有限，可是在这个电路里改变和调整 $R$ 和 $C$ 的数值就比较容易。而且 $R$ 和 $C$ 的变动范围也可以很大。从这个具体例子就可以看出用电学方法进行调节或控制常常比用机械方法方便得多。
 
@@ -341,7 +341,7 @@ jR + \frac{1}{C} \int_{0}^{t} j(t) dt = v_1,
     \caption{ }
     \label{fig:3_15}
 \end{wrapfigure}
-\underline{相角超前电路}\quad 图\ref{fig:3_15} 表示一个更复杂的电路。这个电路的方程是：
+\underline{相角超前电路}\quad 图\ref{fig:3_15}表示一个更复杂的电路。这个电路的方程是：
 \begin{equation*}
 j = j_1 + j_2,
 \end{equation*}
@@ -411,7 +411,7 @@ M = \sqrt{r} \sqrt{\frac{1 + (u^2 / r)}{(1/r) + u^2}}, \quad \theta = \tan^{-1} 
 \end{equation*}
 
 
-因此，就像图\ref{fig:3_16} 所表示的那样，伯德图的图线对于 $u = 1$（也就是 $\log_{10} u = 0$）有着对称性。$\theta$ 的极大值 $\theta_{\max}$ 是在 $u = 1$ 点，并且等于
+因此，就像图\ref{fig:3_16}所表示的那样，伯德图的图线对于 $u = 1$（也就是 $\log_{10} u = 0$）有着对称性。$\theta$ 的极大值 $\theta_{\max}$ 是在 $u = 1$ 点，并且等于
 \begin{equation}\label{eq:theta_max}
 \theta_{\max} = \tan^{-1} \frac{1}{\sqrt{r}} - \tan^{-1} \sqrt{r} = \frac{\pi}{2} - 2\tan^{-1} \sqrt{r}.
 \end{equation}
@@ -432,7 +432,7 @@ M = \sqrt{r} \sqrt{\frac{1 + (u^2 / r)}{(1/r) + u^2}}, \quad \theta = \tan^{-1} 
     \caption{ }
     \label{fig:3_17}
 \end{wrapfigure}
-\underline{频带的相角落后电路}\quad 图\ref{fig:3_17} 所表示的电阻电容电路的传递函数是
+\underline{频带的相角落后电路}\quad 图\ref{fig:3_17}所表示的电阻电容电路的传递函数是
 \begin{equation*}
 \frac{V_2(s)}{V_1(s)} = F(s) = \frac{1 + R_1Cs}{1 + (R_1 + R)Cs}
 \end{equation*}
@@ -444,7 +444,7 @@ M = \sqrt{r} \sqrt{\frac{1 + (u^2 / r)}{(1/r) + u^2}}, \quad \theta = \tan^{-1} 
 \begin{equation}
 F(s) = \frac{1 + (s/\omega_1)}{1 + (s/r\omega_1)}.
 \end{equation}
-把这个方程和相角超前电路的方程\eqref{eq:transfer_function_other_format} 加以比较，我们就可以看到这两个电路的传递函数（除了一个常数的因数之外）是互为倒数的。其实，目前这个电路的频率特性也可以写成：
+把这个方程和相角超前电路的方程\eqref{eq:transfer_function_other_format}加以比较，我们就可以看到这两个电路的传递函数（除了一个常数的因数之外）是互为倒数的。其实，目前这个电路的频率特性也可以写成：
 \begin{equation*}
 F(i\omega) = \frac{1 + i(\omega/\omega_1)}{1 + i(\omega/r\omega_1)} = \frac{1 + i\sqrt{r}u}{1 + i(1/\sqrt{r})u},
 \end{equation*}
@@ -457,7 +457,7 @@ u = \frac{1\omega}{\sqrt{r}\omega_1}.
 M = \sqrt{r} \sqrt{\frac{(1/r) + u^2}{1 + (u^2/r)}}, \quad \theta = \tan^{-1} (\sqrt{r}u) - \tan^{-1} \frac{u}{\sqrt{r}}.
 \end{equation}
 
-图\ref{fig:3_18} 就是这个系统的伯德图。从图中我们可以看出，在 $u=1$ 附近的一个频率上有着显著的相角落后。极大的相角落后发生在 $u=1$ 点，也就是频率 $\omega=\sqrt{r} \omega_1$ 的时候，它的大小也还是方程\eqref{eq:theta_max} 所给的 $\theta_{\max}$。
+图\ref{fig:3_18}就是这个系统的伯德图。从图中我们可以看出，在 $u=1$ 附近的一个频率上有着显著的相角落后。极大的相角落后发生在 $u=1$ 点，也就是频率 $\omega=\sqrt{r} \omega_1$ 的时候，它的大小也还是方程\eqref{eq:theta_max}所给的 $\theta_{\max}$。
 
 \begin{figure}[h!]
 \centering
@@ -482,12 +482,12 @@ I \frac{dp}{dt} + L_p p = k \delta,
 \begin{equation}\label{eq:transfer_function_Fs}
 \frac{P(s)}{\Delta (s)} = F(s) = \frac{k}{Is + L_p} = \frac{k}{L_p} \cdot \frac{1}{1 + (I/L_p)s}.
 \end{equation}
-正如方程\eqref{eq:transfer_function_Fs} 所示，这个系统的运动状态和具有阻尼器的悬臂弹簧以及简单的相角落后电路的运动状态是相似的。在这里，时间常数 $\tau_1$ 是 $I/L_p$，如果阻尼系数 $L_p$ 非常小，时间常数 $\tau_1$ 就接近于 $\infty$，系统的运动状态就和简单的积分元件的情况一样了。
+正如方程\eqref{eq:transfer_function_Fs}所示，这个系统的运动状态和具有阻尼器的悬臂弹簧以及简单的相角落后电路的运动状态是相似的。在这里，时间常数 $\tau_1$ 是 $I/L_p$，如果阻尼系数 $L_p$ 非常小，时间常数 $\tau_1$ 就接近于 $\infty$，系统的运动状态就和简单的积分元件的情况一样了。
 
 
 \section{二阶系统}\label{second_order_system}
 
-我们再回到具有阻尼器的悬臂弹簧的情形（图\ref{fig:3_1} ）。不过，现在我们在阻尼器这一端加上一个质量 $m$。这个质量引起一个惯性力 $m d^2 y / dt^2$，因而运动方程就变为
+我们再回到具有阻尼器的悬臂弹簧的情形（图\ref{fig:3_1}）。不过，现在我们在阻尼器这一端加上一个质量 $m$。这个质量引起一个惯性力 $m d^2 y / dt^2$，因而运动方程就变为
 \begin{equation*}
 m \frac{d^2 y}{dt^2} + c \frac{dy}{dt} + ky = kx,
 \end{equation*}
@@ -507,7 +507,7 @@ $\omega_0$ 就是当阻尼器不存在时的质量弹簧系统的自然频率。
 \begin{equation}\label{eq:second_order_kinematic_system}
 \frac{d^2 y}{dt^2} + 2\zeta \omega_0 \frac{dy}{dt} + \omega_0^2 y = \omega_0^2 x.
 \end{equation}
-方程\eqref{eq:second_order_kinematic_system} 连同它的初始条件\eqref{eq:initial_condition_of_second_order_system} 用拉氏变换的方式就可以表示为下列的方程：
+方程\eqref{eq:second_order_kinematic_system}连同它的初始条件\eqref{eq:initial_condition_of_second_order_system}用拉氏变换的方式就可以表示为下列的方程：
 \begin{equation*}
 (s^2 + 2\zeta \omega_0 s + \omega_0^2 )Y(s) = \omega_0^2 X(s) + y_0^{(1)} + (s + 2\zeta \omega_0 )y_0.
 \end{equation*}
@@ -542,13 +542,13 @@ s_2/\omega_0 = -\zeta - i\sqrt{1-\zeta^2} = (\lambda-i\nu)/\omega_0 = e^{-i\varp
 \end{equation}
 因为 $s_1/\omega_0$ 和 $s_2/\omega_0$ 的绝对值都是 1，所以可以写成 $e^{\pm i\varphi_1}$ 的形式。如果阻尼系数 $c$ 是正的，$\lambda$ 就是一个负数。
 
-由方程\eqref{eq:output_of_second_order_system_from_initial_condition} 很容易就可以确定由于初始条件而产生的输出 $y_c(t)$。对于 $\zeta^2<1$ 的情形，传递函数的极点是由方程\eqref{eq:s1_w0_s2_w0_real_and_image} 所确定的，我们就有
+由方程\eqref{eq:output_of_second_order_system_from_initial_condition}很容易就可以确定由于初始条件而产生的输出 $y_c(t)$。对于 $\zeta^2<1$ 的情形，传递函数的极点是由方程\eqref{eq:s1_w0_s2_w0_real_and_image}所确定的，我们就有
 \begin{equation}
 y_c(t) = \frac{y^{(1)}_0}{\nu} e^{\lambda t} \sin \nu t + y_0 e^{\lambda t} \cos \nu t + \frac{-\lambda}{\nu} y_0 e^{\lambda t} \sin \nu t。
 \end{equation}
-既然 $\lambda$ 是一个负数，输出 $y_c(t)$ 就是衰减的，不过它是一个衰减的正弦式的函数，也就是说它是一个衰减的振荡。但是，对于 $\zeta^2>1$ 的情形来说，输出 $y_c(t)$ 就是一个单纯的衰减，因此，如果阻尼系数 $c$ 大于\underline{临界阻尼} $2\sqrt{mk}$ 的话，输出 $y_c(t)$ 就没有振荡，这就是临界阻尼的物理意义。
+既然 $\lambda$ 是一个负数，输出 $y_c(t)$ 就是衰减的，不过它是一个衰减的正弦式的函数，也就是说它是一个衰减的振荡。但是，对于 $\zeta^2>1$ 的情形来说，输出 $y_c(t)$ 就是一个单纯的衰减，因此，如果阻尼系数 $c$ 大于\underline{临界阻尼}$2\sqrt{mk}$ 的话，输出 $y_c(t)$ 就没有振荡，这就是临界阻尼的物理意义。
 
-现在，我们假定输入 $x(t)$ 是图\ref{fig:3_3} 所表示的单位阶跃函数 $1(t)$。这时 $X(s)=1/s$，对于 $\zeta^2<1$ 的情形，
+现在，我们假定输入 $x(t)$ 是图\ref{fig:3_3}所表示的单位阶跃函数 $1(t)$。这时 $X(s)=1/s$，对于 $\zeta^2<1$ 的情形，
 \begin{equation*}
 Y_i(s) = \frac{\omega_0^2}{s[(s-\lambda)^2+\nu^2]}。
 \end{equation*}
@@ -560,9 +560,9 @@ y_i(t) = 1 - \left[ \cos \nu t + \left( \frac{-\lambda}{\nu} \right) \sin \nu t 
 \begin{equation}
 y_i(t) = 1 - \frac{1}{2\sqrt{\zeta^2-1}} \left[ \frac{e^{s_1 t}}{(\zeta-\sqrt{\zeta^2-1})^2} - \frac{e^{s_2 t}}{(\zeta+\sqrt{\zeta^2-1})^2} \right]，
 \end{equation}
-其中的 $s_1$ 和 $s_2$ 是由方程\eqref{eq:s1_w0_s2_w0} 所给定的。在图\ref{fig:3_19} 中，对于若干不同的阻尼比值 $\zeta$，画出了输出 $y_i(t)$ 的运动状态。可以看出，如果希望输出 $y_i(t)$ 最快地接近于稳态值，$\zeta$ 的值就不应该太大。可是，从另外一方面来说，如果 $\zeta$ 太小，就会发生持续较久的振荡，而且超过稳态值的\underline{超调量}也会变得相当大。因此，在实际工程问题中就必有一个折衷的办法，在普通的工程实践里，总是把 $\zeta$ 的值取在 0.4 和 1 之间。
+其中的 $s_1$ 和 $s_2$ 是由方程\eqref{eq:s1_w0_s2_w0}所给定的。在图\ref{fig:3_19}中，对于若干不同的阻尼比值 $\zeta$，画出了输出 $y_i(t)$ 的运动状态。可以看出，如果希望输出 $y_i(t)$ 最快地接近于稳态值，$\zeta$ 的值就不应该太大。可是，从另外一方面来说，如果 $\zeta$ 太小，就会发生持续较久的振荡，而且超过稳态值的\underline{超调量}也会变得相当大。因此，在实际工程问题中就必有一个折衷的办法，在普通的工程实践里，总是把 $\zeta$ 的值取在 0.4 和 1 之间。
 
-如果输入是一个\underline{超调量} 的振荡，和方程\eqref{eq:input_lap_transfer}\footnote{原文为方程[3.11]，明显不对应，作者校正} 所表示的一样，振幅是 $x_m$，角频率是 $\omega$，那么，
+如果输入是一个\underline{超调量} 的振荡，和方程\eqref{eq:input_lap_transfer}\footnote{原文为方程[3.11]，明显不对应，作者校正}所表示的一样，振幅是 $x_m$，角频率是 $\omega$，那么，
 \begin{equation*}
 Y_i(s) = \frac{x_m}{s-i\omega} F(s) = \frac{x_m}{s-i\omega} \frac{\omega_0^2}{s^2+2\zeta\omega_0 s+\omega_0^2}。
 \end{equation*}
@@ -578,7 +578,7 @@ Y_i(s) = \frac{x_m}{s-i\omega} F(s) = \frac{x_m}{s-i\omega} \frac{\omega_0^2}{s^
 \begin{equation}\label{eq:output_yit_zeta_les_1}
 y_i(t) = x_m F(i\omega) e^{i\omega t} + \frac{x_m}{2i\nu}\frac{\omega_0^2}{\lambda+i(\nu-\omega)}e^{(\lambda+i\nu)t} - \frac{x_m}{2i\nu}\frac{\omega_0^2}{\lambda-i(\nu-\omega)}e^{(\lambda-i\nu)t},
 \end{equation}
-这里的 $\lambda$ 和 $\nu$ 是由方程\eqref{eq:s1_w0_s2_w0_real_and_image} 所给定的。既然对于正的阻尼，$\lambda$ 是负数，所以，稳态的输出也还是方程\eqref{eq:output_yit_zeta_les_1} 的第一项。这个事实和我们的普遍性的结果——方程\eqref{eq:ratio_of_steady_solution_to_function}是相符合的。
+这里的 $\lambda$ 和 $\nu$ 是由方程\eqref{eq:s1_w0_s2_w0_real_and_image}所给定的。既然对于正的阻尼，$\lambda$ 是负数，所以，稳态的输出也还是方程\eqref{eq:output_yit_zeta_les_1}的第一项。这个事实和我们的普遍性的结果——方程\eqref{eq:ratio_of_steady_solution_to_function}是相符合的。
 
 根据方程\eqref{eq:transer_function_with_s_omega}，这个二阶系统的频率特性就是
 \begin{equation*}
@@ -609,7 +609,7 @@ M = \frac{1}{\sqrt{[1-(\omega/\omega_0)^2]^2 + [2\zeta(\omega/\omega_0)]^2}},\\
 \caption{}
 \label{fig:3_21}
 \end{figure}
-图\ref{fig:3_21} 就是这个二阶系统的乃氏图。
+图\ref{fig:3_21}就是这个二阶系统的乃氏图。
 
 其他的物理系统往往也可以近似地看作是二阶系统。液压伺服马达就是一个例子。\ref{examples_of_first_order_system}节里讨论过的回转测速计的更近似于实际运动状态的传递函数就是
 \begin{equation*}
@@ -623,11 +623,11 @@ F(s) = \frac{Ks^2}{(s/\omega_0)^2 + 2\zeta(s/\omega_0) + 1}.
 \begin{equation*}
 F(s) = \frac{K}{s(\tau_1 s + 1)}.
 \end{equation*}
-也应该把这个传递函数和以前在图\ref{fig:3_8} 中所表示的那个粗略的近似的传递函数比较一下。以上这些传递函数的分母都是一个二次多项式。这个多项式的各个常数系数的意义和前面讨论过的例子里的系数的意义是类似的。
+也应该把这个传递函数和以前在图\ref{fig:3_8}中所表示的那个粗略的近似的传递函数比较一下。以上这些传递函数的分母都是一个二次多项式。这个多项式的各个常数系数的意义和前面讨论过的例子里的系数的意义是类似的。
 
 \section{确定频率特性的方法}\label{method_for_frequency_characteristics}
 
-在以前各节的讨论里，我们所考虑的问题的性质都是这样的：假定已经知道一个系统的详细的构造，根据这些知识和基本的物理定律算出系统的传递函数 $F(s)$ 和频率特性 $F(i\omega)$。不难看出，这种确定频率特性的方法是一种理论的方法，它的结果的精确度完全依赖于我们对于系统的了解的精确程度。可是，在工程实践中，我们往往对于系统的详细构造知道得很不完备；也有时候，虽然对系统的详细构造知道得很清楚，但是系统过于复杂，以至于使频率特性的理论计算作起来也过分繁重。在这样一些情况下，我们常常用实验方法来确定系统的频率特性。我们最容易想到的方法就是利用方程\eqref{eq:ratio_of_steady_solution_to_function}所表示的这样一个事实：在频率是 $\omega$ 的正弦式的输入下，稳态输出和输入的比值就是频率特性 $F(i\omega)$。输出的振幅和输入的振幅的比值就是 $M$。输出和输入的相角差就是 $\theta$。因此，如果用实验方法来确定频率特性就必须在所需用的频率范围之内，对于若干特殊的频率值 $\omega$ 测量振幅比值和相角差。事实上，确实也曾经把这个方法用到某些系统上去过。例如，比较简单的油泵系统\footnote{H. Shames, S. C. Himmel, D. Blivas, \textit{NACA TN}, 2109(1950).} 和相当复杂的整个飞机的纵向运动的系统\footnote{W. F. Milliken, \textit{J. Aeronaut. Sci.}, 14, 493(1947); 也可以参阅 [17—21]。} 。这个方法的缺点是：对于一个比较宽的频率范围就常常需要对很多不同的频率 $\omega$ 的值作很多的测量。并且有时候也很难测量输出和输入的相角差。
+在以前各节的讨论里，我们所考虑的问题的性质都是这样的：假定已经知道一个系统的详细的构造，根据这些知识和基本的物理定律算出系统的传递函数 $F(s)$ 和频率特性 $F(i\omega)$。不难看出，这种确定频率特性的方法是一种理论的方法，它的结果的精确度完全依赖于我们对于系统的了解的精确程度。可是，在工程实践中，我们往往对于系统的详细构造知道得很不完备；也有时候，虽然对系统的详细构造知道得很清楚，但是系统过于复杂，以至于使频率特性的理论计算作起来也过分繁重。在这样一些情况下，我们常常用实验方法来确定系统的频率特性。我们最容易想到的方法就是利用方程\eqref{eq:ratio_of_steady_solution_to_function}所表示的这样一个事实：在频率是 $\omega$ 的正弦式的输入下，稳态输出和输入的比值就是频率特性 $F(i\omega)$。输出的振幅和输入的振幅的比值就是 $M$。输出和输入的相角差就是 $\theta$。因此，如果用实验方法来确定频率特性就必须在所需用的频率范围之内，对于若干特殊的频率值 $\omega$ 测量振幅比值和相角差。事实上，确实也曾经把这个方法用到某些系统上去过。例如，比较简单的油泵系统\footnote{H. Shames, S. C. Himmel, D. Blivas, \textit{NACA TN}, 2109(1950).}和相当复杂的整个飞机的纵向运动的系统\footnote{W. F. Milliken, \textit{J. Aeronaut. Sci.}, 14, 493(1947); 也可以参阅 [17—21]。}。这个方法的缺点是：对于一个比较宽的频率范围就常常需要对很多不同的频率 $\omega$ 的值作很多的测量。并且有时候也很难测量输出和输入的相角差。
 
 另外一个更有效的方法就是：同时激发起所有的频率，而不是对各个频率进行个别的激发。为了达到这个目的，最好的办法就是用一个单位冲量作输入。这时，根据方程\eqref{eq:impulse_solution}，对于稳定系统（$\gamma=0$）来说，
 
@@ -636,14 +636,14 @@ F(s) = \frac{K}{s(\tau_1 s + 1)}.
 h(t)& = \frac{1}{2\pi} \int_{-\infty}^{+\infty} F(i\omega) e^{i\omega t} d\omega \nonumber \\
     &  = \frac{1}{\pi} \int_{0}^{\infty} [\Re F(i\omega) \cos \omega t - \Im F(i\omega) \sin \omega t] d\omega,
 \end{align}
-其中 $\mathfrak{R}$ 和 $\mathfrak{I}$分别表示实数部分和虚数部分的符号。这个方程的第二个等式可能是由于有关系式\eqref{eq:complex_function_F_iw} 的缘故。方程\eqref{eq:response_of_impulse_input} 表明，输入的单位冲量\underline{均等地} 激起了所有的频率（这也就是说，各个频率的振幅都是同一数量级的）。当系统对单位冲量的反应 $h(t)$ 已经知道的时候（我们只要作一次实验就可以测出 $h(t)$），我们就可以用下列公式计算频率特性。
+其中 $\mathfrak{R}$ 和 $\mathfrak{I}$分别表示实数部分和虚数部分的符号。这个方程的第二个等式可能是由于有关系式\eqref{eq:complex_function_F_iw}的缘故。方程\eqref{eq:response_of_impulse_input}表明，输入的单位冲量\underline{均等地}激起了所有的频率（这也就是说，各个频率的振幅都是同一数量级的）。当系统对单位冲量的反应 $h(t)$ 已经知道的时候（我们只要作一次实验就可以测出 $h(t)$），我们就可以用下列公式计算频率特性。
 
 \begin{equation}
 F(i\omega) = \int_{0}^{\infty} h(t) e^{-i\omega t} dt.
 \end{equation}
 对于任何一个固定的 $\omega$ 值，我们都可以用数值积分的方法算出这个积分。
 
-然而，实际上，一个理想的冲量是很难真正作出来的。比较实际可行的输入是矩形的脉冲和三角形的脉冲，就像图\ref{fig:3_22} 所表示的那样。这样一些脉冲当然不能均等地激起所有的频率。但是，如果我们把脉冲的长度 $\tau$ 作相当小的话，也就可以认为，已经相当理想地达到了均匀地激起所有频率的目的。西门斯（R. C. Seamans）和他的同事们就曾经用这种冲量激发的方法去确定一架飞机的频率特性\footnote{R. C. Seamans, B. P. Blasingame, G. C. Clementson, \textit{J. Aeronaut. Sci.}, 17, 22(1950)。} 。他们还提出一种根据测量到的输出 $y(t)$ 计算 $F(i\omega)$ 的近似方法。克尔夫曼（H. J. Curfman）和格第内尔（R. A. Gardiner）\footnote{H. J. Curfman and R. A. Gardiner, \textit{NACA TR}, 984 (1950).} 把这种处理实验数据的方法又推广到输入是任意形式的情形中去。
+然而，实际上，一个理想的冲量是很难真正作出来的。比较实际可行的输入是矩形的脉冲和三角形的脉冲，就像图\ref{fig:3_22}所表示的那样。这样一些脉冲当然不能均等地激起所有的频率。但是，如果我们把脉冲的长度 $\tau$ 作相当小的话，也就可以认为，已经相当理想地达到了均匀地激起所有频率的目的。西门斯（R. C. Seamans）和他的同事们就曾经用这种冲量激发的方法去确定一架飞机的频率特性\footnote{R. C. Seamans, B. P. Blasingame, G. C. Clementson, \textit{J. Aeronaut. Sci.}, 17, 22(1950)。} 。他们还提出一种根据测量到的输出 $y(t)$ 计算 $F(i\omega)$ 的近似方法。克尔夫曼（H. J. Curfman）和格第内尔（R. A. Gardiner）\footnote{H. J. Curfman and R. A. Gardiner, \textit{NACA TR}, 984 (1950).} 把这种处理实验数据的方法又推广到输入是任意形式的情形中去。
 
 \begin{figure}[h!]
 \centering
@@ -695,7 +695,7 @@ M e^{i\theta} &= (M_1 e^{i\theta_1}) (M_2 e^{i\theta_2})\cdots (M_r e^{i\theta_r
 \right\}
 \end{equation}
 
-由方程\eqref{eq:log_M} 就可以理解在伯德图中为什么要采用对数尺度的理由。采用了对数尺度以后，就可以使寻求系统的特性的工作大大地简化了，因为只要把各个组成部件的伯德图线的坐标简单地叠加起来就行了。
+由方程\eqref{eq:log_M}就可以理解在伯德图中为什么要采用对数尺度的理由。采用了对数尺度以后，就可以使寻求系统的特性的工作大大地简化了，因为只要把各个组成部件的伯德图线的坐标简单地叠加起来就行了。
 
 \section{超越的传递函数}
 
@@ -734,7 +734,7 @@ $u$ 的拉氏变换是
 \begin{equation*}
 U(s) = \int_0^\infty e^{-st}u(t)dt.
 \end{equation*}
-把方程\eqref{eq:theta_laplace_transfer} 对 $x$ 微分两次，就得出 $\frac{\partial^2 \theta}{\partial x^2}$ 的拉氏变换：
+把方程\eqref{eq:theta_laplace_transfer}对 $x$ 微分两次，就得出 $\frac{\partial^2 \theta}{\partial x^2}$ 的拉氏变换：
 \begin{equation}
 \frac{\partial^2 \Theta}{\partial x^2} = \int_0^\infty e^{-st} \frac{\partial^2 \theta}{\partial x^2} dt.
 \end{equation}
@@ -746,11 +746,11 @@ $\frac{\partial \theta}{\partial t}$ 的拉氏变换就是
 \begin{equation}
 \int_0^\infty \frac{\partial \theta}{\partial t} e^{-st} dt = s \Theta.
 \end{equation}
-因此，把方程\eqref{eq:theta_differential_function} 对变数 $t$ 作拉氏变换就得
+因此，把方程\eqref{eq:theta_differential_function}对变数 $t$ 作拉氏变换就得
 \begin{equation}\label{eq:theta_differential_function_t_laplace}
 k \frac{\partial^2 \Theta}{\partial x^2} = cs \Theta.
 \end{equation}
-把边界条件\eqref{eq:border_condition_theta} 和\eqref{eq:border_condition_theta_first_order} 也加以变换，就得到：
+把边界条件\eqref{eq:border_condition_theta}和\eqref{eq:border_condition_theta_first_order}也加以变换，就得到：
 \begin{equation}\label{eq:theta_x_0}
 \mbox{当} x = 0 \mbox{时}，\Theta = \Theta(0,s) = U(s)，
 \end{equation}
@@ -758,7 +758,7 @@ k \frac{\partial^2 \Theta}{\partial x^2} = cs \Theta.
 \mbox{当} x = l \mbox{时}，\left.\frac{\partial \Theta}{\partial x}\right|_{x=l} = 0，
 \end{equation}
 
-把 $s$ 看作参数，方程\eqref{eq:theta_differential_function_t_laplace} 就成为常微分方程
+把 $s$ 看作参数，方程\eqref{eq:theta_differential_function_t_laplace}就成为常微分方程
 \begin{equation*}
 k \frac{d^2 \Theta}{dx^2} = cs \Theta.
 \end{equation*}
@@ -770,11 +770,11 @@ k \frac{d^2 \Theta}{dx^2} = cs \Theta.
 \begin{equation*}
 \beta^2 = \frac{c s}{k},
 \end{equation*}
-那么，考虑到边界条件\eqref{eq:theta_x_0} 和\eqref{eq:theta_x_l}，方程\eqref{eq:theta_second_order_differential} 的解就是
+那么，考虑到边界条件\eqref{eq:theta_x_0}和\eqref{eq:theta_x_l}，方程\eqref{eq:theta_second_order_differential}的解就是
 \begin{equation}\label{eq:solution_of_theta_second_order_differential}
 \Theta = \Theta(x,s) = U(s) \frac{\operatorname{ch} \beta (l - x)}{\operatorname{ch} \beta l}。
 \end{equation}
-对于具体的函数 $U(s)$，我们就可以把方程\eqref{eq:solution_of_theta_second_order_differential} 进行拉氏反变换而最后得到原来问题的解 $\theta = \theta(x,t)$。
+对于具体的函数 $U(s)$，我们就可以把方程\eqref{eq:solution_of_theta_second_order_differential}进行拉氏反变换而最后得到原来问题的解 $\theta = \theta(x,t)$。
 
 如果把墙的左面的温度 $U(s)$ 看作这个系统的输入，把墙的右面的温度 $\Theta(l,s)$ 看作系统的输出，那么，根据方程\eqref{eq:solution_of_theta_second_order_differential}，系统的传递函数就是
 \begin{equation}

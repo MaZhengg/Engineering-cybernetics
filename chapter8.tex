@@ -1,0 +1,448 @@
+
+% To be included
+\chapter{有时滞的线性系统$^{[13,22]}$}
+
+在这一章里，我们将要在常系数线性系统里再引进一种新的因素，这就是时滞。所谓时滞 $\tau$ 的意义是：系统的各个变数之间的关系不能够用这些变数在同一时刻 $t$ 的值的关系来表示，相反地，这个关系牵涉到某些变数在时刻 $t$ 的值，同时也牵涉到某些变数在时刻 $t-\tau$ 的值。那些在时刻 $t-\tau$ 取数值的变数与那些在时刻 $t$ 取数值的变数比较，在时间上的滞后（时滞）就是 $\tau$。因此，时滞 $\tau$ 与第\ref{first_order_system}节所讲的一阶线性系统的时间常数是十分不同的。时滞系统（有时滞作用的系统）的运动状态是用常系数的微分差分方程描述的，这当然比以前所讨论过的只用微分方程描述的系统要复杂得多。曾有很多科学家研究过有时滞的系统，譬如说：卡兰德尔（A. Callander）、哈尔垂（D. Hartree）与波特尔（A. Porter）\footnote{A. Callander, D. Hartree and A. Porter, \textit{Trans. Roy. Soc. London} (A), \textbf{235}, 415~444 (1935)。}以及\underline{米诺尔斯基}（N. Minorsky）\footnote{N. Minorsky, \textit{J. Appl. Mechanics} (ASME). , \textbf{9}, 67~71 (1942)。}。但是，我们要讨论的问题的范围是更狭小的。我们只希望知道：如果反馈伺服系统有一个固有的时滞 $\tau$，那么，应该怎样分析这个系统的运动状态？我们特别希望把第\ref{nyquist_method}节的乃氏方法加以修改，使这个方法也能应用到时滞系统上来。
+
+以下我们要通过时滞系统的一个特例的处理来说明这种理论。这个特例就是用反馈控制方法使火箭发动机中的燃烧过程稳定。很多学者研究过火箭发动机中燃烧过程的不稳定现象，但是下面所讲的关于燃烧的时滞现象的分析只是根据克洛克（L. Crocco）的研究结果\footnote{L. Crocco, \textit{J. Am. Rocket Soc.} , \textbf{21}, 163~178 (1951)。}。为了使计算简单起见\footnote{以下的讨论是根据下列文章的：\textit{J. Am. Rocket Soc.} , \textbf{22}, 256~262 (1952)。}，我们只考虑火箭发动机的所谓“低频率振荡”的情况，并且假设只用一种液体燃料。
+
+
+\section{燃烧中的时滞}
+
+假设 $ \dot{m}_b(t) $ 是时刻 $ t $ 时由于燃烧而产生的热燃气的质量速率（所谓“质量速率”就是按照质量来计算的时间变化率）。$ \dot{m}_i(t) $ 是在时刻 $ t $ 时喷入燃料的质量速率。$ \tau(t) $ 是在时刻 $ t $ 开始燃烧的那些燃料的时滞。所以，在从 $ t $ 到 $ t + dt $ 这一段时间间隔内燃烧的燃料是在从 $ t - \tau $ 到 $ t - \tau + d(t - \tau) $ 这一段时间间隔内喷射进来的。因此
+\begin{equation}\label{eq:ch8_mass_balance}
+\dot{m}_b(t)dt = \dot{m}_i(t - \tau)d(t - \tau)。
+\end{equation}
+
+产生出来的热燃气，有一部分被用来充加在燃烧室中，从而提高燃烧室中的压力 $ p(t) $，另外一部分通过喷口被喷射出去。如果燃烧室中可能发生的振荡的频率相当低，因此，就可以把燃烧室内的压力看作是均匀的，而且，作为第一次的近似\footnote{H.S.Tsien（钱学森），J.Am.Rocket Soc., 22,139~143(1952)。}，我们也可以把流过喷口的气流看作是似稳的（所谓“似稳”的意思就是：在任何一段不太长的时间间隔内都可以看作是平稳的）。所以，经过喷口的喷气的质量速率与火箭发动机中的热燃气的密度成正比。但是，对于“单一燃料”（也就是只用一种燃料）的火箭发动机来说，热燃气的温度几乎与燃烧压力无关，而热燃气的密度只与压力成正比，所以，如果 $ \bar{m} $ 是流过整个系统的稳态质量速率；$ M_g $ 是发动机中的热燃气的平均质量；$ p $ 是燃烧室中的压力的稳态值。如果把尚未燃烧的液体燃料在燃烧室中所占据的容积忽略不计，我们就有
+\begin{equation}\label{eq:ch8_mass_flow}
+\dot{m}_bdt = \frac{\bar{\dot{m}}}{p}(\bar{p})dt + d(\bar{M}_g\frac{p}{\bar{p}})。
+\end{equation}
+
+现在，对于燃烧室压力与燃料喷入速率，我们分别引进两个无量纲变数 $ \varphi $ 和 $ \mu $，它们的定义是：
+
+\begin{equation}\label{eq:ch8_dimensionless}
+\varphi = \frac{p - \bar{p}}{\bar{p}}, \quad \mu = \frac{\dot{m}_i - \bar{\dot{m}}}{\bar{\dot{m}}},
+\end{equation}
+所以 $ \varphi $ 和 $ \mu $ 就是压力和喷入速率与稳态平均值的偏差的相对偏差。利用方程（\ref{eq:ch8_dimensionless}），并且把 $ \dot{m}_b $ 从方程（\ref{eq:ch8_mass_balance}）和（\ref{eq:ch8_mass_flow}）消去，就得到
+\begin{equation}\label{eq:ch8_dynamic}
+\frac{\bar{M}_g}{\bar{\dot{m}}}\frac{d\varphi}{dt} + \varphi + 1 = (1 - \frac{d\tau}{dt})[\mu(t - \tau) + 1]。
+\end{equation}
+
+为了计算 $ d\tau/dt $，就必须引进克洛克的\underline{压力与时滞相关}的概念。液体燃料从射入燃烧室到即将燃烧的临界状态需要一段加热的时间（也就是时滞），然后就迅速地燃烧而变为热燃气。假定液体燃料达到燃烧临界状态的质量速率是 $ f(p) $，那么，时滞 $ \tau $ 就由下列公式确定：
+\begin{equation}\label{eq:ch8_heat_integral}
+\int_{t-\tau}^t f(p) dt = \text{const.}
+\end{equation}
+可以把常数看作是为了把单位质量的喷入的冷燃料变到即将燃烧的状态所必须加进去的热量。$ f(p) $ 的物理意义就是：从热燃气到喷入的液体燃料的传热速率。把方程\eqref{eq:ch8_heat_integral}对 $ t $ 微分就得
+\begin{equation}\label{eq:ch8_heat_integral_diff}
+[f(p)]_t - [f(p)]_{t-\tau} \left(1 - \frac{d\tau}{dt}\right) = 0。
+\tag{*}
+\end{equation}
+现在我们就可以明确地引进离开均匀稳定状态的微小扰动的概念。假设压力 $ p $ 与稳态值 $ \bar{p} $ 之间的偏差相当小。那么 $ f(p) $ 在时刻 $ t $ 的值以及 $ f(p) $ 在时刻 $ t-\tau $ 的值都可以用 $ \bar{p} $ 附近的泰勒级数表示。如果不考虑级数中二次以上的项，就有
+\begin{equation}\label{eq:ch8_heat_integral_diff_modified}
+\begin{array}{l}
+[f(p)]_t = f(\bar{p}) + \bar{p} \left( \frac{df}{dp} \right)_{p=\bar{p}} \varphi(t),\\
+{[f(p)]}_{t-\tau} = f(\bar{p}) + \bar{p} \left( \frac{df}{dp} \right)_{p=\bar{p}} \varphi(t-\tau).
+\end{array}
+\tag{**}
+\end{equation}
+以上方程中的$\tau$是相当于平均压力$\bar{p}$的时滞，所以是一个常数。把\eqref{eq:ch8_heat_integral_diff}的两个关系式相除，再利用\eqref{eq:ch8_heat_integral_diff_modified}的关系就得出下列近似公式：
+\begin{equation}\label{eq:ch8_tau_derivative}
+1 - \frac{d\tau}{dt} = 1 + \left( \frac{d\log f}{d\log p} \right)_{p=\bar{p}} \left[ \varphi(t) - \varphi(t-\tau) \right]。
+\end{equation}
+把方程\eqref{eq:ch8_dynamic}和\eqref{eq:ch8_tau_derivative}合并起来，并且略去二次项，就得出下列方程：
+\begin{equation}\label{eq:ch8_dimensionless_eq}
+\frac{d\varphi}{dz} + \varphi = \mu(z-\delta) + n[\varphi(z) - \varphi(z-\delta)],
+\end{equation}
+在这个方程里
+\begin{equation}\label{eq:ch8_n_definition}
+n = \left( \frac{d\log f}{d\log p} \right)_{p=\bar{p}},
+\end{equation}
+而
+\begin{equation}\label{eq:ch8_scaling}
+\theta_g = \frac{\bar{M}_g}{m}, \quad z = \frac{t}{\theta_g}, \quad \delta = \frac{\tau}{\theta_g}。
+\end{equation}
+所以 $ \theta_g $ 是发动机内的燃气的质量的平均值与流过发动机的燃气的平均质量速率的比值，因此它也就是热燃气从被燃烧产生到经过喷口喷射出去的平均时间，所以 $ \theta_g $ 就称为“燃气通过时间”。在以下的计算中，我们就用这个基本的时间常数作为测量时间的单位。$ z $ 是无量纲的时间变量。$ \delta $ 是燃烧的无量纲的时滞常数。
+
+如果 $ n $ 是一个与 $ \bar{p} $ 无关的常数，那么 $ f(p) $ 就与 $ p^n $ 成正比。这就是克洛克所假设的 $ f(p) $ 的形状。现在，我们要把问题提得稍微更普遍一些：$ f(p) $ 是任意的；$ n $ 是由方程\eqref{eq:ch8_n_definition}计算的，因而也就是 $ \bar{p} $ 的函数。如果把 $ f(p) $ 看作是从热燃气到雾状的液体燃料的传热效率，那么，关于传热的物理定律指出，$n$的值在$\frac{1}{2}$与$1$之间。
+
+\section{萨奇(Satche)图}
+
+克洛克把燃料喷入速率是常数时的燃烧不稳定性称为\underline{固有不稳定性}。如果喷入速率是一个与燃烧室压力 $p$ 无关的常数，那么，$\mu = 0$。因此，根据方程\eqref{eq:ch8_dimensionless_eq}，稳定性问题就是由下列的简单方程所限定的：
+
+\begin{equation}\label{eq:ch8_dphi_equation}
+\frac{d\varphi}{dz} + (1 - n)\varphi(z) + n\varphi(z - \delta) = 0.
+\end{equation}
+
+也可以用拉氏变换的方法来处理方程\eqref{eq:ch8_dphi_equation}，做法和以前各章中处理没有时滞的方程的方法是相同的。事实上，安索夫(H.I.Ansoff)也用过这个方法\footnote{H. I. Ansoff, \textit{J. Appl. Mech. (ASME)}, \textbf{16}, 158--164 (1949).}。然而，在目前的燃烧的稳定性问题里，基本方程没有驱动项，所以，就可以用一个比较直接的解法，这个解法就是解线性微分差分方程的古典方法，做法是这样的：设
+\begin{equation*}
+\varphi(z) \sim e^{sz},
+\end{equation*}
+于是
+\begin{equation}\label{eq:ch8_s_equation}
+s + (1 - n) + n e^{-\delta s} = 0.
+\end{equation}
+这是一个 $s$ 的方程。燃烧的稳定性的条件就是：$s$ 的实数部分是负数。
+
+也可以应用拉氏变换方法从方程\eqref{eq:ch8_dphi_equation}得出方程\eqref{eq:ch8_s_equation}来。把方程\eqref{eq:ch8_dphi_equation}先用 $e^{-sz}$ 乘，然后，从 $z = 0$ 到 $z = \infty$ 对变数 $z$ 积分，再假定 $\varphi(z)$ 的拉氏变换是 $\Phi(s)$，我们就得到
+\begin{equation*}
+s\Phi(s) - \varphi(0) + (1 - n)\Phi(s) + n\int_0^\infty \varphi(z - \delta)e^{-sz}dz = 0,
+\end{equation*}
+然而
+\begin{equation*}
+\begin{array}{ll}
+\int_0^\infty \varphi(z - \delta)e^{-sz}dz 
+&= e^{-s\delta}\int_0^\infty \varphi(z - \delta)e^{-s(z-\delta)}dz\\
+&= e^{-s\delta}\left[\Phi(s) + \int_{-\delta}^0 \varphi(z')e^{-sz'}dz'\right].
+\end{array}
+\end{equation*}
+因此，如果 $\varphi(z)$ 的初始条件是所谓的\underline{零初始条件}，也就是说：$z \leq 0$ 时，$\varphi(z) = 0$。那么，就有
+\begin{equation*}
+[s + (1 - n) + n e^{-s\delta}]\Phi(s) = 0.
+\end{equation*}
+于是，我们就得到方程\eqref{eq:ch8_s_equation}。这里的 $s$ 和以前各章中的变数 $s$ 具有相同的“意义”。这两者之间的唯一的区别就是这里的 $s$ 已经被通过时间 $\theta_g$ 变为无量纲量了。也可以看到这样一个有兴趣的事实：如果方程\eqref{eq:ch8_dphi_equation}是一个在方程右端有驱动项的非齐次方程，那么，对这个方程施行拉氏变换法以后，所得到的方程仍然是非齐次的。如果把 $\varphi(z)$ 看作是系统的输出，系统的传递函数就会是
+\begin{equation*}
+F(s) = \frac{1}{s + (1 - n) + ne^{-s\delta}},
+\end{equation*}
+这个 $F(s)$ 又是一个超越的传递函数的例子。
+
+克洛克把方程\eqref{eq:ch8_s_equation}的实数部分和虚数部分分离开来得到两个方程，根据这两个方程他解出方程\eqref{eq:ch8_s_equation}的复数根 $s$。然而，如果只对系统是否稳定的问题有兴趣，那么，我们仍然可以成功地利用第\ref{nyquist_method}节的柯西定理。设
+\begin{equation}\label{eq:ch8_Gs_definition}
+G(s) = e^{-\delta s} - \left( -\frac{1 - n}{n} - \frac{s}{n} \right).
+\end{equation}
+于是，系统的稳定性问题就归结为 $G(s)$ 在复 $s$ 平面的右半部有没有零点的问题。当 $s$ 在一条包围右半平面的闭合曲线（就像图\ref{fig:4_4}所画的那样）上转动一周时，我们只要把变数 $G(s)$ 的相应的变化情况加以考察，就能够回答系统是否稳定的问题。如果向量 $G(s)$ 旋转的总圈数是某一个数，按照柯西定理这个数就是 $G(s)$ 在右半平面上的零点个数与极点个数的差。既然，在全 $s$ 平面上 $G(s)$ 显然没有极点，所以，$G(s)$ 旋转的总圈数就是零点的个数。因此，如果系统是稳定的，那么，当 $s$ 在上述的闭合曲线上转动一周时，$G(s)$ 旋转的总圈数一定是零。所以，可以用描画乃氏图的办法来回答稳定性的问题。
+
+但是，对方程\eqref{eq:ch8_Gs_definition}所表示的 $G(s)$ 直接应用上述的方法是很不方便的，因为时滞项 $e^{-\delta s}$ 的存在，这个表示式是比较复杂的。对于这样一些有时滞的系统，萨奇(M. Satche)提出了一个富有创造性的巧妙的处理方法\footnote{M. Satche, \textit{J. Appl. Mech. (ASME)}, \textbf{16}, 419--420 (1949).}：不直接处理 $G(s)$ 本身，而把它分成两部分：
+\begin{equation}\label{eq:ch8_Gs_split}
+G(s) = g_1(s) - g_2(s),
+\end{equation}
+其中
+\begin{equation}\label{eq:ch8_g1_g2_def}
+\left.
+\begin{array}{l}
+g_1(s) = e^{-\delta s}, \\
+g_2(s) = -\frac{1 - n}{n} - \frac{s}{n},
+\end{array}
+\right\}
+\end{equation}
+这样一来，向量 $G(s)$ 就是一个顶点在 $g_1(s)$ 而起点在 $g_2(s)$ 的向量了。如果 $s$ 在虚轴上变动，$g_1(s)$ 的图线就是一个单位圆。如果 $s$ 在大的半圆周上，$g_1(s)$ 就在单位圆的内部。当 $s$ 在虚轴上变动的时候，$g_2(s)$ 就是一条与虚轴平行的直线（图\ref{fig:8_1}）。当 $s$ 在大的半圆周上变动时，$g_2(s)$ 就在左方描画成一个大的半圆周，这个半圆周与 $s$ 所在的那个半圆周恰好组成一个圆周。只要稍微考虑一下，就可以想到：如果希望对于任何时滞 $\delta$ 的值，$G(s)$ 旋转的总圈数都是零，那么，$g_2(s)$ 图线就必须完全在 $g_1(s)$ 图线的外面。这也就是说，对于无条件的本质上的稳定系统，也就是\underline{绝对稳定系统}\footnote{这也就是说，对于任何$\delta$值，系统都是稳定的。}来说，必须有
+\begin{equation}\label{eq:ch8_stability_condition}
+\frac{1-n}{n} > 1 \quad \text{或者} \quad \frac{1}{2} > n > 0.
+\end{equation}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图8.1.png} 
+\caption{}
+\label{fig:8_1}
+\end{figure}
+现在，很容易看出把 $G(s)$ 分解为 $g_1(s)$ 和 $g_2(s)$ 两部分的做法可以使得相当的两条图线都比原来的 $G(s)$ 图线简单得很多。$g_1(s)$ 的图线与 $g_2(s)$ 的图线组成的图线就称为\underline{萨奇图}。
+
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{图8.2.png}
+    \caption{ }
+    \label{fig:8_2}
+\end{wrapfigure}
+如果 $n > \frac{1}{2}$，$g_1(s)$ 的图线就与 $g_2(s)$ 的图线相交，因而有一部分 $g_2(s)$ 点在图\ref{fig:8_2}的单位圆的内部，但是，只要相当于这些 $g_2(s)$ 的 $g_1(s)$ 点都在 $g_2(s)$ 点的右方，系统仍然是稳定的。如果以下的关系式成立，以上的条件就得到满足：
+\begin{equation*}
+\cos(\delta\sqrt{2n-1}) > \frac{1-n}{n}
+\end{equation*}
+或者
+\begin{equation*}
+\delta < \delta^*,
+\end{equation*}
+这里
+\begin{equation}\label{eq:ch8_delta_star}
+\delta^* = \frac{\cos^{-1}\left(-\frac{1-n}{n}\right)}{\sqrt{2n-1}} = \frac{1}{\sqrt{2n-1}}\left[\pi - \cos^{-1}\left(\frac{1-n}{n}\right)\right].
+\end{equation}
+当 $\delta = \delta^*$ 时，再假设
+\begin{equation}\label{eq:ch8_omega_star}
+\omega^* = \sqrt{2n-1},
+\end{equation}
+就有 $G(i\omega^*) = 0$。因此，当 $\delta = \delta^*$ 时，$\varphi(z)$ 有一个频率是 $\omega^*$ 的振荡解。所以，$\delta^*$ 是无量纲的临界时滞，而 $\omega^*$ 是无量纲的临界频率。
+
+
+\section{有反馈伺服机构的火箭发动机的系统动力学性质}
+
+现在我们来考虑图\ref{fig:8_3}所画的火箭发动机系统，这个系统中包含有供应燃料的馈送机构（燃料泵和附属的传导装置）。为了近似地表示出实在的导管的弹性效应，我们可以假想在刚硬的导管的中点（燃料泵与燃料喷嘴之间）有一个附有弹簧活塞的容器，在喷嘴附近还有另外一个由伺服机构控制的容器。传感器（测量仪器）测量了燃烧室的压力，测量的结果经过一个放大器而成为伺服机构的输入信号。如果设计者已经把燃料的馈送机构和火箭发动机本身的设计完全确定，不允许再加以更改，现在的问题就是：是否可以设计一个使整个系统稳定的合适的放大器？因为关于燃烧的时滞还没有确切的知识，所以，在进行实际设计的时候，我们就必须设法使系统无条件地稳定，也就是说，对于任何的时滞 $ \delta $ 的值系统都是稳定的。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{图8.3.png} 
+\caption{}
+\label{fig:8_3}
+\end{figure}
+
+假定 $ \dot{m}_0 $ 是流出燃料泵的燃料的瞬时质量速率；$ p_0 $ 是燃料泵的出口处的瞬时压力，燃料流动的平均速率一定是 $ \bar{\dot{m}} $。平均压力是 $ \bar{p}_0 $。燃料泵的特性可以用下列方程表示：
+
+\begin{equation}
+\label{eq:ch8_pump_characteristic}
+\frac{p_0 - \bar{p}_0}{\bar{p}_0} = -\alpha \frac{\dot{m}_0 - \bar{\dot{m}}}{\bar{\dot{m}}}。
+\end{equation}
+如果质量的流动的变化的时间速率比弹性波在液体中的传播速度小，但是比燃料泵的转速的缓慢的时间变化率大，那么，相当于常数转速的情况，燃料泵的压力-体积曲线在稳态工作点的斜率就是 $ \alpha $（这里所说的“体积”就是流出燃料泵的燃料按照体积计算的速率）。对于普通的离心泵来说，$ \alpha $ 差不多等于 1。对于传输泵（输出的流量几乎是不变的泵）来说，$ \alpha $ 非常大。对于等压泵或者简单的增压装置来说，$ \alpha $ 等于零。
+
+假设 $ \dot{m}_1 $ 是喷嘴与弹簧容器口之间的燃料流动的瞬时质量速率；$ \chi $ 是容器的弹簧常数，$ p_1 $ 是作用在容器上的瞬时压力。于是就有
+
+\begin{equation}\label{eq:ch8_spring_container}
+\dot{m}_0 - \dot{m}_1 = \rho \chi \frac{dp_1}{dt},
+\end{equation}
+这里的 $ \rho $ 是燃料的密度，它是一个常数。
+
+在以下的计算里，由于摩擦力而在导管上引起的压力降落是被忽略不计的。因此，压力差 $ p_0 - p_1 $ 只是由流动的加速度引起的，也就是说
+\begin{equation}\label{eq:ch8_pressure_drop_0_1}
+p_0 - p_1 = \frac{l}{2A} \frac{d\dot{m}_0}{dt},
+\end{equation}
+这里的常数 $ A $ 是导管的横截面的面积；常数 $ l $ 是导管的总长度。与此类似，如果 $ p_2 $ 是控制容器上的瞬时压力，也就有
+\begin{equation}\label{eq:ch8_pressure_drop_1_2}
+p_1 - p_2 = \frac{l}{2A} \frac{d\dot{m}_1}{dt}.
+\end{equation}
+如果控制容器中所容纳的质量是 $ C $，那么
+\begin{equation}\label{eq:ch8_control_container}
+\dot{m}_1 - \dot{m}_i = \frac{dC}{dt}.
+\end{equation}
+因为控制容器与燃料喷嘴非常接近，所以，在燃料从控制容器流到燃料喷嘴的过程中，由于质量而引起的惯性效应是可以忽略的。因此，
+\begin{equation}\label{eq:ch8_pressure_nozzle}
+p_2 - p = \frac{1}{2} \frac{\dot{m}_i^2}{\rho A_1^2},
+\end{equation}
+其中的 $ A_i $ 是燃料喷嘴的有效开口面积。因为在稳定状态下压力 $ \bar{p}_0 $ 与 $ \bar{p} $ 的差 $ \Delta\bar{p} $ 是
+\begin{equation}\label{eq:ch8_steady_pressure_diff}
+\bar{p}_0 - \bar{p} = \Delta\bar{p} = \frac{1}{2} \frac{\bar{\dot{m}}^2}{\rho A_1^2},
+\end{equation}
+所以在计算中可以把 $ A_1 $ 消去。方程\eqref{eq:ch8_pump_characteristic}和\eqref{eq:ch8_steady_pressure_diff}就描述了燃料输送系统的动力学性质。直接利用消去某些变数的计算方法，就得出 $ \dot{m}_i, p $ 与 $ C $ 之间的关系式。为了把这个关系写成无量纲的形式，我们引进下列几个参数：
+\begin{equation}\label{eq:ch8_dimensionless_params_1}
+P = \frac{\overline{p}}{2\Delta p}, \quad E = \frac{2\Delta \bar{p}}{\bar{\dot{m}}\theta_g} \rho\chi, \quad J = \frac{l\bar{\dot{m}}}{2\Delta \bar{p}A\theta_g},
+\end{equation}
+以及
+\begin{equation}\label{eq:ch8_dimensionless_kappa}
+\kappa = \frac{C}{\bar{\dot{m}}\theta_g},
+\end{equation}
+这里的 $ \theta_g $ 就是方程\eqref{eq:ch8_scaling}所给的燃气通过时间。这样一来，联系 $ \varphi, \mu $ 与 $ \kappa $ 的无量纲方程就是
+\begin{equation}\label{eq:ch8_dimensionless_system_eq}
+\begin{array}{l}
+P\left\{1 + \alpha E\left(P + \frac{1}{2}\right)\frac{d}{dz} + \frac{1}{2}JE\frac{d^2}{dz^2}\right\}\varphi + \left\{\left[1 + \alpha\left(P + \frac{1}{2}\right)\right] \right. \\
++ \left[\alpha E\left(P + \frac{1}{2}\right) + J\right]\frac{d}{dz} + \left[\frac{1}{2}\alpha JE\left(P + \frac{1}{2}\right) + \frac{1}{2}JE\right]\frac{d^2}{dz^2}+ \left. \frac{1}{4}J^2E\frac{d^3}{dz^3}\right\}\mu  \\
++ \left\{\alpha\left(P + \frac{1}{2}\right)\frac{d}{dz} + J\frac{d^2}{dz^2} + \frac{1}{2}\alpha JE\left(P + \frac{1}{2}\right)\frac{d^3}{dz^3} + \frac{1}{4}J^2E\frac{d^4}{dz^4}\right\}\kappa = 0,
+\end{array}
+\end{equation}
+这里的 $ z $ 就是方程\eqref{eq:ch8_scaling}所定义的无量纲时间变数。
+
+伺服控制的动力学性质是由下列各种因素的综合所确定的：测量压力的仪器的特性、放大器的反应性能以及伺服机构的特性。伺服控制的总的动力学性质是由下列运算子方程所表示的：
+\begin{equation}\label{eq:ch8_servo_operator}
+F\left(\frac{d}{dz}\right)\varphi = \kappa,
+\end{equation}
+这里的 $ F $ 是两个多项式的比值，而且分母的次数高于分子的次数。
+
+方程\eqref{eq:ch8_dimensionless_eq}、\eqref{eq:ch8_dimensionless_system_eq}与\eqref{eq:ch8_servo_operator}是三个变数 $ \varphi, \mu, \kappa $ 的三个方程。既然，它们都是常系数的方程，这些变数的适当的形式就是
+\begin{equation}\label{eq:ch8_ansatz}
+\varphi = ae^{sz}, \quad \mu = be^{sz}, \quad \kappa = ce^{sz}.
+\end{equation}
+把方程\eqref{eq:ch8_ansatz}代入方程\eqref{eq:ch8_dimensionless_eq}、\eqref{eq:ch8_dimensionless_system_eq}和\eqref{eq:ch8_servo_operator}，就得到 $ a, b, c $ 的三个齐次方程。所以我们有
+\begin{equation*}
+\begin{array}{l}
+a[s + (1 - n) + ne^{-\delta s}] - be^{-\delta s} = 0,\\
+P\left\{1 + \alpha E\left(P + \frac{1}{2}\right)s + \frac{1}{2}JEs^2\right\}a + \left\{\left[1 + \alpha\left(P + \frac{1}{2}\right)\right] \right. \\
+ + \left[\alpha E\left(P + \frac{1}{2}\right) + J\right]s + \left[\frac{1}{2}\alpha JE\left(P + \frac{1}{2}\right) + \frac{1}{2}JE\right]s^2 + \left. \frac{1}{4}J^2Es^3\right\}b\\
+ + s\left\{\alpha\left(P + \frac{1}{2}\right) + Js + \frac{1}{2}\alpha JE\left(P + \frac{1}{2}\right)s^2 + \frac{1}{4}J^2Es^3\right\}c = 0,\\
+F(s)a - c = 0.
+\end{array}
+\end{equation*}
+为了使 $ a, b, c $ 三个数不全是零，它们的系数所组成的行列式就必须等于零。这个条件可以写在下面：
+\begin{equation}\label{eq:ch8_characteristic_eq}
+\begin{array}{ll}
+\left[ s\right. &\left. + (1 - n) \right] \left\{ \frac{1}{4} J^2 E s^3 + \frac{1}{2} J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] s^2 \right. \\
+&+ \left. \left[ \alpha E \left( P + \frac{1}{2} \right) + J \right] s + \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] \right\} \\
+&+ e^{-\delta s} \left[ \frac{1}{4} n J^2 E s^3 + \left\{ \frac{1}{2} n J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] + \frac{1}{2} J E P \right\} s^2 \right. \\
+&+ \left. \left\{ n \left[ \alpha E \left( P + \frac{1}{2} \right) + J \right] + \alpha E P \left( P + \frac{1}{2} \right) \right\} s \right. \\
+&+ \left. \left\{ n \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] + P \right\} \right] \\
+&+ s F(s) \left\{ \frac{1}{4} J^2 E s^3 + \frac{1}{2} \alpha J E \left( P + \frac{1}{2} \right) s^2 + J s + \alpha \left( P + \frac{1}{2} \right) \right\} = 0.
+\end{array}
+\end{equation}
+这就是用来确定指数 $ s $ 的方程。现在 $ F(s) $ 就被认为是反馈部分的总传递函数。整个系统是否稳定的问题就决定于方程\eqref{eq:ch8_characteristic_eq}有没有实数部分是正数的根。
+
+\section{没有反馈伺服机构时的不稳定性}
+
+如果没有反馈伺服机构，那么，只要在基本方程\eqref{eq:ch8_characteristic_eq}中使 $ F(s) = 0 $，就得出系统的特性方程。和通常的情况一样，我们假设方程 \eqref{eq:ch8_characteristic_eq} 中与 $ e^{-\delta s} $ 相乘的那个多项式在右半 $ s $ 平面没有零点。因此，就可以用那个多项式除方程 \eqref{eq:ch8_characteristic_eq}而不会使除得的商数在右半 $ s $ 平面上有极点。这样一来，就又得到描画萨奇图所需要的表示式：
+
+\begin{equation*}
+G(s) = g_1(s) - g_2(s), \quad g_1(s) = e^{-\delta s},
+\end{equation*}
+所以 $ g_1(s) $ 的图线仍然是一个“单位圆”，然而 $ g_2(s) $ 就复杂得多了：
+\begin{equation}\label{eq:ch8_g2_expr}
+\begin{aligned}
+g_2(s) = &\left( \frac{s}{n} + \frac{1-n}{n} \right) \left\{ \frac{1}{4} J^2 E s^3 + \frac{1}{2} J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] s^2 \right. \\
+&+ \left. \left[ \alpha E \left( P + \frac{1}{2} \right) + J \right] s + \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] \right\} \\
+&\div \left\{ \frac{1}{4} J^2 E s^3 + \frac{1}{2} J E \left\{ 1 + \alpha \left( P + \frac{1}{2} \right) + \frac{P}{n} \right\} s^2 \right. \\
+&+ \left. \left\{ \alpha E \left( P + \frac{1}{2} \right) \left[ 1 + \frac{P}{n} \right] + J \right\} s + \left\{ 1 + \alpha \left( P + \frac{1}{2} \right) + \frac{P}{n} \right\} \right\}.
+\end{aligned}
+\end{equation}
+如果 $ s $ 是纯虚数，$ s = i\omega $，那么，$ g_2(s) $ 的图线在 $ x $ 轴上的“截距”的坐标就是方程\eqref{eq:ch8_g2_expr} 在 $ s=0 $ 时的值。也就是
+\begin{equation}\label{eq:ch8_g2_zero}
+g_2(0) = -\frac{1 - n}{n} \cdot \frac{1 + \alpha\left(P + \frac{1}{2}\right)}{1 + \alpha\left(P + \frac{1}{2}\right) + \frac{P}{n}}.
+\end{equation}
+因为 $ n, \alpha $ 和 $ P $ 这三个参数都是正数，所以现在的 $ g_2(0) $ 的绝对值小于方程\eqref{eq:ch8_g2_expr}所给的 $ g_2(0) $ 的绝对值，我们已经知道那个 $ g_2(0) $ 的值是与系统的无条件稳定性有关的。现在我们就看到，由于有了燃料馈送系统，结果就使得萨奇图的 $ g_2(s) $ 图线更接近于 $ g_1(s) $ 的单位圆图线。譬如说，如果不考虑馈送系统，那么，当 $ n = \frac{1}{2} $ 时，$ g_2(s) $ 图线就刚好与相当于发动机本身的单位圆图线相切。但是，如果把馈送系统也考虑进去，$ g_2(s) $ 图线就与单位圆相交了，而且，当时滞 $ \delta $ 超过某一个有限的数值时，系统就失去稳定性。因此，馈送系统的影响总是不利于系统的稳定性的。从方程\eqref{eq:ch8_g2_expr}可得出对于 $ s $ 的大的虚数值的渐近表示式\eqref{eq:ch8_asymptotic}，考虑了这个表示式就会使我们更加确信上述的事实，
+\begin{equation}\label{eq:ch8_asymptotic}
+g_2(i\omega) \approx -\left[\frac{i\omega}{n} + \left(\frac{1 + n}{n} - \frac{2P}{Jn^2}\right) + \cdots\right] \quad |\omega| \gg 1.
+\end{equation}
+因此，对于 $ s $ 的大虚数值来说，$ g_2(s) $ 渐近地趋近于一条平行于虚轴的直线，这条直线在虚轴的左方，与虚轴的距离是
+\begin{equation*}
+\frac{1 - n}{n} - \frac{2P}{Jn^2}.
+\end{equation*}
+所以，还是可以看到，馈送系统的作用是使 $ g_2(s) $ 图线更接近单位圆。
+
+这样就很明显，如果参数 $ n $ 差不多等于 $ \frac{1}{2} $，或者大于 $ \frac{1}{2} $，就不可能把系统设计成无条件稳定的，因为在没有反馈伺服机构的情况下，$ g_1(s) $ 图线与 $ g_2(s) $ 图线总是相交的。
+
+
+
+\section{有反馈伺服机构时的系统的稳定性}
+
+设 $ H(s) $ 是方程\eqref{eq:ch8_characteristic_eq}中与 $ e^{-\delta s} $ 相乘的那个多项式，
+\begin{equation}\label{eq:ch8_Hs}
+\begin{aligned}
+H(s) = &\frac{1}{4} J^2 E s^3 + \left\{ \frac{1}{4} J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] + \frac{JEP}{2n} \right\} s^2 \\
+&+ \left\{ \alpha E \left( P + \frac{1}{2} \right) + \frac{\alpha EP}{n} \left( P + \frac{1}{2} \right) \right\} s + \left\{ 1 + \alpha \left( P + \frac{1}{2} \right) + \frac{P}{n} \right\} \\
+&+ \frac{sF(s)}{n} \left\{ \frac{1}{4} J^2 E s^3 + \frac{1}{2} \alpha J E \left( P + \frac{1}{2} \right) s^2 + Js + \alpha \left( P + \frac{1}{2} \right) \right\},
+\end{aligned}
+\end{equation}
+如果 $ H(s) $ 在右半 $ s $ 平面没有零点或极点，只要使
+\begin{equation*}
+g_1(s) = e^{-s}
+\end{equation*}
+和
+\begin{equation}\label{eq:ch8_g2_with_feedback}
+\begin{aligned}
+g_2(s) = &-\left( \frac{s}{n} + \frac{1-n}{n} \right) \left\{ \frac{1}{4} J^2 E s^3 + \frac{1}{2} J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] s^2 \right. \\
+&\left. + \left[ \alpha E \left( P + \frac{1}{2} \right) + J \right] s + \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] \right\} \div H(s).
+\end{aligned}
+\end{equation}
+那么，从这时的萨奇图就可以判断方程\eqref{eq:ch8_characteristic_eq}在右半 $ s $ 平面有没有零点。
+
+当 $ s $ 在图\ref{fig:4_4}所画的路径上转动的时候，$ g_1(s) $ 的图线仍然是一个单位圆。因此，如果相应的 $ g_2(s) $ 图线完全在单位圆的外面，方程\eqref{eq:ch8_characteristic_eq}就不会在右半 $ s $ 平面上有根。换句话说，如果在设计伺服控制部分的传递函数 $ F(s) $ 的时候，使 $ g_2(s) $ 图线完全在单位圆的外面（图\ref{fig:8_4}），那么，对于任何的时滞值，系统都是稳定的。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图8.4.png} 
+\caption{}
+\label{fig:8_4}
+\end{figure}
+
+作为一个例子，我们取
+\begin{equation*}
+n = \frac{1}{2}, \quad P = \frac{3}{2}, \quad J = 4, \quad E = \frac{1}{4}, \quad \alpha = 1.
+\end{equation*}
+$ \alpha $ 的数值相当于燃料泵是一个离心泵的情形。如果没有伺服控制，$ g_2(s) $ 就是
+\begin{equation*}
+g_2(s) = -\frac{1}{2} \frac{(2s+1)(2s^3+3s^2+9s+6)}{s^3+3s^2+6s+6}.
+\end{equation*}
+主要的兴趣在于 $ s $ 取纯虚数 $ i\omega $（$ \omega $ 是实数）时的 $ g_2(s) $ 的变化情况。因此
+\begin{equation*}
+\begin{aligned}
+g_2(i\omega) = &-\frac{1}{2} \frac{(6-21\omega^2+4\omega^4)(6-3\omega^2)+\omega^2(21-8\omega^2)(6-\omega^2)}{(6-3\omega^2)^2+\omega^2(6-\omega^2)^2} \\
+&-\frac{1}{2} i\omega \frac{(21-8\omega^2)(6-3\omega^2)-(6-21\omega^2+4\omega^4)(6-\omega^2)}{(6-3\omega^2)^2+\omega^2(6-\omega^2)^2}.
+\end{aligned}
+\end{equation*}
+
+图\ref{fig:8_5}中画出了这条图线的 $ \omega > 0 $ 的部分。可以明显地看到，如果时滞的值足够大，系统就会不稳定。从另一方面来看，如果考虑了伺服控制，而且假设 $ g_2(s) $ 能够相应地变为
+\begin{equation*}
+g_2(s) = -2 \frac{(s+2)(s+3)}{(s+6)},
+\end{equation*}
+那么，正如图\ref{fig:8_5}所画的那样，新的 $ g_2(s) $ 图线就完全在 $ g_1(s) $ 的单位圆图线的外面，因而，现在的系统就是无条件稳定的。根据方程\eqref{eq:ch8_g2_expr}和方程\eqref{eq:ch8_g2_with_feedback}直接加以计算，就知道反馈部分的传递函数 $ F(s) $ 应当是
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图8.5.png} 
+\caption{}
+\label{fig:8_5}
+\end{figure}
+
+\begin{equation*}
+F(s) = -4.875 \frac{(s+1.0528)(s^2+0.7164s+2.6304)}{s(s+2)(s+3)(s+0.5332)(s^2+0.4668s+3.7511)},
+\end{equation*}
+所以，反馈部分具有\ref{examples_of_first_order_system}节讨论过的积分线路的那种特性。如果测量燃烧室压力的传感器的反应性能和带动控制容器的伺服机构的特性都已经给定了，那么，我们就可能设计出一个放大器，使得总的传递函数接近于上面提到的传递函数 $ F(s) $，用这个伺服控制系统就可以使燃烧过程得到稳定。
+
+作为第二个例子，我们取  
+\[
+n = \frac{1}{2}, \quad P = \frac{3}{2}, \quad J = 4, \quad E = \frac{1}{4}, \quad \alpha = 0.
+\]
+因为 $ \alpha=0 $，所以燃料泵的出口压力 $ p_0 $ 是一个常数，即使燃料流出的速率变化的时候 $ p_0 $ 也不会变动。这就相当于简单的增压装置的情形。如果没有反馈伺服机构，
+\begin{equation*}
+g_2(s) = -\frac{1}{2} \frac{(2s+1)(2s^3+s^2+8s+2)}{s^3+2s^2+4s+4}.
+\end{equation*}
+当 $ s $ 是纯虚数时，
+\begin{equation*}
+\begin{aligned}
+g_2(i\omega) = &-\frac{1}{2} \frac{(4-2\omega^2)(2-17\omega^2+4\omega^4)+\omega^2(4-\omega^2)(12-4\omega^2)}{(4-2\omega^2)^2+\omega^2(4-\omega^2)^2} \\
+&-\frac{1}{2} i\omega \frac{(4-2\omega^2)(12-4\omega^2)-(4-\omega^2)(2-17\omega^2+4\omega^4)}{(4-2\omega^2)^2+\omega^2(4-\omega^2)^2}.
+\end{aligned}
+\end{equation*}
+这条 $ g_2 $ 的图线被画在图\ref{fig:8_6}上。很明显，如果没有伺服控制，而且时滞 $ \delta $ 的值也足够大，燃烧就会是不稳定的。事实上，这个系统的稳定性能还不如前一个例子
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图8.6.png} 
+\caption{}
+\label{fig:8_6}
+\end{figure}
+的系统好：也就是说，对于比较小的时滞值这个系统就会变为不稳定的。$ g_2 $ 图线在 $ \omega = 2 $ 点附近的部分是特别有趣味的。在 $ \omega = 2 $ 附近 $ g_2 $ 图线与 $ g_1 $ 的单位圆图线非常接近，如果时滞 $ \delta $ 的值又能使得在 $ \omega \sim 2 $ 时，$ g_1(i\omega) $ 与 $ g_2(i\omega) $ 也相当接近 $ g_1(i\omega) \sim g_2(i\omega) $，那么，在 $ \omega \sim 2 $ 处就会发生一个几乎不衰减的振荡。这个临界的 $ \delta $ 值显然小于那个由 $ g_2 $ 与单位圆在 $ \omega \sim 0.65 $ 的实在的交点所确定的时滞 $ \delta $ 的临界值。
+
+为了实现无条件的稳定性，必须把 $ g_2 $ 图线移出单位圆，譬如说，如果希望把 $ g_2 $ 也变为与第一个例子中的那个图线完全相同的“稳定”的图线，
+\begin{equation*}
+g_2(s) = -2 \frac{(s+2)(s+3)}{s+6},
+\end{equation*}
+计算的结果表明：传递函数 $ F(s) $ 就必须是
+\begin{equation*}
+F(s) = -4.875 \frac{(s+0.8126)(s^2-0.04337s+2.6506)}{s^2(s+2)(s+3)(s^2+4)}。
+\end{equation*}
+所以，反馈部分必须具有二重积分线路那样的特性。而且，传递函数在 $ 2i $ 有两个纯虚数的极点。因为我们在原有的系统中忽略了导管的摩擦阻尼的作用，所以在这里才对放大器发生了这个不现实的要求。在任何一个实际的系统中，导管的摩擦阻尼作用必然会把所需要的传递函数 $ F(s) $ 中的这两个纯虚数极点消除掉。并且把它们变为两个复共轭的极点。
+
+必须强调指出，利用反馈伺服机构来稳定燃烧过程的做法就正是：由于反馈伺服机构的可变性很大，对于任何的时滞 $ \delta $ 或 $ \tau $ 的值，我们都可以使系统无条件地稳定。既然我们没有关于时滞的准确的数据，所以，这个实现无条件稳定性的可能性对于工程实际来说确实是十分重要的。不但如此，如果要求在参数 $ n $ 发生任何的变化的情况下系统都是稳定的，我们也可以用以上这种\underline{伺服稳定}的方法进行设计。由于物理学的理由，$ n $ 可以取 $ \frac{1}{2} $ 与 1 之间的一个值。我们来处理最坏的可能性 $ n \approx 1 $，并且在这种情形下进行设计，使系统是无条件稳定的。这样设计出来的系统对于所有可能的 $ n $ 的值，当然都是稳定的。因此，即使不知道系统的确切的参数值，我们也还能保证反馈伺服机构的稳定作用。
+
+\section{时滞系统的稳定性的一般判断准则}
+
+在以前的伺服稳定作用的讨论中，我们都假定方程 (\eqref{eq:ch8_Hs}的多项式 $ H(s) $ 在右半 $ s $ 平面上没有零点和极点。然而，事实并不一定是这样的。所以，首先我们应该研究 $ H(s) $ 在右半 $ s $ 平面的零点和极点的个数。为了这个目的，我们应该先承认
+
+方程 (\eqref{eq:ch8_Hs}中 $ F(s) $ 的乘积前面的那个多项式在右半 $ s $ 平面上通常是没有零点的。因此，我们就可以研究 $ H(s) $ 与那个多项式的比值，而不去直接研究 $ H(s) $ 本身。这也就是说，$ H(s) $ 在右半 $ s $ 平面上的零点和极点的个数与下列函数在右半 $ s $ 平面的零点和极点的个数是相同的：
+
+\begin{equation}\label{eq:ch8_H_ratio}
+\begin{aligned}
+H(s) \div &\left[ \frac{1}{4} J^2 E s^3 + \left\{ \frac{1}{2} J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] + \frac{JEP}{2n} \right\} s^2 \right. \\
+&+ \left\{ \alpha E \left( P + \frac{1}{2} \right) + \frac{\alpha EP}{n} \left( P + \frac{1}{2} \right) \right\} s \\
+&+ \left. \left\{ 1 + \alpha \left( P + \frac{1}{2} \right) + \frac{P}{n} \right\} \right] =\left[ 1 + L(s) \right],
+\end{aligned}
+\end{equation}
+其中
+\begin{equation}\label{eq:ch8_L_def}
+\begin{aligned}
+L(s) = &\frac{1}{n} s F(s) \left[ \frac{1}{4} J^2 E s^3 + \frac{1}{2} \alpha J E \left( P + \frac{1}{2} \right) s^2 + Js + \alpha \left( P + \frac{1}{2} \right) \right] \\
+&\div \left[ \frac{1}{4} J^2 E s^3 + \left\{ \frac{1}{2} J E \left[ 1 + \alpha \left( P + \frac{1}{2} \right) \right] + \frac{JEP}{2n} \right\} s^2 \right. \\
+&+ \left\{ \alpha E \left( P + \frac{1}{2} \right) + \frac{\alpha EP}{n} \left( P + \frac{1}{2} \right) \right\} s \\
+&+ \left. \left\{ 1 + \alpha \left( P + \frac{1}{2} \right) + \frac{P}{n} \right\} \right].
+\end{aligned}
+\end{equation}
+按照乃氏准则，让 $ s $ 沿着图\ref{fig:4_4}的曲线转动一周，画出相当于 $ 1 + L(s) $ 的乃氏图，这样就可以确定 $ 1 + L(s) $ 在右半 $ s $ 平面的零点和极点的个数。具体地说，如果 $ 1 + L(s) $ 或 $ H(s) $ 在右半 $ s $ 平面上有 $ r $ 个零点和 $ q $ 个极点，那么，当 $ s $ 沿着大半圆周转动一周的时候，$ L(s) $ 围绕一个点转动的总圈数就是 $ r - q $。所以，只要画出 $ L(s) $ 的乃氏图就可以得到关于 $ H(s) $ 的必要资料。
+
+为了得到方程\eqref{eq:ch8_g2_with_feedback}所表示的 $ g_1(s) $ 和 $ g_2(s) $，就要用 $ H(s) $ 去除方程\eqref{eq:ch8_characteristic_eq})，这样做的结果就在右半 $ s $ 平面上引进了 $ q $ 个零点和 $ r $ 个极点。因为方程\eqref{eq:ch8_L_def}的分母多项式在右半 $ s $ 平面上没有零点，所以 $ L(s) $ 的 $ q $ 个极点一定都是 $ F(s) $ 的极点。于是，方程\eqref{eq:ch8_characteristic_eq}中的原来的表示式在右半 $ s $ 平面上也就有 $ q $ 个极点。因此，如果要求方程\eqref{eq:ch8_characteristic_eq}中的原来的表示式在右半 $ s $ 平面没有零点，$ g_2(s) $ 就一定要围绕单位圆以顺时针方向旋转 $ -q + (q - r) = -r $ 圈。如果要求系统无条件地稳定，也就是对于所有的时滞值都稳定，$ g_2(s) $ 图线就永远不应该与单位圆相交。所以，无条件稳定的一般准则就是：当 $ s $ 在包围右半 $ s $ 平面的路径上转动一周时，第一、$ g_2(s) $ 图线必须完全在单位圆的外面，第二、$ g_2(s) $ 图线以逆时针方向围绕单位圆旋转 $ r $ 圈。这就是用萨奇图来表示的稳定性判断准则。为了确定 $ r $，就必须用到方程\eqref{eq:ch8_L_def}的 $ L(s) $ 的乃氏图。所以，为了解决一般情况下的稳定性问题，萨奇图和乃氏图都是要用到的（图\ref{fig:8_7}）。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{图8.7.png} 
+\caption{}
+\label{fig:8_7}
+\end{figure}
+
+
+显然，这里所讲的把萨奇图和乃氏图结合起来的稳定性准则，对于任意一个有时滞 $ \tau $ 的系统都是适用的。这一类系统的稳定性问题总是可以化为这样一个问题：确定方程
+
+\[
+M(s) = 0
+\]
+
+是否有实数部分是正数的根。这里的 $ M(s) $ 中包含有 $ e^{-\tau s} $ 因数的项。正像以前的讨论中所看到的那样，做法的原则就是把 $ M(s) $ 用 $ M(s) $ 里的 $ e^{-\tau s} $ 的系数除，从而得出
+\[
+\frac{M(s)}{1+L(s)} = G(s) = g_1(s) - g_2(s),
+\]
+而且
+\[
+g_1(s) = e^{-\tau s}.
+\]
+当 $ s $ 在图\ref{fig:4_4}所画的右半圆路径上转动的时候，$ g_1(s) $ 和 $ g_2(s) $ 的图线就构成萨奇图，$ g_1(s) $ 的图线是单位圆。用 $ 1+L(s) $ 除 $ M(s) $ 的手续可能在萨奇图中引进若干个正实数部分的零点，为了判明这个情况，我们必须画出 $ L(s) $ 的乃氏图。然后，根据柯西定理就可以确定 $ M(s)=0 $ 在右半 $ s $ 平面上的根的个数。
+
+函数 $ g_2(s) $ 里包含有反馈部分的传递函数，反馈部分中的放大器是可以由设计者自由处理的。由于系统的其他部分的原因，$ g_2(s) $ 里也可能包含有 $ s $ 的超越函数。因为，反馈部分的放大器的传递函数通常都是两个多项式的比值，所以很难把来源于超越函数的损害稳定性的不良影响完全补偿掉。可是，在萨奇图中 $ g_2(s) $ 图线上最危险的部分就是最接近 $ g_1(s) $ 的单位圆图线的那一部分，然而，接近单位圆的 $ g_2(s) $ 点通常都是相应于小的 $ s $ 值的，所以在 $ g_2(s) $ 的危险的部分上超越函数可以展开为 $ s $ 的泰勒级数。我们可以只取级数的少数几项作为超越函数的近似值\footnote{关于这种方法可以参阅[22]。}，并且根据这个近似的结果来设计反馈部分的放大器。这样一来系统在危险部分的损害稳定性的不良影响就可以被放大器补偿掉。不言而喻，最后还必须根据放大器的设计特性用已有的稳定性准则校验系统的性能。以上所讲的方法是马伯尔（F. E. Marble）和柯克司（D. W. Cox）所提出的。如果想知道详细的论述，读者可以去参阅原著\footnote{F. E. Marble and D. W. Cox, \emph{J. Am. Rocket Soc.}, \textbf{23}, 75～81 (1953)。}。
