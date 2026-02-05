@@ -1,0 +1,777 @@
+
+% To be included
+\chapter{平稳随机输入下的线性系统}
+
+在以前各章里，系统的输入都被认为是可以确切知道的时间函数。但是，在很多关于常系数线性系统的工程问题中，关于输入信号的知识并不是十分确切肯定的。例如，由于空气的湍流而在飞机的机翼结构内引起的运动和应力的问题就属于这一类工程问题。在这个例子里，可以把随时间变化的气流状态看作是系统的输入。这种气流状态不可能用一个确切的时间函数来描述，这类不能完全确切知道的过程称为\underline{随机过程}，用来表示随机过程的时间函数就称为\underline{随机函数}，这种随机函数只能用某些统计的特性加以描述。如果机翼的应力是系统的输出，那么，这个输出也一定是一个随机函数而且也只能用统计的方式给予描述。
+
+这一章的第一个目的就是要找出一个方便的计算方法，利用这个方法就可以根据输入的已知的统计性质算出输出的统计性质。这是从前郎日万（P. Langevin）关于布朗运动的研究工作的一个简单的推广。
+
+随机输入的另一个例子就是控制信号中的所谓\underline{噪声}。噪声是由于设计者所无法控制的外界干扰和信号的微弱波动所引起的。噪声问题是一个与通信工程相联系的范围很广的研究题目。它的中心问题是如何设计一个系统，使得无法避免的噪声的影响被减少到最低限度而信号的有用\underline{信息}不受到破坏。我们将要在第十六章中讨论这个特殊问题。在目前这一章里，问题的性质是有些不同的，在我们现在所要讨论的问题中，随机的输出是系统仅有的输出。我们对于系统设计，特别是对于反馈伺服系统的设计所提出的要求就是：对于给定的输入而言，输出应该具有使人满意的统计性质（概率性质）。我们将会看到，以前各章中所用的传递函数的方法对于解决这个问题仍然是有用的。
+
+\section{随机函数的统计描述方法}
+
+我们来考虑一个产生随机函数 $ y_1(t) $ 的系统。现在，为了建立这样一个随机函数的统计描述的概念，我们必须考虑很多个与第一个系统相同的系统。这些系统的总体称为一个\underline{系集}，组成系集的每一个个别的系统称为一个\underline{元素}。设系集的各个元素所产生的随机函数分别是 $ y_1(t), y_2(t), y_3(t), \cdots $。虽然这些元素都是相同的系统，但是，某一个元素所产生的随机函数在任意一个确定的时刻的值与其他元素在同一时刻的随机函数值一般说来是不同的，也就是说：$ y_m(t) \neq y_n(t) $（$ m \neq n $）。从这个事实就可以看出这些函数的统计性的性质。虽然如此，我们还是可以问这样一个问题：如果给定一个从 $ y $ 到 $ y + dy $ 的间隔（也就是在 $ y $ 和 $ y + dy $ 之间的所有实数），那么，函数值在这个间隔之内的 $ y(t) $ 的个数占系集的元素的总数的百分之几？这个百分数是与 $ y $ 和 $ t $ 有关的，而且当 $ dy $ 很小的时候，这个百分数与 $ dy $ 成正比。这个百分数也就是在时刻 $ t $ 时，$ y(t) $ 在 $ y $ 和 $ y + dy $ 之间的概率，可以把这个概率写作 $ W_1(y,t)dy $。$ W_1(y,t) $ 这个函数称为随机函数 $ y(t) $ 的\underline{第一概率分布函数}。现在我们再来考虑在两个给定的时刻 $ t_1 $ 和 $ t_2 $ 的 $ y(t) $ 的值。$ t_1 $ 时函数值在 $ y_1 $ 与 $ y_1 + dy_1 $ 之间，以及 $ t_2 $ 时函数值在 $ y_2 $ 与 $ y_2 + dy_2 $ 之间的 $ y(t) $ 的个数占 $ y(t) $ 的总数（也就是系集的元素的个数）的百分数可以写作 $ W_2(y_1, t_1; y_2, t_2)dy_1dy_2 $。函数 $ W_2(y_1, t_1; y_2, t_2) $ 称为随机函数 $ y(t) $ 的\underline{第二概率分布函数}，我们也可以用类似的方法定义次数更高的概率分布函数。
+
+如果采用以上的方法，就必须先同时对大量的相同的系统进行观测，然后才能利用观测的结果作出随机函数 $ y(t) $ 的统计描述，因为进行这样的观测有很多实际的困难，所以，以上的方法是不能使人满意的。但是，如果随机函数是一个平稳的随机函数，也就是说，随机函数的所有的统计性质都是与时间无关的，那么，由数目庞大的相同的系统所组成的系集就是不必需的了，我们只要对单独一个系统进行很长时间的观测，就可以得出所有必需的观测结果。这时，我们可以把观测的记录曲线，分割成时间长度是 $ \theta $ 的许多段落，$ \theta $ 要比随机函数的特征时间大得多。这里所谓的特征时间就是这样一个时间长度：在这种长的时间间隔中，随机过程的统计性质能够相当充分地表现出来。既然，对于平稳的随机过程来说，测量时间的起点的选择对问题不起作用，所以，每一段记录都包含关于系统的运动状态的同样的统计资料。因此，这许多不同的段落就可以看作是在许多相同的系统上（也就是在一个系集上）所作的观测记录的总体。因而也就能够把各次的概率分布函数确定下来。不仅如此，这些概率分布函数也变得更简单了：$ W_1 $ 就不再与时间 $ t $ 有关了；$ W_2 $ 也只与 $ \tau = t_2 - t_1 $ 这个时间长度有关，而与 $ t_1, t_2 $ 本身无关了。所以，对于平稳随机函数来说，$ y(t) $ 在 $ y $ 与 $ y + dy $ 之间的概率是 $ W_1(y)dy $；$ y(t) $ 在 $ y_1 $ 与 $ y_1 + dy_1 $ 以及 $ y(t + \tau) $ 在 $ y_2 $ 与 $ y_2 + dy_2 $ 之间的概率就是 $ W_2(y_1, y_2; \tau)dy_1dy_2 $。因为，在工程问题中，随机函数常常可以看作是平稳的随机函数，所以，在以下的讨论中，我们只来考虑这种随机函数。
+
+必须强调指出：关于一个随机函数的统计性质的全部资料就是由各次概率分布函数具体表示出来的。我们也可以这样说：各次概率分布函数就“确定”一个随
+
+机函数。根据概率的一些基本性质，这些分布函数 $ W_n $ 当然不可能是任意的，它们必须满足以下的一些条件：
+
+(a) $ W_n \geq 0 $；这是因为概率不可能是负数的缘故。
+
+(b) 对于各个变数 $ y_i $ 来说，$ W_n $ 是对称的。例如  
+\begin{equation}\label{eq:ch9_symmetry}
+W_2(y_1, y_2; \tau) = W_2(y_2, y_1; \tau)。
+\end{equation}
+$ W_2 $ 是一个\underline{联合概率分布函数}，根据 $ W_2 $ 的意义来看，公式 \eqref{eq:ch9_symmetry}是很明显的。
+
+(c) 次数较高的概率分布函数能够导出次数较低的概率分布函数；例如  
+\begin{equation}\label{eq:ch9_marginal}
+\int_{-\infty}^{\infty} W_2(y_1, y_2; \tau) dy_2 = W_1(y_1) = W_1(y)。
+\end{equation}
+
+这里的积分运算是对于所有可能的 $ y_2 $ 值进行的。值得注意的是：对 $ y_2 $ 的积分把 $ \tau $ 也消去了。公式\eqref{eq:ch9_marginal}的第二个等式只是把 $ W_1(y_1) $ 改写为普通的形式 $ W_1(y) $ 而已。此外，还有  
+\begin{equation}\label{eq:ch9_normalization}
+\int_{-\infty}^{\infty} W_1(y) dy = 1。
+\end{equation}
+
+这个公式只不过表示这样一个显然的事实：所有可能发生的情况的概率的总和必须是 1。
+
+\section{平均值}
+
+根据第一概率分布函数 $ W_1(y) $，可以求出 $ y $ 的\underline{平均值} $ \bar{y} $：
+
+\begin{equation}\label{eq:ch9_ensemble_mean}
+\bar{y} = \int_{-\infty}^{\infty} yW_1(y)dy / \int_{-\infty}^{\infty} W_1(y)dy = \int_{-\infty}^{\infty} yW_1(y)dy。
+\end{equation}
+既然，我们只限于考虑平稳随机函数，所以，也可以用取\underline{时间平均值}的方法得出 $ \bar{y} $：
+\begin{equation}\label{eq:ch9_time_mean_y}
+\bar{y} = \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\theta/2}^{\theta/2} y(t)dt。
+\end{equation}
+用公式\eqref{eq:ch9_ensemble_mean}所求出的 $ \bar{y} $ 称为 $ y $ 的\underline{系集平均值}（或\underline{数学期望}）。系集平均值与时间平均值相等是平稳随机函数的一个重要特性。在以后的计算中，我们将会经常用到这个性质。
+
+可以把方程\eqref{eq:ch9_ensemble_mean}推广到 $ y $ 的任意次方幂的情形上去，因而就有
+\begin{equation}\label{eq:ch9_nth_moment}
+m_n = \bar{y}^n = \int_{-\infty}^{\infty} y^n W_1(y)dy，
+\end{equation}
+$ m_n $ 称为第一概率分布函数的 $ n $ \underline{阶矩}。根据一阶矩和二阶矩，我们就可以算出所谓的\underline{平均偏差} $ \sigma $，$ \sigma^2 $ 称为\underline{方差}：
+\begin{equation}\label{eq:ch9_variance}
+\begin{aligned}
+\sigma^2& = \overline{(y - \bar{y})^2} = \int_{-\infty}^{\infty} (y - \bar{y})^2 W_1(y)dy。\\
+&= \int_{-\infty}^{\infty} \left[ y^2 - 2y \overline{y} + (\overline{y})^2 \right] W_1(y) dy = \overline{y^2} - (\bar{y})^2,
+\end{aligned}
+\end{equation}
+所以，平均偏差 $ \sigma $ 是概率分布函数的图线对于平均值 $ \overline{y} $ 点的“宽度”的一种量度。类似地，三阶矩是概率分布函数 $ W_1(y) $ 的图线的对于 $ W_1 $ 轴的不对称性的一种量度。如果关于各阶矩的情形知道得更多一些，那么，关于 $ W_1(y) $ 的知识也就会更增加一些。在某些情况下，关于各阶矩的知识就能够把分布函数完全确定。例如，如果，已经知道
+\begin{equation}\label{eq:ch9_moments_condition}
+\left.
+\begin{aligned}
+&m_{2k-1} = 0, \\
+&m_{2k} = 1 \cdot 3 \cdot 5 \cdots (2k-1) \sigma^{2k}, \\
+\end{aligned}
+\right\}k = 1, 2, \cdots,
+\end{equation}
+那么，第一概率分布函数 $ W_1(y) $ 就是有名的高斯（Gauss）分布或正态分布：
+\begin{equation}\label{eq:ch9_gaussian}
+W_1(y) = \frac{1}{\sigma \sqrt{2\pi}} e^{-y^2/2\sigma^2}.
+\end{equation}
+
+我们总是可以适当地选取 $ y $ 坐标的原点使得 $ \bar{y} $ 变为零，也就是说，可以使得原点是 $ y $ 的平均值。有时候，这种做法可以使问题的处理更加便利。这样作过以后，我们就说概率分布函数已经被标准化了。这时，从方程\eqref{eq:ch9_variance}可以看出，方差 $ \sigma^2 $ 就简单地等于二阶矩 $ \bar{y^2} $。
+
+由第二概率分布函数 $ W_2(y_1,y_2;\tau) $ 导出的各种平均值中，最重要的就是相关函数（或称为关连函数）$ R(\tau) $，$ R(\tau) $ 的定义是
+
+\begin{equation}
+\label{eq:ch9_correlation_def}
+\begin{aligned}
+R(\tau) &= \overline{y_1 y_2} = \overline{y(t) y(t+\tau)} \\
+&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} y_1 y_2 W_2(y_1,y_2;\tau) dy_1 dy_2.
+\end{aligned}
+\end{equation}
+对于一个平稳随机函数来说，$ R(\tau) $ 显然也可以用对时间取平均值的方法得到：
+\begin{equation}\label{eq:ch9_correlation_time_avg}
+R(\tau) = \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\theta/2}^{\theta/2} y(t) y(t+\tau) dt.
+\end{equation}
+所以，$ R(\tau) $ 就是两个不同时刻的 $ y $ 值的相关程度的一个量度。不难想到，当两个时刻的间隔 $ \tau $ 增大时，这个相关性或者“记忆力”就要相应地减弱。如果 $ \tau $ 变得非常大，结果就会使 $ y(t) $ 和 $ y(t+\tau) $ 彼此无关了。在这种情况下，根据概率计算的原则，第二概率分布函数就等于 $ W_1(y_1) $ 与 $ W_1(y_2) $ 的乘积。所以，对于很大的 $ \tau $ 来说，
+\begin{equation}\label{eq:ch9_correlation_large_tau}
+R(\tau) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} y_1 y_2 W_1(y_1) W_1(y_2) dy_1 dy_2 = (\overline{y})^2.
+\end{equation}
+如果 $ \tau=0 $，由方程\eqref{eq:ch9_correlation_time_avg}显然有
+\begin{equation}
+\label{eq:ch9_correlation_zero}
+R(0) = \overline{y^2}.
+\end{equation}
+
+既然，不论怎样移动测量时间的原点，$ R(\tau) $ 都不会改变，所以就有
+\[
+R(\tau) = \overline{y(t) y(t+\tau)} = \overline{y(t-\tau) y(t)}.
+\]
+如果我们先把这个方程对 $ \tau $ 微分，然后再设 $ \tau=0 $，就得出
+\[
+R'(0) = \overline{y(t) y'(t)} = -\overline{y(t) y'(t)},
+\]
+因此
+\begin{equation}\label{eq:ch9_correlation_derivative_zero}
+R'(0) = \overline{y(t) y'(t)} = 0.
+\end{equation}
+在这些方程中，撇号“$'$”表示对时间的微分。所以，一个平稳随机函数和它的同一时刻的导数的“相关度”是零。这也就表示：在 $ y $ 的记录曲线上，对于任意一个 $ y $ 值来说，斜率是正数的概率与斜率是负数的概率相等。
+
+如果我们把 $ R(\tau) $ 对 $ \tau $ 微分两次，然后再设 $ \tau=0 $，就得
+\begin{equation}\label{eq:ch9_correlation_second_derivative}
+R''(0) = \overline{y(t) y''(t)} = -\overline{y'^2}.
+\end{equation}
+根据这个公式我们就可以利用关连函数来计算 $ y $ 的导数的平均平方值。类似地，$ y $ 的二次导数的平均平方值也可以用下列公式计算：
+\begin{equation}\label{eq:ch9_correlation_fourth_derivative}
+R''''(0) = \overline{y''^2}.
+\end{equation}
+
+同样，我们可以证明：
+\[
+R'''(0) = R^{V}(0) = R^{VI}(0) = \cdots = 0.
+\]
+所以，相关函数 $ R(\tau) $ 可以写成下列的泰勒级数：
+\[
+R(\tau) = R(0) + \frac{\tau^2}{2!}R''(0) + \frac{\tau^4}{4!}R''''(0) + \cdots.
+\]
+由此，又可以看出 $ R(\tau) $ 是 $ \tau $ 的偶函数，
+\[
+R(\tau) = R(-\tau).
+\]
+其实，根据 $ R(\tau) $ 的意义，我们早就可以想到这个事实，所以这并不是新的结果。
+
+\section{功率谱}
+
+随机函数的\underline{谱}的概念对于随机函数的理论的应用上具有很重要的意义。假设我们在一段很长的时间 $ \theta(-\theta/2<t<\theta/2) $ 里对 $ y(t) $ 进行了观测。如果我们只考虑这一段时间里的情况，把其余时间的 $ y(t) $ 看作是零。那么，$ y(t) $ 就可以写成富利埃积分\footnote{可以参阅 Whittaker and Watson, Modern Analysis, 第 9.7 节, p. 188, Cambridge-Macmillan, (1943), 或参阅[26]。}：
+
+\begin{equation}\label{eq:ch9_fourier_int}
+y(t) = \int_{-\infty}^{\infty} A(\omega)e^{i\omega t}d\omega,
+\end{equation}
+这里的 $ A(\omega) $ 是表示相当于频率 $ \omega $ 的振幅（一般说来这个振幅是一个复数）。它可以用反转公式由 $ y(t) $ 计算出来：
+\begin{equation}\label{eq:ch9_fourier_coeff}
+A(\omega) = \frac{1}{2\pi} \int_{-\theta/2}^{\theta/2} y(t) e^{-i\omega t} dt。
+\end{equation}
+如果用 $ A^* (\omega) $ 表示 $ A(\omega) $ 的复共轭数，因为 $ y(t) $ 是实数，所以，由方程\eqref{eq:ch9_fourier_coeff}就得出
+\begin{equation}\label{eq:ch9_conjugate}
+A^* (\omega) = A(-\omega)。
+\end{equation}
+
+现在，我们就可以利用 $ A(\omega) $ 来计算平均值 $ \overline{y^2} $：
+\begin{equation*}
+\overline{y^2} = \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\theta/2}^{\theta/2} y^2(t) dt = \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\theta/2}^{\theta/2} dt \int_{-\infty}^{\infty} d\omega d\omega' A(\omega) A(\omega') e^{i(\omega + \omega')t}。
+\end{equation*}
+作变数变换 $ \omega'' = -\omega' $，就得
+\begin{align*}
+\overline{y^2} &= \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} d\omega d\omega'' A(\omega) A^* (\omega'') \int_{-\theta/2}^{\theta/2} e^{i(\omega - \omega'')t} dt\\
+&= \lim_{\theta \to \infty} \frac{2}{\theta} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} A(\omega) A^* (\omega'') \left[ \frac{\sin \left( \frac{1}{2} (\omega - \omega'') \theta \right)}{\omega - \omega''} \right] d\omega d\omega''.
+\end{align*}
+如果我们再引进新变数 $ \xi $，$ \xi $ 的定义是
+\[
+\xi = \frac{\theta}{2} (\omega - \omega''),
+\]
+于是就又有
+\[
+\omega'' = \omega - \frac{2\xi}{\theta}。
+\]
+这样一来，
+\begin{align*}
+\overline{y^2} &= \lim_{\theta \to \infty} \frac{2}{\theta} \int_{-\infty}^{\infty} A(\omega) d\omega \int_{-\infty}^{\infty} A^* (\omega - \frac{2\xi}{\theta}) \frac{\sin \xi}{\xi} d\xi\\
+&= \left[ \lim_{\theta \to \infty} \frac{1}{\theta} \int_{0}^{\infty} |A(\omega)|^2 d\omega \right] \int_{-\infty}^{\infty} \frac{\sin \xi}{\xi} d\xi\\
+&= 4\pi \lim_{\theta \to \infty} \frac{1}{\theta} \int_{0}^{\infty} |A(\omega)|^2 d\omega.
+\end{align*}
+所以，如果我们设
+\begin{equation}\label{eq:ch9_power_spectrum_def}
+\Phi(\omega) = \lim_{\theta \to \infty} \frac{4\pi}{\theta} |A(\omega)|^2,
+\end{equation}
+那么
+\begin{equation}\label{eq:ch9_mean_square_spectral}
+\overline{y^2} = \int_{0}^{\infty} \Phi(\omega) d\omega。
+\end{equation}
+$ \Phi(\omega) $ 当然是一个实函数，而且 $ \Phi(\omega) $ 就称为随机函数 $ y(t) $ 的\underline{功率谱}。根据方程\eqref{eq:ch9_power_spectrum_def}和\eqref{eq:ch9_mean_square_spectral}，我们就可以由富利埃系数 $ A(\omega) $ 算出平均值 $ \overline{y^2} $。这个关系就是巴塞伐（Parseval）定理。
+
+我们再来考虑相关函数 $ R(\tau) $。把方程\eqref{eq:ch9_correlation_time_avg}和\eqref{eq:ch9_fourier_int}合并起来，就得出
+\begin{align*}
+R(\tau) &= \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\theta/2}^{\theta/2} y(t)y(t+\tau)dt\\
+&= \lim_{\theta \to \infty} \frac{1}{\theta} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} A(\omega)A(\omega')e^{i\omega \tau} d\omega d\omega' \int_{-\theta/2}^{\theta/2} e^{i(\omega + \omega')t} dt.
+\end{align*}
+然后，用与以前类似的计算，就可以得到
+\begin{equation}\label{eq:ch9_correlation_spectral}
+R(\tau) = \int_{0}^{\infty} \Phi(\omega) \cos \omega \tau d\omega。
+\end{equation}
+设 $ \tau = 0 $，就又可以从方程\eqref{eq:ch9_mean_square_spectral}和\eqref{eq:ch9_correlation_spectral}得出方程\eqref{eq:ch9_correlation_zero}的结果。把方程\eqref{eq:ch9_correlation_spectral}先对 $ \tau $ 微分，然后再设 $ \tau = 0 $，又可以得出方程\eqref{eq:ch9_correlation_derivative_zero}的结果。根据富利埃积分的\underline{反转定理}，
+\begin{equation}\label{eq:ch9_spectral_correlation}
+\Phi(\omega) = \frac{2}{\pi} \int_{0}^{\infty} R(\tau) \cos \omega \tau d\tau。
+\end{equation}
+有了方程\eqref{eq:ch9_correlation_spectral}和\eqref{eq:ch9_spectral_correlation}，只要知道相关函数与功率谱二者之中的一个，就可以算出另一个来。这两个方程称为维纳-辛钦（Wiener-Xunuum）\underline{关系}。
+
+功率谱 $ \Phi(\omega) $ 里可以包含以狄拉克 $ \delta $ 函数[42]（参看第\ref{sec:ch2_section5}节）所表示的冲量。当 $ \bar{y} $ 不等于零的时候，或者用电工术语来说，有一个直流项的时候，情形就是这样的，这时
+\begin{equation}\label{eq:ch9_spectrum_with_dc}
+\Phi(\omega) = 2(\bar{y})^2 \delta(\omega) + \Phi_1(\omega),
+\end{equation}
+这里 $ \delta(x) $ 是这样定义的：
+
+\begin{equation}\label{eq:ch9_delta_properties}
+\mbox{而且有}
+\left.
+\begin{array}{l}
+\mbox{如果}  x \neq 0 $，$ \delta(-x) = \delta(x) = 0 ,\\
+\mbox{如果}  x = 0 $，$ \delta(x) \to \infty,\\
+\int_{-\infty}^{\infty} \delta(x) dx = 1 \quad \text{以及} \quad \int_{0}^{\infty} \delta(x) dx = \frac{1}{2}。
+\end{array}
+\right\}
+\end{equation}
+
+对于纯粹的“噪声”来说，通常只在 $ \omega = 0 $ 处有一个相当于直流项的冲量。因此 $ \Phi_1(\omega) $ 就是一个表示真正的连续谱的正则函数。但是，也可能在这种情况下：在噪声中还夹杂着若干个有规律的正弦振荡。在这种情况下，功率谱在相当于那些正弦振荡的若干个离散的频率上也有冲量。
+
+\section{功率谱的例子}
+
+我们举出两个由相关函数计算功率谱的例子。
+
+\underline{第一个例子}：如果相关函数是以高斯曲线给定的  
+\begin{equation}\label{eq:ch9_gaussian_corr}
+R(\tau) = R(0)e^{-\alpha^2 \tau^2},
+\end{equation}
+按照方程 \eqref{eq:ch9_spectral_correlation} 相当的功率谱就是
+\begin{equation}\label{eq:ch9_gaussian_spectrum}
+\left.
+\begin{array}{ll}
+&\Phi(\omega) = \frac{2}{\pi} R(0) \int_{0}^{\infty} \cos(\omega \tau) e^{-\alpha^2 \tau^2} d\tau = \Phi(0) e^{-(\omega^2 / 4\alpha^2)},\\
+\mbox{其中}&\\
+&\Phi(0) = \frac{R(0)}{\alpha \sqrt{\pi}}.
+\end{array}
+\right\}
+\end{equation}
+
+有趣的事实是：当 $ \alpha \to \infty $ 时，对于所有有限的 $ \tau $ 来说，相关函数都趋近于零。同时，$ R(0) $ 以一种使 $ R(\tau) $ 变为 $ \delta $ 函数的方式趋于 $ \infty $。这也就是说，不同时刻的 $ y(t) $ 值是毫无关系的。所以，这个随机函数是所有随机函数中“最杂乱无章”的一个。当 $ \alpha \to \infty $ 时，功率谱是一个与频率无关的常数。这个最杂乱的随机函数称为\underline{白色噪声}。常常用白色噪声来描述物理系统中自然发生的随机变化。
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{图9.1.png}
+    \caption{ }
+    \label{fig:9_1}
+\end{wrapfigure}
+\underline{第二个例子}就是流体的匀速运动中的微小\underline{各向同性湍流}。冯·卡尔曼（von Kármán）和霍瓦尔斯基（L. Howarth）曾经证明\footnote{von Kármán and Howarth, Proc. Roy. Soc. (A), 164, 192(1938).}：基本的二阶相关函数就是 $ R_1(\tau) $ 和 $ R_2(\tau) $；$ R_1(\tau) $ 是在同一空间点上平行于平均流动方向的扰动速度分量对于时间间隔 $ \tau $ 的相关函数；$ R_2(\tau) $ 是与平均流动方向垂直的扰动速度分量的相当的关连函数。如果 $ U $ 是平均速度，$ L $ 是湍流的特性长度，那么，这两个相关函数就可以近似地表示为
+\begin{equation}\label{eq:ch9_R1_turbulence}
+R_1(\tau) = R_1(0) e^{-\tau U / L},
+\end{equation}
+
+\begin{equation}\label{eq:ch9_R2_turbulence}
+R_2(\tau) = R_2(0) e^{-\tau U / L} \left( 1 - \frac{1}{2} \frac{\tau U}{L} \right).
+\end{equation}
+根据方程 \eqref{eq:ch9_spectral_correlation}，平行于平均流动方向的扰动速度分量的功率谱 $ \Phi_1(\omega) $ 和垂直于这个方向的扰动速度分量的功率谱 $ \Phi_2(\omega) $ 就是
+\begin{equation}\label{eq:ch9_Phi1_turbulence}
+\Phi_1(\omega) = \Phi_1(0) \frac{1}{1 + (\omega L / U)^2},
+\end{equation}
+\begin{equation}\label{eq:ch9_Phi2_turbulence}
+\Phi_2(\omega) = \Phi_2(0) \frac{1 + 3 (\omega L / U)^2}{[1 + (\omega L / U)^2]^2},
+\end{equation}
+这里的 $ \Phi_1(0) $ 和 $ \Phi_2(0) $ 是相当的功率谱在 $ \omega=0 $ 处的值。它们与 $ R_1(0) $ 和 $ R_2(0) $ 的关系是
+\begin{equation}\label{eq:ch9_Phi0_relation}
+\begin{cases}
+\Phi_1(0) = \frac{2}{\pi} \frac{L}{U} R_1(0), \\
+\Phi_2(0) = \frac{1}{\pi} \frac{L}{U} R_2(0).
+\end{cases}
+\end{equation}
+
+\section{功率谱的直接计算}
+
+根据相关函数来计算功率谱的做法当然不是绝对必需的。有时候也可以根据随机函数 $ y(t) $ 本身的已知性质把功率谱直接计算出来。
+
+例如，我们来考虑这样一个情形：$ y(t) $ 是一系列形状相同的脉冲，脉冲的频率是一个常数，可是脉冲的高度是相当于某一个概率分布函数的随机函数。此外，还假定这一系列的脉冲高度是互不相关的。如果脉冲是矩形的，那么，这一系列脉冲就像图\ref{fig:9_2}所画的那样。如果一个高度是一的脉冲的表示式是 $ \eta(t) $，那么，
+\begin{equation}\label{eq:ch9_pulse_sum}
+y(t) = \sum_k a_k \eta(t - kT),
+\end{equation}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.2.png} 
+\caption{}
+\label{fig:9_2}
+\end{figure}
+其中 $ T $ 是两个相邻脉冲之间的时间间隔，$ a_k $ 是第 $ k $ 个脉冲的高度。计算功率谱的第一个步骤就是按照方程\eqref{eq:ch9_fourier_coeff}算出富利埃谱 $ A(\omega) $。设 $ \theta = 2NT $，就有
+\begin{align*}
+A(\omega) &= \frac{1}{2\pi} \int_{-NT}^{NT} y(t)e^{-i\omega t} dt = \frac{1}{2\pi} \int_{-NT}^{NT} \sum_k a_k \eta(t - kT)e^{-i\omega t} dt\\
+&= \sum_{-N}^N a_k e^{-i\omega kT} \frac{1}{2\pi} \int_{-\infty}^{\infty} \eta(\xi)e^{-i\omega\xi}d\xi = a(\omega) \sum_{-N}^N a_k e^{-i\omega kT},
+\end{align*}
+这里的 $ a(\omega) $ 是一个脉冲的富利埃谱。
+\begin{equation}\label{eq:ch9_single_pulse_spectrum}
+a(\omega) = \frac{1}{2\pi} \int_{-\infty}^{\infty} \eta(\xi)e^{-i\omega\xi}d\xi.
+\end{equation}
+例如脉冲是宽度是 $ 2\epsilon $ 高度是一的矩形脉冲，
+\begin{equation}\label{eq:ch9_rect_pulse_spectrum}
+a(\omega) = \frac{1}{2\pi} \int_{-\epsilon}^{\epsilon} e^{-i\omega\xi}d\xi = \frac{1}{\pi} \frac{\sin \omega \epsilon}{\omega}.
+\end{equation}
+根据方程 \eqref{eq:ch9_conjugate} 和 \eqref{eq:ch9_power_spectrum_def}，功率谱就是
+\begin{equation}\label{eq:ch9_Phi_initial}
+\Phi(\omega) = \frac{4\pi}{T} |a(\omega)|^2 \lim_{N \to \infty} \frac{1}{2N} \left[ \sum_{-N}^N \sum_{-N}^N a_k a_l e^{-i\omega(k-l)T} \right]. 
+\end{equation}
+为了简便地进行方程 \eqref{eq:ch9_Phi_initial} 中的极限运算，我们先取整个方程的系集平均值。既然，系集的每一个组成元素的功率谱 $ \Phi(\omega) $ 都是相同的，所以，取系集平均值时方程 \eqref{eq:ch9_Phi_initial} 的左端并不改变。这样一个取平均值的手续可以使方程 \eqref{eq:ch9_Phi_initial} 的右端得到简化。设 $ \bar{a} $ 是随机变数 $ a_k $（或 $ a_l $）的平均值，$ \bar{a}^2 $ 是 $ a_k $（或 $ a_l $）的平方的平均值。把 $ a_k a_l $ 写成下列形式：
+\begin{equation*}
+a_k a_l = (a_k - \bar{a})(a_l - \bar{a}) + \bar{a}[(a_k - \bar{a}) + (a_l - \bar{a})] + (\bar{a})^2.
+\end{equation*}
+我们把这个表示式代入方程 \eqref{eq:ch9_Phi_initial} 的右端，然后再取系集平均值。既然，这一系列脉冲的高度是互不相关的，所以，除非 $ k=l $，$ (a_k - \bar{a})(a_l - \bar{a}) $ 的系集平均值就是零。如果 $ k=l $，$ (a_k - \bar{a})(a_l - \bar{a}) $ 的系集平均值就是 $ \bar{a}^2 - (\bar{a})^2 $。因此，极限号下的第一项就是
+\begin{equation*}
+\lim_{N \to \infty} \frac{1}{2N} \sum_{N}^{N} \sum_{-N}^{N} (a_k - \bar{a})(a_l - \bar{a}) e^{-i\omega(k-l)T} = \bar{a}^2 - (\bar{a})^2.
+\end{equation*}
+$ (a_k - \bar{a}) $ 和 $ (a_l - \bar{a}) $ 的系集平均值显然是零。所以，最后就有：
+\begin{equation}\label{eq:ch9_Phi_intermediate}
+\Phi(\omega) = \frac{4\pi}{T} |\alpha(\omega)|^2 \left\{ \left[ \bar{a}^2 - (\bar{a})^2 \right] + (\bar{a})^2 \lim_{N \to \infty} \frac{1}{2N} \sum_{-N}^{N} e^{-i\omega k T} \right\}.
+\end{equation}
+
+如果 $ \omega=2n\pi/T $（$ n $ 是整数），方程 \eqref{eq:ch9_Phi_intermediate} 中的和数就等于 $ 2N+1 $。因此，方程 \eqref{eq:ch9_Phi_intermediate} 的第二项的极限值是无限大。对于其他的 $ \omega $ 值来说，这个和数的绝对值$\left| \sum_{-N}^{N} e^{-i\omega k T} \right|$总是小于与 $ N $ 无关的常数 $ 1+2/\left| \sin \frac{\omega T}{2} \right| $，所以，当 $ N \to \infty $ 时，方程 \eqref{eq:ch9_Phi_intermediate} 中极限值等于零。现在就很清楚，当取了极限值以后，第二项的性质就是在频率 $ \omega=2n\pi/T $（$ n=0, \pm 1, \pm 2, \cdots $）处的一系列冲量（或 $ \delta $ 函数）。为了计算这些 $ \delta $ 函数的系数，我们必须对于典型的间隔 $ -\pi<\omega T<\pi $ 计算曲线下方的面积。把和数加以积分，就得
+\begin{equation*}
+\int_{-\pi/T}^{\pi/T} d\omega \frac{1}{2N} \left| \sum_{-N}^{N} e^{-i\omega k T} \right|^2 = \frac{1}{2N} \int_{-\pi/T}^{\pi/T} \frac{1-\cos(2N+1)\omega T}{1-\cos\omega T} d\omega = \frac{2\pi}{T} \frac{2N+1}{2N}.
+\end{equation*}
+当 $ N \to \infty $ 时，这个面积就得出值 $ 2\pi/T $。按照方程 \eqref{eq:ch9_delta_properties}，$ \delta $ 函数曲线下的面积是一，所以，所需要系数就是 $ 2\pi/T $。因此，所考虑的平稳随机函数 \eqref{eq:ch9_pulse_sum} 的功率谱最后就可以写成
+\begin{equation}
+\Phi(\omega) = 2\omega_0 |\alpha(\omega)|^2 \left\{ \left[ \bar{a}^2 - (\bar{a})^2 \right] + (\bar{a})^2 \omega_0 \sum_{n=0}^{\infty} \delta(\omega-n\omega_0) \right\},
+\end{equation}
+其中 $ \omega_0 $ 是相当于基本周期 $ T $ 的频率。也就是
+\begin{equation}\label{eq:ch9_omega0_def}
+\omega_0 = \frac{2\pi}{T}.
+\end{equation}
+所以，$ y(t) $ 的功率谱中包含有一个连续的部分，这一部分和一个单独的脉冲的功率谱形状相同。这一部分连续谱的强度是由脉冲高度的方差 $ \sigma^2 $ 所决定的。此外，在频率 $ n\omega_0 $（$ n $ 是整数）处还有离散的谱，这一部分离散谱的强度也是由一个单独脉冲的谱所决定的。
+
+现在我们再来考虑另外一种情形。随机函数 $ y(t) $ 是一系列形状和高度完全相同的脉冲。两个相邻脉冲的时间间隔是一个随机函数，这个随机函数的平均值是 $ T $。第 $ k $ 个脉冲的发生时间是 $ kT + \varepsilon_k $，这里的 $ T $ 是一个固定的常数。所以 $ \varepsilon_k $ 当然是一个随机函数，假设 $ \varepsilon_k $ 按照一个已知的概率分布函数 $ P(\varepsilon) $ 变化。并且假设 $ \varepsilon_k $ 的平均值是零。同时这些 $ \varepsilon $ 之间也是互不相关的。不难算出，两个相邻脉冲之间的时间间隔的平均值 $ \overline{kT + \varepsilon_k - (k-1)T - \varepsilon_{k-1}} = \overline{T + \varepsilon_k - \varepsilon_{k-1}} = T $。如果脉冲都是矩形的，图\ref{fig:9_3} 所表示的就是一个这样的随机函数。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.3.png} 
+\caption{}
+\label{fig:9_3}
+\end{figure}
+
+一个这样的随机函数可以用下列公式表示：
+\begin{equation}
+y(t) = \sum_k \eta(t - kT - \varepsilon_k),
+\end{equation}
+这里 $ \eta(t) $ 表示一个单独的脉冲。按照方程 \eqref{eq:ch9_fourier_coeff}，设 $ \theta = 2NT $，
+\begin{equation*}
+A(\omega) = \alpha(\omega) \sum_{-N}^{N} e^{-i\omega(kT+\varepsilon_k)},
+\end{equation*}
+$ \alpha(\omega) $ 是由方程 \eqref{eq:ch9_single_pulse_spectrum} 所给的一个单独脉冲的富利埃谱。对于矩形脉冲的特殊情形，$ \alpha(\omega) $ 就是由方程 \eqref{eq:ch9_rect_pulse_spectrum} 所表示的。按照方程 \eqref{eq:ch9_conjugate} 和 \eqref{eq:ch9_power_spectrum_def}，$ y(t) $ 的功率谱就是
+\begin{equation}\label{eq:ch9_Phi_omega}
+\Phi(\omega) = \frac{4\pi}{T} |\alpha(\omega)|^2 \lim_{N \to \infty} \frac{1}{2N} \left[ \sum_{-N}^{N} \sum_{-N}^{N} e^{-i\omega\varepsilon_k} e^{+i\omega\varepsilon_l} e^{-i\omega(k-l)T} \right].
+\end{equation}
+现在，我们引进一个函数 $ x(\omega) $，
+\begin{equation}
+x(\omega) = \int_{-\infty}^{\infty} P(\varepsilon) e^{-i\omega\varepsilon} d\varepsilon,
+\end{equation}
+有时候 $ x(\omega) $ 称为 $ \varepsilon $ 的\underline{特征函数}，按照普通的定义，$ x(\varepsilon) $ 就是 $ P(\varepsilon) $ 的\underline{富利埃变换}（\underline{富氏变换}）\footnote{有时在富利埃变换的积分号前加一乘数 $ 1/2\pi $。}。我们把 $ e^{-i\omega\varepsilon_k} e^{+i\omega\varepsilon_l} $ 写成
+\begin{equation*}
+e^{-i\omega\varepsilon_k} e^{+i\omega\varepsilon_l} = \{ [e^{-i\omega\varepsilon_k} - x(\omega)] + x(\omega) \} \{ [e^{+i\omega\varepsilon_l} - x^*(\omega)] + x^*(\omega) \},
+\end{equation*}
+其中 $ x^*(\omega) $ 是 $ x(\omega) $ 的复共轭函数，而且 $ x^*(\omega) = x(-\omega) $。现在我们就把这个表示式代入方程\eqref{eq:ch9_Phi_omega}，接着就取这个方程的系集平均值。因为这些 $\varepsilon$ 都是互不相关的，所以极限运算可以大为简化。最后的结果就是
+\begin{equation}\label{eq:ch9_pulse_jitter_spectrum}
+\Phi(\omega) = 2\omega_0 |\alpha(\omega)|^2 \left\{ [1 - |x(\omega)|^2] + |x(\omega)|^2 \omega_0 \sum_{n=0}^\infty \delta(\omega - n\omega_0) \right\},
+\end{equation}
+这里的 $\omega_0$ 就是方程 \eqref{eq:ch9_omega0_def} 所定义的频率。在这种情形下，连续谱的形状和离散谱的强度不再是只由单独脉冲的谱所决定的了，它们与 $\varepsilon$ 的特征函数也有关系。
+
+作为直接计算功率谱的第三个例子，我们来考虑图\ref{fig:9_4}所表示的平稳随机函数 $y(t)$。这个函数在时间间隔 $T$ 中的值或者是 $+1$ 或者是 $-1$。这里的 $T$ 不是常数，而是一个随机函数。$T$ 的概率分布函数 $P(T)$ 是已知的。不言而喻，$T \geq 0$。还要指出：这一系列时间间隔 $T$ 是互不相关的。我们用 $T_k$ $(k=1,2,3,\cdots)$ 来表示第 $k$ 个时间间隔。假设时间间隔的平均值是 $\bar{T}$：
+\begin{equation}\label{eq:ch9_mean_interval}
+\bar{T} = \int_0^\infty TP(T)dT.
+\end{equation}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.4.png} 
+\caption{}
+\label{fig:9_4}
+\end{figure}
+我们把从 $t=0$ 到 $t=N\bar{T}$ 取作方程 \eqref{eq:ch9_fourier_coeff} 的积分间隔 $\theta$。这样，就得到
+\begin{equation*}
+A(\omega) = \frac{1}{2\pi} \int_0^{N\bar{T}} y(t)e^{-i\omega t}dt = \frac{1}{2\pi} \frac{1}{i\omega} \sum_{k=1}^N (-1)^k (e^{-i\omega t_k} - e^{-i\omega t_{k-1}}).
+\end{equation*}
+这里的 $t_k$ 表示第 $k$ 个时间间隔的终点。以上的表示式又可以改写为
+\begin{equation*}
+A(\omega) = \left[ \frac{1}{\pi} \frac{1}{i\omega} \sum_{k=1}^N (-1)^k e^{-i\omega t_k} \right] - \frac{1}{2\pi} \frac{1}{i\omega} (-1)^N e^{-i\omega t_N} + \frac{1}{2\pi i\omega}.
+\end{equation*}
+于是，根据方程 \eqref{eq:ch9_power_spectrum_def} 我们就有下列的功率谱：
+\begin{equation}\label{eq:ch9_switch_spectrum_initial}
+\Phi(\omega) = \frac{4}{\pi \bar{T} \omega^2} \left[ \lim_{N \to \infty} \frac{1}{N} \sum_{k=1}^N \sum_{k'=1}^N (-1)^{k+k'} e^{-i\omega (t_k-t_{k'})} \right].
+\end{equation}
+
+我们来考虑 $k>k'$，譬如说 $k=k'+m$。这时就有
+\begin{equation}\label{eq:ch9_product_exp}
+e^{-i\omega (t_k-t_{k'})} = e^{-i\omega T_{k'+1}} e^{-i\omega T_{k'+2}} \cdots e^{-i\omega T_{k'+m}}.
+\end{equation}
+既然，这一系列时间间隔是互不相关的，方程 \eqref{eq:ch9_product_exp} 的右端的乘积的发生概率就是每一个因子的发生概率的乘积。如果我们引进 $T$ 的特征函数 $x(\omega)$，
+\begin{equation}\label{eq:ch9_characteristic_function}
+x(\omega) = \phi(\omega) + i\psi(\omega) = \int_0^\infty P(T)e^{-i\omega T}dT,
+\end{equation}
+$x(\omega)$ 就是 $e^{-i\omega T}$ 的平均值。因此，方程 \eqref{eq:ch9_product_exp} 的乘积的系集平均值也不过就是 $|x(\omega)|^m$。在方程 \eqref{eq:ch9_switch_spectrum_initial} 的双重和数中，这样的乘积的个数的近似值就是 $N$。每一个这种乘积的符号都是 $(-1)^m$。所以，在极限值中，就有来源于这些乘积的一项 $(-1)^m[x(\omega)]^m$。$m$ 可以从 $1$ 到 $\infty$ 的所有正整数。所以，这样一些项的总和就是
+\begin{equation*}
+\sum_{m=1}^\infty (-1)^m [x(\omega)]^m = -\frac{x(\omega)}{1+x(\omega)}。
+\end{equation*}
+不难看出，来源于 $k' > k$ 的那些项的总和与来源于 $k > k'$ 的各项的总和刚好是复共轭的。此外，很容易看出在方程 \eqref{eq:ch9_switch_spectrum_initial} 的方括号里的极限值中，来源于 $k=k'$ 各项的值就是 $1$。这样一来，这个极限值的所有的组成部分都已经知道了。所以，就可以把方程 \eqref{eq:ch9_switch_spectrum_initial} 最后写成
+\begin{equation*}
+\Phi(\omega) = \frac{4}{\pi \bar{T} \omega^2} \left\{ 1 - 2\Re\left[\frac{x(\omega)}{1+x(\omega)}\right] \right\}，
+\end{equation*}
+这里的 $\Re$ 就是表示式的实数部分。如果 $x(\omega)$ 的实数部分和虚数部分分别是 $\phi(\omega)$ 和 $\psi(\omega)$，就像方程 \eqref{eq:ch9_characteristic_function} 所写的那样，那么，$\Phi(\omega)$ 也就可以写成
+\begin{equation}\label{eq:ch9_switch_spectrum_final}
+\Phi(\omega) = \frac{4}{\pi \bar{T} \omega^2} \frac{1-\phi^2(\omega)-\psi^2(\omega)}{[1+\phi(\omega)]^2+\psi^2(\omega)}。
+\end{equation}
+
+如果分布函数 $P(T)$ 是泊松（Poisson）分布函数
+\begin{equation}\label{eq:ch9_poisson_dist}
+P(T) = \frac{1}{\bar{T}} e^{-T/\bar{T}}，
+\end{equation}
+这里 $\bar{T}$ 就是方程 \eqref{eq:ch9_mean_interval} 所定义的平均时间间隔。对于这个特殊的分布函数来说，这样一个振幅是 $\pm 1$ 的随机开关函数的功率谱就是
+\begin{equation}\label{eq:ch9_poisson_spectrum}
+\Phi(\omega) = \frac{\bar{T}}{\pi} \frac{1}{1+(\omega \bar{T}/2)^2}。
+\end{equation}
+因为这个随机函数完全没有任何有规则的周期性，所以功率谱是连续而且光滑的，以前两个例子中所包含的那种冲量，在这里是根本没有的。
+
+\section{离开平均值的大偏差的概率}\label{ch9_sec6_probability}
+
+如果随机函数是一个结构中的应力，那么，只知道这个应力的平均值是很不够的，因为结构的破坏与应力本身的大小有关系。为了安全起见，我们就需要知道应力超过结构材料的容许工作应力的概率，也就是随机函数 $ y $ 的大小超过常数值 $ k $ 的概率，$ P(|y| \geq k) $。如果第一概率分布函数 $ W_1(y) $ 是已知的，那么，这个问题的答案就很简单：
+\begin{equation}\label{eq:ch9_excess_probability}
+P(|y| \geq k) = \int_{-\infty}^{-k} W_1(y) \, dy + \int_k^\infty W_1(y) \, dy。
+\end{equation}
+
+但是，在不少工程问题中并不知道概率分布函数，只能知道平均值 $ \bar{y} $ 和方差$\sigma^2$。然而就是在这种限制很大的情况下，对于离开平均差的大偏差的概率，我们还是可能给出一个一般的估计，但是这个估计是偏于宽松的。譬如说，如果 $ g(y) $ 是 $ y $ 的一个非负函数，按照定义 $ W_1(y) $ 当然也是非负的，所以
+\begin{equation}\label{eq:ch9_chebyshev_ineq_proof}
+\overline{g(y)} = \int_{-\infty}^{\infty} g(y)W_1(y)dy \geq K \int_{g(y) \geq K} W_1(y)dy。
+\end{equation}
+最后的积分是在所有满足条件 $ g(y) \geq K $ 的部分上进行的，但是这个最后的积分刚好就等于 $ P[g(y) \geq K] $。所以
+\begin{equation}\label{eq:ch9_chebyshev_ineq}
+P[g(y) \geq K] \leq \frac{\overline{g(y)}}{K}。
+\end{equation}
+
+这就是所谓的契比谢夫（\rufont{Чебышев}）不等式。现在取
+\[
+g(y) = (y - \bar{y})^2。
+\]
+按照方程 \eqref{eq:ch9_variance}，
+\[
+\overline{g(y)} = \sigma^2 = \bar{y}^2 - (\bar{y})^2,
+\]
+这里 $ \sigma^2 $ 就是方差，也就是离开平均值 $ \bar{y} $ 的偏差的平方的平均值。设 $ K = k^2\sigma^2 $，就可以由方程 \eqref{eq:ch9_chebyshev_ineq} 得出必耐梅-契比谢夫（\rufont{Бинамё-Чебышев}）不等式：
+\begin{equation}\label{eq:ch9_bienayme_chebyshev}
+P[|y - \bar{y}| \geq k\sigma] = P[(y - \bar{y})^2 \geq k^2\sigma^2] \leq \frac{1}{k^2}。
+\end{equation}
+
+对于最实际的应用来说，必耐梅-契比谢夫不等式所给的估计还是太宽松了，也就是说，这个不等式所给的上限常常是过高的。如果 $ W_1(y) $ 只有一个极大值，我们就可以给出一个比较精密的估计。这时，$ W_1(y) $ 的极大值所在的点 $ y_0 $ 称为众数。这样的分布函数称为\underline{单众数分布函数}（或\underline{单峰分布函数}）。对于单众数分布函数的情形，大偏差概率的估计是高斯首先作出的。为了证明高斯的不等式，我们来考虑图 9.5 所画的函数 $ w(x) $，$ w(x) $ 在 $ x > 0 $ 的区域内是单调减少的。可以把 $ w(x) $ 看作是\underline{许多矩形函数}的和数（参看图\ref{fig:9_5}），这些矩形函数都是这样的：在 $ 0 < x < x_0 $ 间隔内等于一个常数，在 $ x > x_0 $ 区域内等于零。我们先来考虑矩形函数 $ v(x) $：
+\[
+\begin{cases}
+\text{如果 } 0 < x < x_0, & v(x) = 1, \\
+\text{如果 } x > x_0, & v(x) = 0。
+\end{cases}
+\]
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.5.png} 
+\caption{}
+\label{fig:9_5}
+\end{figure}
+
+对于任意一个 $ K > x_0 $，
+\[
+K^2 \int_K^\infty v(x) dx = 0。
+\]
+但是，如果 $ 0 < K \leq x_0 $，
+\[
+K^2 \int_K^\infty v(x) dx = K^2 (x_0 - K)。
+\]
+不难证明，对于在这个范围内的 $ K $ 来说，$ K^2 (x_0 - K) $ 的极大值是 $\frac{4}{27} x_0^3$。所以，下列关系式对于所有的 $ K $ 值都是成立的：
+\begin{equation*}
+K^2 \int_K^\infty v(x) dx \leq \frac{4}{9} \int_0^\infty x^2 v(x) dx。
+\end{equation*}
+用叠加的方法就可以得出
+\begin{equation*}
+K^2 \int_K^\infty w(x) dx \leq \frac{4}{9} \int_0^\infty x^2 w(x) dx。
+\end{equation*}
+
+现在，来考虑一个横坐标是 $ x = y - y_0 $ 的单众数分布函数 $ W_1(x) $。这里的 $ y_0 $ 是众数。这时，
+\begin{equation*}
+K^2 \int_K^\infty W_1(x) dx \leq \frac{4}{9} \int_0^\infty x^2 W_1(x) dx
+\end{equation*}
+而且
+\begin{equation*}
+K^2 \int_{-\infty}^{-K} W_1(x) dx \leq \frac{4}{9} \int_{-\infty}^0 x^2 W_1(x) dx。
+\end{equation*}
+把这两个不等式加起来，就得
+\begin{equation*}
+K^2 P[|y - y_0| \geq K] \leq \frac{4}{9} v^2,
+\end{equation*}
+这里的 $ v $ 是离开众数的偏差的平均值，它的定义是
+\begin{equation}\label{eq:ch9_v_from_mode}
+v^2 = \overline{(y - y_0)^2} = \int_{-\infty}^\infty (y - y_0)^2 W_1(y) dy。
+\end{equation}
+设 $ K = kv $，我们就得到高斯不等式：
+\begin{equation}\label{eq:ch9_gauss_ineq}
+P[|y - y_0| \geq kv] \leq \frac{4}{9k^2}。
+\end{equation}
+
+如果分布函数 $ W_1(y) $ 对于 $ y = y_0 $ 是对称的：$ W_1(y_0 + x) = W_1(y_0 - x) $。就有 $ y_0 = \bar{y} $，$ v = \sigma $。因而，方程 \eqref{eq:ch9_gauss_ineq} 就化为
+\begin{equation}
+\label{eq:ch9_gauss_symmetric}
+P[|y - \bar{y}| \geq k\sigma] \leq \frac{4}{9k^2}。
+\end{equation}
+所以，方程 \eqref{eq:ch9_gauss_symmetric} 所表示的概率的估计就比方程 \eqref{eq:ch9_bienayme_chebyshev} 的估计更为精确。
+
+在很多情况下，我们可以认为 $ W_1(y) $ 是高斯分布函数（至少也可以近似地这样假设）。这时，利用\underline{误差函数} $ f(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt $ 的渐近展开式，不难直接算出
+\begin{equation}\label{eq:ch9_gaussian_tail}
+P(|y - \bar{y}| \geq k\sigma) \approx \frac{e^{-\frac{1}{2}k^2}}{k\sqrt{2\pi}}, \quad k \gg 1。
+\end{equation}
+这个概率的数值很小。例如在 $ k=3 $ 时，这个概率只有 0.002。可是，如果用方程 \eqref{eq:ch9_bienayme_chebyshev} 只能知道这个概率比 0.1111 小。即使用方程 \eqref{eq:ch9_gauss_symmetric} 来估计，也只能知道这个概率小于 0.0493 而已。这三种估计结果所以有这样悬殊的差别，当然是因为这些估计方法所依据的资料在确切程度上也有很大差别的缘故。所根据的假设越一般化，所能得出的估计结果就越不精确。
+
+\section{随机函数超过一个固定值的频率}\label{ch9_sec7_function}
+
+如果所考虑的随机函数是结构中的应力，并且，假设需要根据应力超过某一个固定值（也就是材料的疲劳应力）的重复次数来进行设计，那么，就必须知道随机函数在单位时间内超过固定值 $ y = \xi $ 的可能次数。这个次数显然是随机函数在单位时间内经过 $\xi$ 值的可能次数的一半。用 $ N_0(\xi) $ 表示上述的经过 $\xi$ 值的次数。这个数最先是由瑞斯（S.O. Rice）计算出来的\footnote{S.O. Rice, \emph{Bell System Tech. J.}, 23, 282(1944); 25, 46(1945).}，下面我们也采用他的计算方法。
+
+设 $ W(y, y') \, dy \, dy' $ 是在同一时刻随机函数值 $ y(t) $ 在 $ y $ 和 $ y + dy $ 之间而时间导数 $ y'(t) $ 在 $ y' $ 和 $ y' + dy' $ 之间的联合概率。这个概率也可以解释为单位时间内 $ y(t) $ 和 $ y'(t) $ 同时在上述的范围内总的时间。但是，随机函数经过 $ dy $ 所需的时间是 $ dy/|y'| $。所以，所需要的经过 $\xi$ 和 $ y' $ 的可能次数就等于 $ W(\xi, y') \, dy \, dy' $ 被 $ dy/|y'| $ 除得的商数 $ |y'|W(\xi, y') \, dy' $。因此，对所有的 $ y' $ 值积分就可以得到次数 $ N_0(\xi) $，
+\begin{equation}\label{eq:ch9_N0_definition}
+N_0(\xi) = \int_{-\infty}^{\infty} |y'| \, W(\xi, y') \, dy'。
+\end{equation}
+但是，方程 \eqref{eq:ch9_correlation_derivative_zero} 表明：只要随机函数 $ y(t) $ 是可微的，$ y(t) $ 和 $ y'(t) $ 就是彼此毫无关连的。既然如此，根据计算概率的一般原理，$ W(y, y') $ 就是两个第一概率分布函数 $ W_1(y) $ 和 $ W_1(y') $ 的乘积。于是，方程 \eqref{eq:ch9_N0_definition} 就可以写作
+\begin{equation}\label{eq:ch9_N0_simplified}
+N_0(\xi) = W_1(\xi) \int_{-\infty}^{\infty} |y'| \, W_1(y') \, dy'。
+\end{equation}
+如果 $ W_1(y') $ 是对称的，$ W_1(y') = W_1(-y') $，方程 \eqref{eq:ch9_N0_simplified} 还可以进一步简化为：
+\begin{equation}\label{eq:ch9_N0_symmetric}
+N_0(\xi) = 2W_1(\xi) \int_{0}^{\infty} y'W_1(y') \, dy' \quad (W_1(y') \text{是对称的})。
+\end{equation}
+
+如果 $ W_1(y') $ 是一个平均偏差是 $ \sigma' $ 的高斯分布函数，按照方程 \eqref{eq:ch9_gaussian} 和 \eqref{eq:ch9_N0_symmetric} 就有：
+\begin{equation}\label{eq:ch9_N0_gaussian_derivative}
+N_0(\xi) = \frac{2W_1(\xi)}{\sigma' \sqrt{2\pi}} \int_0^\infty y' e^{-y'^2/2\sigma'^2} dy' = \frac{2\sigma' W_1(\xi)}{\sqrt{2\pi}}。
+\end{equation}
+利用方程 \eqref{eq:ch9_correlation_second_derivative} 和 \eqref{eq:ch9_correlation_spectral} 可以由功率谱 $ \Phi(\omega) $ 算出方差 $ \sigma'^2 $：
+\begin{equation}\label{eq:ch9_sigma_prime_sq}
+\sigma'^2 = \int_0^\infty \omega^2 \Phi(\omega) d\omega。
+\end{equation}
+如果 $ W_1(y) $ 也是一个高斯分布函数，假设 $ y(t) $ 的平均值是 $ \bar{y} $，平均偏差是 $ \sigma $。根据方程 \eqref{eq:ch9_variance}、\eqref{eq:ch9_mean_square_spectral} 和 \eqref{eq:ch9_N0_gaussian_derivative} 我们就得出
+\begin{equation}\label{eq:ch9_Rice_formula}
+N_0(\xi) = \frac{1}{\pi} \frac{\sigma'}{\sigma} e^{-\frac{1}{2}(\xi-\bar{y})^2/\sigma^2} = \frac{1}{\pi} \frac{\sigma'}{\sigma} e^{-\frac{1}{2}(\xi-\bar{y})^2/\sigma^2}。
+\end{equation}
+这就是瑞斯所给的公式。$ N_0(\xi)/2 $ 就是 $ y(t) $ 超过 $ \xi $ 值的频率。
+
+
+
+\section{线性系统对于平稳随机输入的反应}
+
+现在可以回答我们在这一章的引言里所提出的那个问题了：如果常系数线性系统的平稳随机输入是给定的，那么，系统的输出是怎样的？根据以前各节中所讲的随机函数理论的一些初步知识，很容易想到：解决这个问题的关键就是设法由输入的功率谱把输出的功率谱计算出来。一旦知道了输出的功率谱，我们就可以利用方程 \eqref{eq:ch9_spectral_correlation} 求出相关函数，也可以利用方程 \eqref{eq:ch9_mean_square_spectral} 求出平方的平均值，根据第\ref{ch9_sec6_probability}节和第\ref{ch9_sec7_function}节的方法，我们还可以估计出离开平均值的偏差的概率以及超过固定值的频率。对于很多工程问题来说，关于输出的特性的这些知识已经是很够用的了。
+
+假设输入 $ x(t) $ 的功率谱是 $ \Phi(\omega) $。相关函数是 $ R_i(\tau) $。根据方程 \eqref{eq:ch9_mean_square_spectral} 和 \eqref{eq:ch9_correlation_spectral}，我们有
+\begin{equation}\label{eq:ch9_input_mean_square}
+\overline{x^2} = \int_0^\infty \Phi(\omega) d\omega = R_i(0)
+\end{equation}
+以及
+\begin{equation}\label{eq:ch9_input_correlation}
+R_i(\tau) = \int_0^\infty \Phi(\omega) \cos \omega \tau d\tau = \frac{1}{2} \int_{-\infty}^\infty \Phi(\omega) e^{i\omega \tau} d\omega,
+\end{equation}
+这里我们用到了关系 $ \Phi(\omega) = \Phi(-\omega) $，这个关系可以由方程 \eqref{eq:ch9_spectral_correlation} 看出来。同样，我们假设输出 $ y(t) $ 的功率谱是 $ g(\omega) $，相关函数是 $ R_0(\tau) $。因而有
+\begin{equation}\label{eq:ch9_output_mean_square}
+\overline{y^2} = \int_0^\infty g(\omega) d\omega = R_0(0)
+\end{equation}
+以及
+\begin{equation}\label{eq:ch9_output_correlation}
+R_0(\tau) = \frac{1}{2} \int_{-\infty}^{\infty} g(\omega) e^{i\omega \tau} d\omega.
+\end{equation}
+
+和以前一样，设 $ h(t) $ 是线性系统对于 $ t=0 $ 时的单位冲量输入的反应。对于一个从 $ t=-\infty $ 开始的过程来说，输出可以写成
+\begin{equation*}
+y(t) = \int_{-\infty}^{t} x(\tau) h(t-\tau) d\tau,
+\end{equation*}
+可以这样写的理由是：在时刻 $ t $ 到 $ t+d\tau $ 之间，输入 $ x(t) $ 对于系统的作用，可以用时刻 $ t $ 的一个大小是 $ x(\tau) d\tau $ 的冲量对系统的作用来代替。我们再把积分变量 $ \tau $ 变为 $ u=t-\tau $。就又得出
+\begin{equation}\label{eq:ch9_output_convolution}
+y(t) = \int_{0}^{t} x(t-u) h(u) du,
+\end{equation}
+所以，相关函数 $ R_0(\tau) $ 就是
+\begin{equation*}
+R_0(\tau) = \overline{y(t) y(t+\tau)} = \int_{0}^{\infty} \int_{0}^{\infty} x(t-u) x(t+\tau-u') h(u) h(u') du\, du'.
+\end{equation*}
+但是
+\begin{equation*}
+\overline{x(t-u) x(t+\tau-u')} = \overline{x(t) x(t+\tau+u-u')} = R_i(\tau+u-u'),
+\end{equation*}
+所以，根据方程 \eqref{eq:ch9_input_correlation} 和方程 \eqref{eq:ch9_output_correlation}，我们就得出下列关系式：
+\begin{equation}\label{eq:ch9_relation_spectra}
+\int_{-\infty}^{\infty} g(\omega) e^{i\omega \tau} d\omega = \int_{-\infty}^{\infty} \int_{0}^{\infty} \Phi(\omega) e^{i\omega (\tau+u-u')} h(u) h(u') du\, du'\, d\omega.
+\end{equation}
+
+如果 $ F(s) $ 是线性系统的传递函数，那么，$ h(t) $ 的拉氏变换就是 $ F(s) $。所以 [参看方程\eqref{eq:ch3_frequency_characteristics}]
+\begin{equation*}
+F(i\omega) = \int_{0}^{\infty} e^{-i\omega u} h(u) du.
+\end{equation*}
+于是就可以把方程 \eqref{eq:ch9_relation_spectra} 改写为
+\begin{equation*}
+\int_{-\infty}^{\infty} g(\omega) e^{i\omega \tau} d\omega = \int_{-\infty}^{\infty} \Phi(\omega) F(i\omega) F(-i\omega) e^{i\omega \tau} d\omega.
+\end{equation*}
+因此，功率谱 $ g(\omega) $ 和 $ \Phi(\omega) $ 之间就有下列关系式：
+\begin{equation}\label{eq:ch9_output_power_spectrum}
+g(\omega) = \Phi(\omega) F(i\omega) F(-i\omega) = |F(i\omega)|^2 \Phi(\omega),
+\end{equation}
+在这个公式中用到了 $ F(i\omega) $ 是 $ F(-i\omega) $ 的复共轭数的事实。
+
+根据方程 \eqref{eq:ch9_output_power_spectrum} 就可以由输入的功率谱和线性系统的频率特性算出输出的功率谱。甚至于当频率特性只是用图线或数字表格来表示的情形，功率谱 $ g(\omega) $ 也是不难计算出来的。在这里，我们又一次看到，传递函数与频率特性的概念是十分有用的。
+
+我们还注意到这样一个有趣的事实：因为在普通情况下，当 $ \omega \to \infty $ 时，$ F(i\omega) \to 0 $，所以，当 $ \omega \to \infty $ 时，输出的功率谱 $ g(\omega) $ 比输入的功率谱 $ \Phi(\omega) $ 更快地趋近于零。这也就是说，输出的高频成分的强度比输入的高频成分的强度小得多。所以线性系统有一种使输出比输入更“光滑”更“规则”的作用。
+
+\section{二阶系统}\label{chapter9_section_9}
+
+作为一个简单的例子，我们来考虑二阶的线性系统。这时，运动方程就是  
+\begin{equation}\label{eq:ch9_second_order}
+m \frac{d^2 y}{dt^2} + c \frac{dy}{dt} + ky = x(t)。 
+\end{equation}
+所以，系统的传递函数 $ F(s) $ 是：  
+\begin{equation*}
+F(s) = \frac{1}{ms^2 + cs + k} = \frac{1}{k} \frac{1}{(s^2/\omega_0^2) + 2\zeta (s/\omega_0) + 1},
+\end{equation*}
+这里的 $ \omega_0 $ 是没有阻尼时的自然频率，$ \zeta $ 是实际阻尼与临界阻尼的比值[参看方程\eqref{eq:ch3_omega_zeta}]。所以  
+\begin{equation*}
+F(i\omega)F(-i\omega) = \frac{1}{k^2\left[\left((\omega/\omega_0)^2 - 1\right)^2 + 4\zeta^2 (\omega/\omega_0)^2\right]}。
+\end{equation*}
+输出的功率谱就是  
+\begin{equation}\label{eq:ch9_output_spectrum_second_order}
+g(\omega) = \frac{\Phi(\omega)}{k^2\left[\left((\omega/\omega_0)^2 - 1\right)^2 + 4\zeta^2 (\omega/\omega_0)^2\right]}。
+\end{equation}
+
+如果我们希望知道输出的平方的平均值，那么，方程 \eqref{eq:ch9_mean_square_spectral} 就给出  
+\begin{equation}\label{eq:ch9_mean_square_output}
+\bar{y}^2 = \frac{1}{k^2} \int_0^\infty \frac{\Phi(\omega)d\omega}{\left[(\omega/\omega_0)^2 - 1\right]^2 + 4\zeta^2 (\omega/\omega_0)^2}。
+\end{equation}
+如果 $ \zeta $ 很小，方程 \eqref{eq:ch9_mean_square_output} 的被积函数的分母在 $ \omega = \omega_0 $ 处几乎等于零。因此，如果 $ \Phi(\omega) $ 是一个变化缓慢的函数，就有  
+\begin{equation}\label{eq:ch9_mean_square_approx}
+\bar{y}^2 \approx \frac{\omega_0 \Phi(\omega_0)}{k^2} \int_0^\infty \frac{dx}{(x^2 - 1)^2 + 4\zeta^2 x^2}= \frac{1}{k^2} \omega_0 \Phi(\omega_0) \frac{\pi}{4\zeta} = \frac{\pi}{2mc} \frac{\Phi(\omega_0)}{\omega_0^2}.
+\end{equation}
+这个方程表明：如果阻尼系数 $ c $ 趋近于零，输出的平方的平均值就变为无限大。当 $ c $ 等于零时，传递函数有一个纯虚数极点 $ i\omega_0 $。一般说来，只要线性系统的传递函数有一个纯虚数极点，就会发生输出是无尽大的现象。因此，如果要求线性系统在随机输入下具有符合需要的运转状态，传递函数 $ F(s) $ 必须满足的条件就是：$ F(s) $ \underline{的所有极点的实数部分都应该是负数}。对系统性质所提出的这一个基本要求与普通的输入函数的稳定性条件是完全相同的。
+
+一般来说，可以用进一步改变系统的传递函数的方法来改善输出的其他性能。例如，我们完全可以设想，在某一个合用的频率 $ \omega^* $ 处，函数 $ \Phi(\omega)/\omega^2 $ 取极小值，就像图\ref{fig:9_6}所示的那样。这样，如果我们能使系统的自然频率就是 $ \omega^* $，那么，输出的随机振幅的大小就可以减小到几乎是最低的限度。其实，这是很容易做到的，只要在系统上加一个传递函数是常数 $ \alpha $ 的反馈线路就可以了（参看图\ref{fig:9_7}）。这样一来，系统的运动方程就变成
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图9.6.png}
+        \captionof{figure}{}
+        \label{fig:9_6}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图9.7.png}
+        \captionof{figure}{}
+        \label{fig:9_7}
+    \end{minipage}
+\end{figure}
+
+\begin{equation*}
+m \frac{d^2 y}{dt^2} + c \frac{dy}{dt} + ky = x - \alpha y,
+\end{equation*}
+或者
+\begin{equation}\label{eq:ch9_feedback_eq}
+m \frac{d^2 y}{dt^2} + c \frac{dy}{dt} + (k + \alpha)y = x。
+\end{equation}
+系统的自然频率就变为 $ \sqrt{(k+\alpha)/m} $，所以，只要适当地选择 $ \alpha $ 的值，就可以使系统的自然频率等于 $ \omega_0^* $：
+\begin{equation}\label{eq:ch9_new_natural_freq}
+\omega_0^* = \sqrt{\frac{k + \alpha}{m}}。
+\end{equation}
+这样做的结果就使得输出的大小减小了。
+
+
+\section{不可压缩的湍流中作用在一个二维机翼上的举力}
+
+作为第二个例子，我们考虑一个弦长是 $c$ 的薄平板状的机翼，这个机翼以一个常速度 $U$ 在空气的湍流中运动。设 $x$ 轴在弦的方向上，$z$ 轴在机翼的跨度方向上，$y$ 轴与跨度方向和弦都垂直。假设湍流的扰动速度分量 $u, v, w$ 与 $U$ 相比较都是很小的。由于这些湍流扰动速度的存在，机翼就有一个随时间变化的明显的冲角 $\alpha$，因而也就在机翼上产生了随时间变化的升力。只要扰动速度相当小，变化着的冲角 $\alpha$ 就由下列公式给出：
+
+\begin{equation*}
+\alpha = \frac{v}{U},
+\end{equation*}
+
+这时，可以把冲角 $\alpha = \alpha(t)$ 看作是系统驱动函数。系统的“反应”（输出）就是机翼上变化着的举力，或者，更好一些，把举力系数 $C_l$ 看作是系统的反应。这是李普曼（H. W. Liepmann）研究过的一个问题\footnote{H. W. Liepmann, \emph{J. Aeronaut. Sci.} 19,793~801(1952)。}。
+
+为了求出举力系数的平均平方值 $\overline{C_l^2(t)}$，首先必须确定机翼的一个传递函数。这个工作已经在第3.7节里作过了。其实，如果 $v$ 是输入，举力系数 $C_l$ 是输出，那么，频率特性 $F(i\omega)$ 就是由方程\eqref{eq:ch3_dist_velocity}到\eqref{eq:ch3_frequency_characteristic}的各个方程所表示的。
+
+虽然，实质上湍流扰动是三维的，也就是说，$u, v, w$ 都是 $x, y, z, t$ 的函数。可是，对于第一次近似的分析来说，只考虑 $v$ 以及 $v$ 与 $x, t$ 的关系似乎就很够了。所以，在湍流中我们只来考虑下列形状的扰动速度或冲角：
+
+\begin{equation*}
+a(x,t) = \frac{v(x,t)}{U}.
+\end{equation*}
+假定，在数量级是 $c/U$ 的时间里，湍流的特性没有显著的变化，冲角就只与 $t - (x/U)$ 有关，第\ref{ch3_section_7_transfer_function}节所给的西尔恩的结果也就可以应用。在分析湍流的时候，常常采用这一个假设。这个假设实际上也就是要求下面的条件成立：一个流体质点的流速的时间变化率小于一个固定的空间点处的流速的时间变化率。根据这个假设，就有
+\begin{equation}
+\overline{C_l^2} = 4\pi^2 \int_0^\infty \Phi(\omega) |\varphi(k)|^2 d\omega,
+\end{equation}
+其中的 $\Phi(\omega)$ 是 $v/U$ 的功率谱。
+
+按照方程 \eqref{eq:ch9_Phi1_turbulence} 和 \eqref{eq:ch9_Phi0_relation}，
+\begin{equation}
+\Phi(\omega) = \frac{\overline{v^2}}{U^2} \frac{L}{\pi U} \frac{1 + 3(L^2 \omega^2 / U^2)}{[1 + (L^2 \omega^2 / U^2)]^2}.
+\end{equation}
+此外，李普曼还发现 $|\varphi(k)|^2$ 可以近似地表示为
+\begin{equation}
+|\varphi(k)|^2 \approx \frac{1}{1 + 2\pi k}.
+\end{equation}
+所以
+\begin{equation}\label{eq:ch9_80}
+\begin{aligned}
+\overline{C_l^2} &= 4\pi^2 \frac{\overline{v^2}}{U^2} \int_0^\infty \frac{1 + 3u^2}{(1 + u^2)^2} \frac{1}{1 + \eta u} du \\
+&= 4\pi^2 \frac{\overline{v^2}}{U^2} \left[ \frac{4\eta - \pi}{2\pi(\eta^2 + 1)} + \frac{\eta^2 + 3}{2\pi(\eta^2 + 1)^2} (\eta \log \eta^2 + \pi) \right],
+\end{aligned}
+\end{equation}
+其中
+\begin{equation}
+\eta = \frac{\pi c}{L}.
+\end{equation}
+举力系数的平均平方值与参数 $\eta$ 之间的关系如图\ref{fig:9_8}所示。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.8.png} 
+\caption{}
+\label{fig:9_8}
+\end{figure}
+
+很显然，如果 $c/L \to 0$，这就是弦长比湍流的尺度小得很多的情形。这时  
+\begin{equation*}
+\overline{C_l^2} \to 4\pi^2 \frac{\overline{v}^2}{U^2} = 4\pi^2 \overline{\alpha}^2.
+\end{equation*}
+在似稳状态中，机翼的举力系数与冲角的关系曲线的斜率就是 $2\pi$。相反地，如果 $c/L$ 非常大，这就是机翼的弦长比湍流的尺度大得很多的情形，根据方程 \eqref{eq:ch9_80}，这时 $\overline{C_l^2}$ 几乎等于零。这也就是说：各个局部的扰动总起来说都互相抵消掉了，所以，总的举力是零。其实这个结果是可以想像到的。
+
+
+
+\section{间歇的输入}
+
+关于空气动力学的\underline{扰流抖振}问题有一个极为重要的现象，这就是尾流中的\underline{间歇现象}。所谓间歇现象是这样的：一个尾流的边缘的运动尺度很大，以至于边缘附近的一个点有时候处于尾流的内部，有时候又在尾流的外面。如果一个尾翼与一个失速或者部分失速的机翼的尾流的边缘很接近，这种间歇现象对于尾翼上的升力就会发生很重要的影响。对于这种作用可以作这样一个粗略的理解：可以把尾部的流动看作是一个均匀洗流的区域，这个洗流是有时存在有时消失的，洗流作用的时间是一系列不规则的时间间隔$^{[19,43]}$。这样一个流动对于间歇地失速的机翼的尾流中的情况来说，或许就是一个好的模型。在这种情况下，尾翼上的流动状态就是时而这样时而那样的，从一种状态变到另一种状态（从有洗流的状态变到没有洗流的状态，或者反过来）的时间间隔的长度 $T$ 就是一个随机函数，假定 $T$ 的概率分布函数是泊松分布函数，那么，只要把方程 \eqref{eq:ch9_poisson_spectrum} 稍微修改一下就可以得出 $T$ 的功率谱。这里的平均偏差不是1而是角度平均值 $\sqrt{\overline{v^2}} / U$；驱动函数（洗流）起作用的时间间隔的平均值也就是 $T$ 的平均值 $\overline{T}$。所以，功率谱就是
+\begin{equation}\label{eq:ch9_intermittent_spectrum}
+\Phi(\omega) = \frac{\overline{v}^2}{U^2} \frac{\overline{T}}{\pi} \frac{1}{1 + (\omega \overline{T}/2)^2}。
+\end{equation}
+于是举力系数的平均平方值的近似值就是：
+\begin{equation}\label{eq:ch9_cl2_intermittent}
+\begin{aligned}
+\overline{C_l^2} &= \frac{\overline{v}^2}{U^2} \frac{\overline{T}}{\pi} 4\pi^2 \int_0^\infty \frac{d\omega}{\left[1 + (\omega \overline{T}/2)^2\right]\left[1 + \pi(\omega c/U)\right]} \\
+&= 4\pi^2 \frac{\overline{v}^2}{U^2} \frac{2\eta \log \eta + \frac{\pi}{2}}{1 + \eta^2} \quad (\eta = \frac{2\pi c}{U\overline{T}}).
+\end{aligned}
+\end{equation}
+$\overline{C}_l^2$ 与 $\eta$ 的这个关系画在图\ref{fig:9_9}上。$\eta \to 0$ 和 $\eta \to \infty$ 时的极限值当然是与上一节研究过的那种情形相等的。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.9.png} 
+\caption{}
+\label{fig:9_9}
+\end{figure}
+
+\section{为随机输入而作的伺服控制设计}
+
+在第\ref{chapter9_section_9}节里，我们曾经讨论了二阶系统对于随机输入的反应，那个讨论也已经说明了用伺服控制改进系统的性能的可能性。但是，在那个例子里反馈机构还是相当原始的，因为进行反馈控制作用所需要的力的数量级与输入驱动函数的数量级相同。在一个更实际的设计中，我们可以把反馈机构设计得更巧妙一些，使得反馈作用所需要的力减少很多。例如，可以用反馈伺服机构带动可以转动的附加翼片，从而控制湍流中的机翼的运动。转动翼片所需要的力与机翼运动所引起的空气动力效应（举力、阻力、转矩等）相比较，可以是小得很多的。我们可以把这个伺服控制系统的方块图想象为图\ref{fig:9_10}的情形。输入的随机函数是扰动气流。输出就是机翼的位移。第一个传递函数 $ F_1(s) $ 表示扰动气流和这个气流所引起的举力之间的关系，这个函数可以近似地用方程\eqref{eq:ch3_k_parameter}来表示。举力与转矩变化的结果，就使得机翼产生垂直方向的运动和旋转运动。这些由于空气动力的原因所产生的外力与机翼的运动之间的关系是由结构的传递函数 $ F_2(s) $ 所描述的。机翼的运动又要产生两种作用。机翼的运动通过第二个空气动力学的传递函数 $ F_3(s) $ 又产生空气动力。这是第一个反馈线路，然而，这个反馈线路不是设计者所能任意改动的。设计者能够处理的是第二个反馈线路。机翼的运动可以用来控制襟翼的运动，假设这一部分的传递函数是 $ F_4(s) $。襟翼的运动通过传递函数 $ F_5(s) $ 又产生空气动力。所以输入 $ X $ 与输出 $ Y $ 之间的关系就是  
+\begin{equation*}
+Y = F_2(s)[F_1(s)X + F_3(s)Y + F_5(s)F_4(s)Y]
+\end{equation*}
+或者  
+\begin{equation}\label{eq:ch9_overall_transfer}
+\frac{Y}{X} = F_5(s) = \frac{F_1(s)F_2(s)}{1 - F_2(s)[F_3(s) + F_5(s)F_4(s)]}.
+\end{equation}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图9.10.png} 
+\caption{}
+\label{fig:9_10}
+\end{figure}
+所以，改动伺服机构的传递函数 $ F_4(s) $ 就可以使系统的总传递函数得到改善。  
+
+如果 $ \Phi(\omega) $ 是输入 $ x $ 的功率谱，$ g(\omega) $ 是输出的功率谱，那么，按照方程 \eqref{eq:ch9_output_power_spectrum}，  
+\begin{equation}\label{eq:ch9_output_spectrum_servo}
+g(\omega) = \Phi(\omega)F_5(i\omega)F_5(-i\omega),
+\end{equation}
+这里的 $ F_5(s) $ 就是由方程 \eqref{eq:ch9_overall_transfer} 给定的。完全可以想到，如果希望飞机里的乘客得到最大的安适，我们就必须使加速度 $ y''(t) $ 尽可能地小，这也就意味着要求 $ \overline{y''^2(t)} $ 取极小值。方程 \eqref{eq:ch9_correlation_fourth_derivative} 表明 $ \overline{y''^2(t)} $ 可以由相关函数计算出来。可是，相关函数又可以用方程 \eqref{eq:ch9_correlation_spectral} 由功率谱计算出来。把这两个一般的公式用到方程 \eqref{eq:ch9_overall_transfer} 和 \eqref{eq:ch9_output_spectrum_servo} 的特殊情形上来，就得出  
+\begin{equation}\label{eq:ch9_mean_square_acceleration}
+\overline{y''^2(t)} = \int_{0}^{\infty} \omega^4 \Phi(\omega) \left| \frac{F_1(i\omega)F_2(i\omega)}{1 - F_2(i\omega)[F_3(i\omega) + F_5(i\omega)F_4(i\omega)]} \right|^2 d\omega。
+\end{equation}
+因为 $ F_1(s), F_2(s), F_3(s) $ 和 $ F_5(s) $ 都已经固定下来，不能再加以改变。所以我们只能用改动伺服机构传递函数 $ F_4(s) $ 的方法使 $ \overline{y''^2(t)} $ 达到极小值。我们可以采用下列做法：先作出一个伺服机构传递函数 $ F_4(s) $，但是暂时先不确定其中的参数的值。既然，其余的传递函数都已经确定，如果只知道输入的功率谱[例如，像方程 \eqref{eq:ch9_Phi1_turbulence} 那样]，那么，根据方程 \eqref{eq:ch9_mean_square_acceleration} 就可以把 $ \overline{y''^2(t)} $ 计算出来，计算结果中当然也包含 $F_4(s)$ 的未定参数。对于这些未定参数，我们就可以用普通的求极小值的方法加以计算，这样确定出来的参数的值就可能使 $ \overline{y''^2(t)} $ 取极小值。这样确定的 $F_4(s)$ 就是使乘客最舒适的伺服机构传递函数。必须指出：在这个方法中，$F_4(s)$ 的基本形式（基本构造）还是由设计者根据某些实际情况和经验相当随意地选定的，只是某些参数尚未确定而已。所以，上面得到的极小值并不一定是真正能够达到的极小值。因为，如果把 $F_4(s)$ 的基本形式加以改变，还是用同样的计算方法就可能得出一个更好的结果。所以，如果希望得到更好的结果，我们还必须研究 $F_4(s)$ 应该是哪一种形式的函数的问题，要解决这种问题就要用一种比较复杂的数学方法——\underline{变分法}。关于变分法的基本做法，我们将要在第\ref{chapter_14}章中加以介绍，这里就不再讨论。
+
+以上的讨论只是在特定的输入条件下，为了特定的目的所作的最优伺服控制设计的一个例子。如果目的不同，设计条件也可以是这样的：要求扰动气流在机翼结构中引起的应力的平均平方值取极小值。这时的系统传递函数 $ F_5(s) $ 当然与以前的例子不同了，但是，问题的数学形式和处理方法还是相同的。以前各章中讨论了很多对于伺服系统的稳定性和其他的定性的性质的要求，现在的这种关于变量的最优设计可以看作是更进一步的要求。这样一个比较一般的概念大约是勃克森包姆（A. S. Boksenbom）和诺威克（D. Novik）首先提出来的\footnote{A. S. Boksenbom, D. Novik, \emph{NACA TN}, 2939(1953).}，在第\ref{chapter_16}章里，我们还要谈到这个问题。

@@ -500,7 +500,7 @@ y(0) = y_0, \\
 \end{array}\right\}
 \end{equation}
 引进下列两个参数以后，就可以把微分方程改写为更方便的形式：
-\begin{equation}
+\begin{equation}\label{eq:ch3_omega_zeta}
 \omega_0^2 = \frac{k}{m},\quad \zeta = \frac{c/m}{2\omega_0},
 \end{equation}
 $\omega_0$ 就是当阻尼器不存在时的质量弹簧系统的自然频率。$\zeta$ 就是实际的阻尼和临界阻尼的比值。这一无量纲的参数的物理意义在以下的讨论中可以说明得更加清楚。这样一来，运动方程就变成
@@ -638,7 +638,7 @@ h(t)& = \frac{1}{2\pi} \int_{-\infty}^{+\infty} F(i\omega) e^{i\omega t} d\omega
 \end{align}
 其中 $\mathfrak{R}$ 和 $\mathfrak{I}$分别表示实数部分和虚数部分的符号。这个方程的第二个等式可能是由于有关系式\eqref{eq:complex_function_F_iw}的缘故。方程\eqref{eq:response_of_impulse_input}表明，输入的单位冲量\underline{均等地}激起了所有的频率（这也就是说，各个频率的振幅都是同一数量级的）。当系统对单位冲量的反应 $h(t)$ 已经知道的时候（我们只要作一次实验就可以测出 $h(t)$），我们就可以用下列公式计算频率特性。
 
-\begin{equation}
+\begin{equation}\label{eq:ch3_frequency_characteristics}
 F(i\omega) = \int_{0}^{\infty} h(t) e^{-i\omega t} dt.
 \end{equation}
 对于任何一个固定的 $\omega$ 值，我们都可以用数值积分的方法算出这个积分。
@@ -697,7 +697,7 @@ M e^{i\theta} &= (M_1 e^{i\theta_1}) (M_2 e^{i\theta_2})\cdots (M_r e^{i\theta_r
 
 由方程\eqref{eq:log_M}就可以理解在伯德图中为什么要采用对数尺度的理由。采用了对数尺度以后，就可以使寻求系统的特性的工作大大地简化了，因为只要把各个组成部件的伯德图线的坐标简单地叠加起来就行了。
 
-\section{超越的传递函数}
+\section{超越的传递函数}\label{ch3_section_7_transfer_function}
 
 不只是常系数线性常微分方程的初值问题可以用拉氏变换法来解，对于线性偏微分方程的情况\footnote{可以参考 H. S. Carslaw and J. C. Jaeger, \textit{Operational Methods in Applied Mathematics}, Oxford University Press, New York, (1941); 或 R. V. Churchill, \textit{Modern Operational Methods in Engineering}, McGraw-Hill Book Company, Inc., New York, (1944)。}（具有分布参数的控制系统的微分方程就常常是偏微分方程），只要方程的系数与时间自变数 $t$ 无关，而且边界条件中关于 $t$ 的部分可以用对时间变数 $t$ 而言的初值条件来叙述，那么，拉氏变换法还是可用的。作过拉氏变换以后，原来的偏微分方程中的时间自变数 $t$ 就被消去了，同时也出现了一个新的参数 $s$。原来的方程就变成一个对于其余的自变数的微分方程（因为 $s$ 并不是新微分方程的自变数）。然后，就可以用其余的边界条件把这个微分方程解出来。这样得到的解里，当然包含了参数 $s$。把这个解进行拉氏反变换就可以得到原来的偏微分方程的解了。这种解法的手续显然比第二章讨论过的常微分方程的解法复杂得多。但是，从另一方面来看，如果在变换后的方程的解里把任意两个特定的量加以比较，我们可以看到，它们之间的关系仍然是线性的。如果把其中的一个看作是输入，把另外一个看作是输出的话，那么，它们的比值还是一个 $s$ 的函数，我们也还把这个函数看作是传递函数 $F(s)$。不过，有一点是不相同的：这个传递函数不再是两个 $s$ 的多项式的比值了，一般地说，它是一个 $s$ 的超越函数。
 
@@ -783,7 +783,7 @@ F(s) = \frac{\Theta(l,s)}{U(s)} = \frac{1}{\operatorname{ch} \beta l} = \frac{1}
 这个传递函数就是 $s$ 的超越函数。
 
 其次，我们再来考虑一个\underline{二维机翼理论}的问题\footnote{•}。在以均匀的水平速度 $U$ 流动的气流里，有一个弦长是 $c$ 的机翼（图\ref{fig:3_25}）。假定气流又在铅直方向上发生了一个扰动速度 $v$。如果 $v$ 对于水平坐标以及对于时间 $t$ 都是正弦函数的话，$v$ 就可以表示为
-\begin{equation}
+\begin{equation}\label{eq:ch3_dist_velocity}
 v(x,t) = \alpha_m U e^{i \omega [t - (x/l)]},
 \end{equation}
 \begin{figure}[h!]
@@ -797,7 +797,7 @@ v(x,t) = \alpha_m U e^{i \omega [t - (x/l)]},
 C_l = 2 \pi \alpha_m e^{i \omega t} \varphi(k),
 \end{equation}
 其中
-\begin{equation}
+\begin{equation}\label{eq:ch3_k_parameter}
 k = \frac{\omega c}{2U},
 \end{equation}
 而
@@ -809,7 +809,7 @@ k = \frac{\omega c}{2U},
 \frac{Y(s)}{X(s)} = F(s),
 \end{equation*}
 而频率特性 $F(i\omega)$ 就是
-\begin{equation}
+\begin{equation}\label{eq:ch3_frequency_characteristic}
 F(i\omega) = \frac{2\pi}{U} \varphi(k).
 \end{equation}
 所以，频率特性是 $\omega$ 的超越函数。
