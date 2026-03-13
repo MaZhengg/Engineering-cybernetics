@@ -1,3 +1,507 @@
 
 % To be included
 \chapter{继电器伺服系统}
+
+如果在伺服系统中有一个继电器（跳动开关），那么，这样一个伺服系统就称为\underline{继电器伺服系统}。正如第\ref{chapter6_section_3}节所指出的，继电器伺服系统的一个重要优点就是价钱比较便宜。但是，由于继电器的输出和输入不是成比例的，也就是说，输入与输出之间的关系不是线性的，所以，不能用线性理论来分析一个继电器伺服系统的运动状态。在这一章里，我们首先提出一个用来研究继电器伺服系统以及其他类似的系统的稳定性的近似理论，这个理论也是以万氏判断准则的一种变形为基础的。在这一章的后一部分中，我们还要讨论一个更新颖同时也更困难的问题，这个问题就是：怎样利用继电器所固有的非线性的特性使伺服系统得到更好的运转性能。遗憾得很，这样一个有意义的问题一直还没有被完整地研究过；这个问题的彻底解决还有待于未来。\footnote{参阅$[5,6,7,9,13,17,27,38,44]$}
+
+\section{一个继电器的近似的频率特性}
+
+我们来考虑一个频率是 $\omega$ 而振幅是 $a$ 的正弦式的输入 $x(t)$，
+\begin{equation}
+x(t) = a \sin \omega t。
+\end{equation}
+为了讨论的方便，我们把继电器的性能加以理想化：假设继电器没有时间延迟的现象，而且它的开关动作都可以在一瞬间完成，而不需要花费时间，总之，没有时滞现象。但是，继电器特性本身的滞后现象还是被考虑的：在输入是正数而且逐渐增大的过程中，如果输入在0与$b$($b$是一个比较小的正常数）之间，继电器的输出是零。当输入增加到$b$的时候，输出就立刻从零变到满值$A$($A$是一个正常数）。在输入是正数可是逐渐减小的过程中，只要输入大于$c$($c$也是一个正常数）输出就总是$A$，一旦输入减小到$c$的时候，输出就由满值$A$立刻变为零。一般来说，$b$总是比$c$大。如果把电流看作是继电器的输入，那么，$b$就称为\underline{接通电流}，$c$就称为\underline{开断电流}。当输入是负数的时候，$-b$和$-c$分别是接通电流和开断电流，输出的满值是一$A$。图\ref{fig:10_1}所画的就是上述的输入-输出关系。由于 $b \neq c$，所以输入与输出之间就有一个相角差。输入的相角落后的值 $\theta$
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图10.1.png} 
+\caption{}
+\label{fig:10_1}
+\end{figure}
+
+\begin{equation}\label{eq:ch10_phase_lag}
+\theta = \frac{1}{2} \left[ \sin^{-1} \frac{b}{a} - \sin^{-1} \frac{c}{a} \right]。
+\end{equation}
+输出的每一个矩形波的长度都是 $2\alpha/\omega$，这里的 $\alpha$ 是由下列公式给定的，
+\begin{equation}\label{eq:ch10_alpha_angle}
+\alpha = \frac{\pi}{2} + \theta - \sin^{-1} \frac{b}{a} = \frac{1}{2} \left[ \pi - \sin^{-1} \frac{b}{a} - \sin^{-1} \frac{c}{a} \right]。
+\end{equation}
+输出的周期与输入的周期是相等的，它们都是 $2\pi/\omega$。
+
+现在，输出就可以展成一个富利埃级数，
+\begin{equation}
+y(t) = \sum_{n=1}^{\infty} a_n \sin[n(\omega t - \theta)]。
+\end{equation}
+基本谐波（第一次谐波）的系数 $a_1$ 就是
+\begin{equation*}
+a_1 = \frac{4A}{\pi} \sin \alpha，
+\end{equation*}
+这里的 $\alpha$ 是由方程 \eqref{eq:ch10_alpha_angle}所给出的。在图\ref{fig:10_2}所画的继电器伺服系统中，继电器的输出就是控制伺服机构的改正信号。伺服机构通常都具有滤波器的性质，它能够使高次谐波的影响大大地减小。因此，作为一个近似的考虑，我们把所有高次谐波都忽略掉，把输出就看作是 $a_1 \sin(\omega t - \theta)$。如果 $\omega \geq 0$，采用复数形式，输出与输入的比值就是：
+\begin{equation*}
+F_r(i\omega) = \frac{4A \sin \alpha}{\pi a} e^{-i\theta} \quad (\omega \geq 0),
+\end{equation*}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图10.2.png} 
+\caption{}
+\label{fig:10_2}
+\end{figure}
+如果 $\omega < 0$，输入 $a \sin \omega t = -a \sin |\omega| t$，这时输出的基本谐波就是  
+\begin{equation*}
+-\frac{4A}{\pi} \sin \alpha \sin [|\omega| t - \theta] = \frac{4A}{\pi} \sin \alpha \sin (\omega t + \theta)。
+\end{equation*}
+所以，用复数形式表示，输出与输入的比值就是  
+\begin{equation*}
+F_r(i\omega) = \frac{4A \sin \alpha}{\pi a} e^{+i\theta}。
+\end{equation*}
+总结起来，输出与输入的比值就是  
+\begin{equation}\label{eq:ch10_relay_freq_response}
+F_r(i\omega) = 
+\begin{cases} 
+\frac{4A \sin \alpha}{\pi a} e^{-i\theta} & \omega \geq 0, \\ 
+\frac{4A \sin \alpha}{\pi a} e^{+i\theta} & \omega \leq 0. 
+\end{cases}
+\end{equation}
+我们把 $F_r(i\omega)$ 看作是继电器的“频率特性”，但是，这只是一种说法而已，$F_r(i\omega)$ 并不是真正的频率特性。正像以前各章所定义的那样，真正的频率特性只是频率 $\omega$ 的函数，与输入的振幅是没有关系的。可是，恰好相反，这里的 $F_r(i\omega)$ 是振幅 $a$ 的函数，除了与 $\omega$ 的符号有关系之外，$F_r(i\omega)$ 与 $\omega$ 的大小并没有关系。由此可见，我们所用的函数符号 $F_r(i\omega)$ 以及“频率特性”的名称并不合理，但是，为了与普通的符号和名称容易统一起见，我们还是采用了这种符号和名称。应该注意到，和普通的情形一样，$F_r(i\omega)$ 也有下列的重要性质：  
+\begin{equation*}
+F_r(i\omega) = \overline{F_r(-i\omega)}。
+\end{equation*}
+
+如果输入的振幅 $a$ 非常大，根据方程 \eqref{eq:ch10_phase_lag}、\eqref{eq:ch10_alpha_angle} 和 \eqref{eq:ch10_relay_freq_response} 就有  
+\begin{equation}
+F_r(i\omega) \approx \frac{4A}{\pi} \frac{1}{a} \quad a \gg 1。
+\end{equation}
+
+如果振幅 $a$ 相当小，$a \ll b$，继电器根本就没有反应。
+
+如果振幅 $a$ 刚好等于接通电流 $b$，$a = b$。那么  
+\begin{equation}\label{eq:ch10_cut_off_point}
+\theta = \alpha = \frac{1}{2} \left( \frac{\pi}{2} - \sin^{-1} \frac{c}{b} \right) \quad a = b。
+\end{equation}
+这个临界情形称为继电器的\underline{开断点}。
+
+可见，这些极端情况下的 $F_r(i\omega)$ 的值是由继电器的特性所确定的。
+
+\section{柯氏(Kochenburger)方法}
+
+我们暂且假定输入的各个调和分量(也就是各次谐波)的振幅都是 $a$。这时，继电器的频率特性就是一个由方程\eqref{eq:ch10_relay_freq_response}所给定的复常数。图\ref{fig:10_2}的控制线电路中除了继电器之外，还有其他的部件，假设这些部分的频率特性是 $F_1(i\omega)$。那么，前向控制线路的总的频率特性就是 $F_r(i\omega)F_1(i\omega)$。我们让 $\omega$ 从0变到$\infty$，把相当的乃氏图线 $1/[F_r(i\omega)F_1(i\omega)]$ 画在复平面上，根据乃氏准则，如果系统是稳定的，乃氏图线必定要“包围”一个点，换句话说，乃氏图线一定要在$-1$点的左方穿过实轴。但是，在振幅都是常数 $a$ 的情况下，$F_r(i\omega)$ 是一个常数，所以上述的稳定性条件也就相当于要求频率特性曲线 $1/F_1(i\omega)$ ($\omega$ 从 $0$ 变到 $\infty$) 包围 $-F_r(i\omega)$ 点。以上的讨论结果就是确定继电器伺服系统的柯氏方法的基础\footnote{R. J. Kochenburger, \textit{Trans. AIEE}, \textbf{69}, 270-284 (1950)。}。果德戈尔布$^{[39]}$(\rufont{J.C. Гольдфарб})在比较早的时候已经采用过这种方法，都梯尔(J.R. Dutilh)也独立地发明了一个类似的方法\footnote{J. R. Dutilh, \textit{rufont{L'Onde électrique}}, \textbf{30}, 438-445 (1950)。}。
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.3.png}
+        \captionof{figure}{}
+        \label{fig:10_3}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.4.png}
+        \captionof{figure}{}
+        \label{fig:10_4}
+    \end{minipage}
+\end{figure}
+
+柯氏(柯格尔格尔)指出：当输入的各个调和分量的振幅不相等的时候，只要把上一段中所讲的稳定条件应用到相当于 $a$ 从0变到$\infty$的所有的 $F_r(i\omega)$ 值上去就可以了。当 $a$ 从0变到$\infty$的时候，$-F_r(i\omega)$ 的轨迹也是一条曲线，这条曲线的起点就是方程\eqref{eq:ch10_cut_off_point}所表示的开断点，终点就是复平面的原点。图\ref{fig:10_3}所画的波形就是这种情形。这种图线就称为柯氏图。因此，柯氏方法中的稳定的充分条件就是：$1/F_1(i\omega)$ 图线必须像图\ref{fig:10_3}那样把整个 $-F_r(i\omega)$ 图线包围起来。图\ref{fig:10_4}所画的是绝对不稳定的情况。$-F_r(i\omega)$ 图线上的箭头所表示的是继电器的输入振幅 $a$ 增大的方向。$F_1(i\omega)$ 图线上的箭头所表示的是频率 $\omega$ 增大的方向，而且这条图线当 $\omega=0$ 时从原点出发。
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.5.png}
+        \captionof{figure}{}
+        \label{fig:10_5}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.6.png}
+        \captionof{figure}{}
+        \label{fig:10_6}
+    \end{minipage}
+\end{figure}
+
+除了这两种绝对稳定与绝对不稳定的情况外，也还有部分稳定（或部分不稳定）的情形，在这种部分稳定的情形中可能在一个固定的频率上发生一个振幅也是常数的自激振荡。例如，图\ref{fig:10_5}表示一种有\underline{收敛点}的情形。如果振幅 $a$ 足够小，$-F_r(i\omega)$ 点就在图线 $1/F_1(i\omega)$ 的“外面”，因而系统是不稳定的，于是振荡的振幅就逐渐增大，当振幅增大的时候，$-F_r(i\omega)$ 点就朝向 $1/F_1(i\omega)$ 图线移动。最后就到达 $P_1$ 点。这时候，系统就以相当于 $P_1$ 点的频率和振幅进行稳定的自激振荡。可见，只要有一个振幅不太大的初始扰动，（这个扰动并不需要持续地作用）系统最后就会自动地达到这个自激振荡，这种运动状态称为软性的自激发。不难看出，系统不可能有离开自持振荡点 $P_1$ 的倾向，原因是这样的：只要振幅有一些增大，$-F_r(i\omega)$ 点就进入图形上的稳定区域，因而也就受到阻尼的作用迫使振幅减小而使系统回到 $P_1$ 点的自激振荡状态。所以，$P_1$ 点才称为“收敛点”，而系统也就会持续地振荡。图\ref{fig:10_6}表示的是另外一种情形。$-F_r(i\omega)$ 图线与 $1/F_1(i\omega)$ 图线的交点 $P_2$ 是一个发散点。和以上的讨论相类似，我们可以看出：系统在 $P_2$ 点也可能发生自激振荡，不过这个振荡是不稳定的，系统的运动状态有离开 $P_2$ 点的倾向，只要有一点扰动，系统就会离开 $P_2$ 点的振荡状态。但是，如果系统最初是静止的，而且所受到的扰动不太大，$-F_r(i\omega)$ 点就不会跳出稳定区域，因而系统的静止状态就是稳定的。
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.7.png}
+        \captionof{figure}{}
+        \label{fig:10_7}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.8.png}
+        \captionof{figure}{}
+        \label{fig:10_8}
+    \end{minipage}
+\end{figure}
+
+图\ref{fig:10_7}和图\ref{fig:10_8}所表示的是更复杂一些的情形，在这两种情形中，既有收敛点 $P_1$ 也有发散点 $P_2$。对于图\ref{fig:10_7}的系统来说，初始扰动的振幅必须充分大（具体地说，要大于 $P_2$ 点所相当的振幅）才能使系统发生自激振荡，所以这种运动状态称为\underline{硬性的自激发}。图\ref{fig:10_8}所表示的系统，总是可以由不大的初始扰动引起稳定的自持振荡的。但是，如果初始扰动的振幅太大（具体地说，大于与 $P_2$ 点相当的振幅），系统就不再能发生自激振荡，这时系统的振幅将要无限地增大。
+
+从图\ref{fig:10_5}到图\ref{fig:10_8}所表示的各种情形，可以明显地看到系统的运动状态与扰动振幅之间有着密切的关系。并且也看到发生频率与振幅都是固定常数的自激振荡的可能性。所有这些性质都是非线性系统的特性，也是以前各章讨论过的线性系统所没有的。其实，只要根据第\ref{chapter1_section3}节的介绍性的讨论，我们就可以猜想到非线性系统可能有这样一些“不寻常”的性质。
+
+
+\section{其他的频率迟钝非线性机构}
+
+对于继电器伺服系统的稳定性问题来说，柯氏方法是一个很有效的解决方法。这个方法对于相当复杂的系统都能够应用，而且，只要用实验方法测出关于频率特性的数据就可以用这个方法，并不需要求出频率特性的解析表示式。在绝大多数的实际情形中，继电器后面所连接的伺服机构都有相当的滤波作用，所以，在以前的讨论中把输出中的高次谐波忽略掉的做法也是很合理的。用以上的理论分析所得的结果与实验结果是十分符合的。因此，如果稳定性是唯一的设计准则，那么，柯氏方法就解决了继电器伺服系统的全部问题。
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图10.9.png}
+    \caption{ }
+    \label{fig:10_9}
+\end{wrapfigure}
+其实，柯氏方法不仅能应用到继电器伺服系统上，而且对于许多其他的非线性机构来说，用柯氏方法也能得到同样好的效果。这个分析方法的重要关键就是：继电器的运动特性与频率无关，只与振幅有关。然而，线性系统的运动特性却是只与频率有关而与振幅无关。实际上，有很多非线性机构与继电器有相同的特性。譬如说，一个有间隙的传动齿轮组就是一种这样的机构。从以下的讨论可以看出这件事来：设 $\theta_1$ 是发动机的主动轴的转角，这个轴与齿轮组的第一个齿轮的连接是刚固的；$\theta_2$ 是刚固地连接在齿轮组的最后一个齿轮上的从动轴的转角。$\theta_1$ 与 $\theta_2$ 之间的关系可以用图\ref{fig:10_9}来表示，其中的 $2\theta$ 是齿轮组的总间隙。如果齿轮组的输入 $\theta_1$ 是一个正弦式的振动，那么，输出 $\theta_2$ 就是一种“被压缩”的正弦波，而且有一个相角落后（图\ref{fig:10_10}）。不难看出：既然 $\theta_1$ 与 $\theta_2$ 之间的关系不明显地与时间有关，所以，$\theta_1$ 的频率的改变也不会使 $\theta_2$ 的波形受到影响。因此，齿轮组的反应只随振幅改变，而与频率无关，所以和继电器一样，齿轮组也是一个\underline{频率迟钝}的机构。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{图10.10.png} 
+\caption{}
+\label{fig:10_10}
+\end{figure}
+
+如果我们用频率特性 $F_r(i\omega)$ 表示输出 $\theta_2$ 的基本谐波与输入 $\theta_1$ 的基本谐波的振幅比值与相角落后。那么，$F_g(i\omega)$ 只是 $\theta_1$ 的振幅 $a$ 的函数，而不是频率 $\omega$ 的函数。利用频率特性 $F_g(i\omega)$，我们就可以研究包含这种有间隙的齿轮组的伺服系统，其做法与上一节中用频率特性 $F_r(i\omega)$ 研究继电器伺服系统的办法完全相同。
+
+\section{继电器伺服系统的最优运转状态}
+
+我们都知道，按照柯氏方法，为了使系统稳定，柯氏图中的 $1/F_1(i\omega)$ 图线必须绕过整个的继电器频率特性曲线 $-F_r(i\omega)$，不是像普通的伺服系统那样只要绕过 $-1$ 点就够了。所以，对于系统中其余的线性部分来说，这是一个更苛刻的要求。同时这也就是为什么继电器伺服系统的运转状态往往不如普通的伺服系统好的道理。然而，这并不真正是继电器伺服系统的缺点。事实上，如果我们不只限于要求系统稳定，我们可以把继电器看作是一个开关机构，这个机构能发出正常的改正信号和负常数的改正信号，也可以不产生改正信号。这时，我们就可以提出这样一个问题：我们应该怎样根据输出的情形来开闭系统中的继电器，才能使整个系统得到最优的运动状态？譬如说，对系统的运转状态，我们有这样一个要求：在受到扰动之后，能够尽可能最快地恢复原来的正常状态。以这样一个要求来说，它不只是要求保证能够回到原来的正常状态（稳定性）而且还要求恢复得最快。解决这样一个\underline{最优运转状态}的问题的办法就是要设法确定一个输出的\underline{开关函数}，只要继电器按照这个函数动作就使得系统具有最优的运转状态。这样一个开关函数就是实际设计一个伺服系统的基础。毫无疑问，根据这个更一般的观点设计出来的继电器伺服系统一定具有比普通的伺服系统更好的性能，因为这种做法已经最充分地利用了继电器的非线性的特性。
+
+
+\section{相平面}
+
+如果 $y$ 是输出，$x$ 是输入，那么一个一般的（线性的或者非线性的）二阶系统的微分方程可以写成
+\begin{equation}\label{eq:ch10_general_second_order}
+f(y, \dot{y}, \ddot{y}; t) = x(t),
+\end{equation}
+这里的圆点表示对时间的微分。我们可以把方程 \eqref{eq:ch10_general_second_order} 改写为一个方程组：
+\begin{equation}\label{eq:ch10_state_equations}
+\begin{cases} 
+f(y, \dot{y}, \ddot{y}; t) = x(t), \\ 
+\frac{dy}{dt} = \dot{y}. 
+\end{cases}
+\end{equation}
+如果我们把 $y$ 与 $\dot{y}$ 看作是因变量，那么，方程组 \eqref{eq:ch10_state_equations} 就是未知函数 $y$ 与 $\dot{y}$ 的两个一阶联立微分方程。如果像常常遇到的情形一样，系统是\underline{自持}的，也就是说，不但方程 \eqref{eq:ch10_general_second_order} 中的函数 $f$ 与时间 $t$ 无关。而且也没有输入，$x = 0$，那么，就可以把 $dy/dt$ 从方程组 \eqref{eq:ch10_state_equations} 的第一个方程中解出来，而把 $d\dot{y}/dt$ 表示为 $y$ 与 $\dot{y}$ 的函数，所以，系统的方程组又可以写成
+\begin{equation}\label{eq:ch10_autonomous_system_first}
+\begin{cases}
+\frac{d\dot{y}}{dt} = \dot{y}k(y, \dot{y}),\\
+\frac{dy}{dt} = \dot{y}.
+\end{cases}
+\end{equation}
+这个方程组明显地包含 $t$（除了运算符号 $d/dt$ 之外）。把方程组 \eqref{eq:ch10_autonomous_system_first} 的第一个方程用第二个方程除一下，我们就得出
+\begin{equation}\label{eq:ch10_trajectory_equation}
+\frac{dy}{dy} = k(y, \dot{y}).
+\end{equation}
+
+这是一个以 $y$ 为自变量而以 $\dot{y}$ 为因变量的二阶微分方程。把这个方程解出来以后，就可以利用方程组 \eqref{eq:ch10_autonomous_system_first} 把 $y$ 和 $t$ 的关系计算出来。
+
+从物理的观点来看，上一段所提到的做法是以下列的概念为依据的：只用 $y$ 和 $\dot{y}$ 就可以描述系统的状态，而不像比较普通的方法那样，用 $y$ 和 $t$ 来描述。如果说 $y$ 是描写一个质点的位置的变量，那么 $\dot{y}$ 就是速度。因此，也就可以用 $\dot{y}$ 来代表质点的动量。所以，$y$ 和 $\dot{y}$ 就分别代表质点的位置和动量。物理学家把这样一种不用时间变量 $t$ 的状态表示法称为相空间中的表示法。在我们所讨论的特殊情形中，相空间只是二维的 ($y$ 和 $\dot{y}$)，所以，它就是相平面。这样一来，二阶系统 \eqref{eq:ch10_autonomous_system_first} 的运动状态就可以用相平面上的一条曲线来描述。这条曲线上的每一点都表示系统在某一个时刻 $t$ 的状态。根据一般的习惯，在这条曲线上，我们用箭头表示时间增加的方向，就像图\ref{fig:10_11}所画的那样。如果系统的阶数 $n$ 大于 2，相空间就是 $n$ 维的，系统的运动状态就要用这个 $n$ 维空间中一条曲线来表示。
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图10.11.png}
+    \caption{ }
+    \label{fig:10_11}
+\end{wrapfigure}
+相平面表示法的具体优点就是：非常多的二阶非线性系统都是自持的，而且都能表示成方程 \eqref{eq:ch10_trajectory_equation} 的形式。这个方程至少总可以用等倾法把解用图线表示出来。事实上，只要把方程 \eqref{eq:ch10_trajectory_equation} 所规定的曲线的方向场在相平面上表示出来以后，系统的特性就很清楚了。相平面的这样一些性质的应用是非线性振动理论的基本方法之一。这种方法称为非线性力学的拓扑方法\footnote{参阅 J. J. Stocker, \textit{Nonlinear Vibrations in Mechanical and Electrical Systems}, New York (1950), 也可以参阅[46]或[1]}。
+
+为了把以前的一些概念改用相平面的方法来表示。我们举一个例子：考虑一个没有驱动函数的二阶线性系统
+\begin{equation}\label{eq:ch10_linear_second_order}
+\frac{d^2y}{dt^2} + 2\zeta \frac{dy}{dt} + y = 0,
+\end{equation}
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.12.png}
+        \captionof{figure}{}
+        \label{fig:10_12}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.13.png}
+        \captionof{figure}{}
+        \label{fig:10_13}
+    \end{minipage}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.14.png}
+        \captionof{figure}{}
+        \label{fig:10_14}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.15.png}
+        \captionof{figure}{}
+        \label{fig:10_15}
+    \end{minipage}
+\end{figure}
+只要把时间的量度单位适当地加以选择就可以使方程\eqref{eq:second_order_kinematic_system}中的自然频率 $\omega_0$ 等于1，因而就得出方程 \eqref{eq:ch10_linear_second_order}。$\zeta$ 当然就是系统的阻尼与临界阻尼的比值。对于振荡的情形来说，$|\zeta| < 1$。可以把方程 \eqref{eq:ch10_linear_second_order} 改写成
+\begin{equation}\label{eq:ch10_state_equations_example}
+\begin{aligned}
+\frac{dy}{dt} &= -2\zeta y - y, \\
+\frac{dy}{dt} &= y.
+\end{aligned}
+\end{equation}
+因此，我们就得到相当于方程 \eqref{eq:ch10_trajectory_equation} 的方程：
+\begin{equation}\label{eq:ch10_trajectory_example}
+\frac{dy}{dy} = -\frac{2\zeta y + y}{y} = -2\zeta - \frac{y}{y}.
+\end{equation}
+
+根据方程 \eqref{eq:ch10_trajectory_example}，不难看出，曲线斜率 $d\dot{y}/dy$ 只在从相平面的原点出发的每一条射线上是相同的常数。图\ref{fig:10_12}到\ref{fig:10_16}所画的是五种不同的运动类型，它们分别相当于 $\zeta < -1$, $-1 < \zeta < 0$, $\zeta = 0$, $0 < \zeta < 1$ 以及 $1 < \zeta$。图\ref{fig:10_12}和图\ref{fig:10_16}是非振荡的情形。\ref{fig:10_13}到\ref{fig:10_15}都是振荡的情形。图\ref{fig:10_14}是真正的简谐振荡。
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图10.16.png}
+    \caption{ }
+    \label{fig:10_16}
+\end{wrapfigure}
+在以上所画的这些图里，相平面的原点相当于平衡状态，因为在这一点 $dy/dt$ 和 $d\dot{y}/dt$ 都等于零。用数学的术语来说，原点是方程 \eqref{eq:ch10_state_equations_example} 的奇点。然而，在 $\zeta < 0$, $\zeta = 0$ 和 $\zeta > 0$ 这三种不同的情况下，平衡状态的特性是十分不同的。图\ref{fig:10_12}和图\ref{fig:10_13}表明，当 $\zeta < 0$ 时，系统的运动曲线总是从平衡状态发散出去的。所以，原点是一个不稳定的平衡点。图\ref{fig:10_15}和图\ref{fig:10_16}表明，当 $\zeta > 0$ 时，系统的运动曲线总是收敛到平衡状态上来的，所以原点就是一个稳定的平衡点。用数学的术语来说，在图\ref{fig:10_12}和图\ref{fig:10_16}中，因为原点是所有运动曲线都要经过的，所以称为结点。图\ref{fig:10_13}和图\ref{fig:10_15}的原点是螺线的中心，这时，它被称为焦点。在图\ref{fig:10_14}的特殊情形中，$\zeta = 0$，运动曲线总是把原点包围在内部，这时，原点就称为中心点。
+
+如果二阶系统的基本方程有一个常数驱动项，也就是说，
+\begin{equation}\label{eq:ch10_second_order_system_constant}
+\frac{d^2 y}{dt^2} + 2\zeta \frac{dy}{dt} + y = c,
+\end{equation}
+这里的 $c$ 是一个常数。这时也就有
+\begin{equation*}
+\frac{d^2 (y - c)}{dt^2} + 2\zeta \frac{d(y - c)}{dt} + (y - c) = 0.
+\end{equation*}
+因此，相平面上的运动曲线和图\ref{fig:10_12}到图\ref{fig:10_16}所画的完全相似，只不过把平衡点改为 $y$ 轴上的 $y = c$ 点就是了。
+
+
+\section{线性开关}\label{ch10_sec6_linear_switch}
+
+在以下的讨论中，为了简化继电器的开关问题的讨论，我们假设继电器只能有两种状态：单位大小的正输出和单位大小的负输出。没有输出等于零的情形。不难了解，输出总是单位大小的假设并不会限制问题的普遍性。
+
+在讨论最优开关问题之前，我们先来考虑比较简单的\underline{线性开关}的情形，所谓“线性开关”，就是：继电器所产生的输出驱动函数 $c$ 的大小总是一，$|c| = 1$，而且这个输出的符号与 $ay + b\dot{y}$ 的符号相同。在这里讨论线性开关的目的就是想借此说明开关问题的一些特点。
+
+在弗吕格-罗茨（I. Flügge-Lotz）的论文\footnote{I. Flügge-Lotz, \textit{ZAMM}, 25~27, 97~113 (1947).}以及弗吕格-罗茨与克罗特尔（K. Klotter）合著的论文\footnote{I. Flügge-Lotz and K. Klotter, \textit{ZAMM}, 28, 317~337 (1948).}中都分析过有线性开关的继电器的伺服系统的运动状态。以下的讨论就是他们在定性方面的研究结果的简单总结。
+
+这两位作者所研究的系统的微分方程是
+\begin{equation}\label{eq:ch10_linear_switch_eq}
+\frac{d^2 y}{dt^2} + 2\zeta \frac{dy}{dt} + y = \operatorname{sgn}(ay + b\dot{y}) \quad 0 < \zeta < 1.
+\end{equation}
+当驱动函数是$+1$时，那么，相平面上的一条相当的运动曲线就称为一个\underline{正弧}（简写为$P$）。反之，当驱动函数是$-1$时，相当的一条运动曲线就称为一个\underline{负弧}（简写为$N$）。所有的正弧的总体称为正系统。所有负弧的总体称为负系统。根据我们对方程\eqref{eq:ch10_second_order_system_constant}的讨论，已经知道，方程\eqref{eq:ch10_linear_switch_eq}的正系统是由收敛的螺线所组成的，这些螺线的焦点都是$y = 1$，$\dot{y} = 0$；方程\eqref{eq:ch10_linear_switch_eq}的负系统也是由收敛的螺线所组成的，这些螺线的焦点都是$y = -1$，$\dot{y} = 0$。我们当然希望系统的最终状态就是原点，$y = \dot{y} = 0$。
+
+按照方程\eqref{eq:ch10_linear_switch_eq}右端的开关函数中$a$与$b$的符号，可以规定四种情形。
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图10.17.png}
+    \caption{ }
+    \label{fig:10_17}
+\end{wrapfigure}
+我们把$a > 0$，$b > 0$的情形称为\underline{第一种情形}。这时，\underline{开关曲线}$ay + b\dot{y} = 0$是一条经过相平面的原点而且位置是在第二象限和第四象限内的直线。在这条直线的右方$ay + b\dot{y}$是正数，所以，那里是一个正系统的区域。在这条直线的左方，$ay + b\dot{y}$是负数，所以，是一个负系统的区域。在这条开关线上，正系统和负系统连接起来，而且，运动曲线的\underline{隅角}（即正弧与负弧的连接点）也发生在这条线上（图\ref{fig:10_17}）。存在周期解的条件就是：存在一个正弧，这个正弧与开关线的两个交点与原点距离相等。理由是这样的：如果确实存在这样一个正弧，那么，根据对称性，在开关曲线的另一方也必然有一个连结这两个交点的负弧。因此，这两个弧就组成一条相平面上的闭合曲线。用非线性力学的术语来说，这种周期解就称为\underline{极限环}。在以下的讨论中我们就会看到，在所考虑的情形中确实可以发生周期解。
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.4\textwidth]{图10.18.png} 
+\caption{}
+\label{fig:10_18}
+\end{figure}
+
+不难看出，总会有一个正弧和一个负弧与开关曲线相切，设这两个切点分别是$S_P$和$S_N$（图\ref{fig:10_18}）。而且，设这两个弧与开关曲线的另外的交点分别是$R_P$和$R_N$。$S_P$与$S_N$对于原点是对称的。$R_P$与$R_N$也是这样的。先假设 $\zeta$，$a$ 和 $b$ 之间的关系，使得$R_N$点在$S_P S_N$线段之外（就像图\ref{fig:10_18}的情形）。这时，如果某一个解在开关曲线上的起点与$S_P S_N$线段足够接近，那么，经过这个点的运动曲线必然在开关曲线的左方或右方离开开关曲线，不再与开关曲线相交。至于在哪一方离开开关线就要由起点的位置来确定。譬如说，起点在$S_N$与$R_P$之间，那么，经过这个点的运动曲线就在开关曲线的右方离开开关线。我们也可以证明，如果开关线右方的正弧与开关曲线相交于两点，那么，这个弧的终点（第二个交点）到原点的距离小于起点（第一个交点）到原点的距离。因此，永远不可能满足有周期解的条件。所以，系统的运动曲线永远是围绕某一个焦点的螺线，因此，最终状态不可能是相平面的原点。
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图10.19.png}
+    \caption{ }
+    \label{fig:10_19}
+\end{wrapfigure}
+但是，如果$R_N$和$R_P$都在$S_P S_N$线段上（图\ref{fig:10_19}），就存在一个周期解。理由是这样的：根据我们的假设，正弧$R_P S_P$的起点$R_P$到原点的距离小于终点$S_P$到原点的距离。但是，把图\ref{fig:10_15}的收敛螺线的焦点从原点移到$+1$点（相当于正弧）和$-1$点（相当于负弧）的手续对于离原点很远的部分影响非常小。所以，如果一个正弧在开关线上的起点离原点非常远，那么，这个弧在开关线上的终点与原点的距离就比较近一些（这是螺线的性质）。因此，这种弧与$R_P S_P$弧的性质刚好相反。因为曲线之间的变化是连续的，所以，一定有一个中间状态的正弧，这个正弧的起点和终点与原点的距离相等。这就是存在周期解的条件。图（\ref{fig:10_19}）中所画的闭合曲线就是这个周期解。事实上，已经作过的数学分析不但证明了上述的事实，而且还进一步证明：这个周期解不只是唯一的，而更重要的是，这个解还是轨道稳定的，具体地说：所有初始点在这个闭合曲线外面的解，最后都趋近于这个周期解；所有初始点在这个闭合曲线内部而在闭曲线$R_P S_P R_N S_N R_P$所包围的区域（也就是图\ref{fig:10_19}的阴影区域）之外的解，最后也趋近于这个周期解。初始点在闭合曲线$R_P S_P R_N S_N R_P$内部的运动曲线最后总是趋近于某一个焦点，也还是没有趋近于原点的可能性。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图10.20.png} 
+\caption{}
+\label{fig:10_20}
+\end{figure}
+
+第二种情形就是$a > 0$而$b < 0$的情形。这时，开关曲线$ay + b\dot{y} = 0$经过第一象限和第三象限。正系统和负系统与前一种情形是一样的。在这种情形中不可能有周期解。$R_P$，$R_N$，$S_P$和$S_N$的定义也与以前相同。这些点和原点在开关线上的位置顺序是$R_P$，$S_P$，$O$，$S_N$，$R_N$；图\ref{fig:10_20}所画的就是这种情形。在$S_P S_N$线段上有一种新的现象：我们来考虑一个在$E$点与这个线段相交的解（$E$点是$S_P S_N$上某一点）。假设这个解与开关线的相互位置就像图\ref{fig:10_20}所画的那样，那么，这个解在$E$点将会怎样呢？既然$E$点在开关线上，照道理讲，到达$E$点以后，表示系统运动状态的动点就应该沿一个负弧前进。但是，从$E$点开始的负弧又会使动点再回到原来的半平面（也就是到达$E$点以前所在的半平面）上来，可是，在这个半平面上$ay + b\dot{y} > 0$，解只能由正弧组成，所以，到达$E$点以后，动点不可能再沿负弧前进；另一方面，动点到达$E$点以后也一定不能再继续沿正弧前进，因为只有刚刚走过的路线是经过$E$点的唯一的正弧。因此，我们可以说，$E$点以后的解是不存在的，或者说，解在$E$点终止。任何一个从$R_P R_N$线段的外部开始的解，在没有与$R_P R_N$线段相交之前总是旋转地逐渐接近原点。最后，如果这个解与$S_P R_P$相交，它就趋近于$+1$；如果与$S_N R_N$相交，它就趋近于$-1$点；如果这个解最后与$S_P S_N$相交，那就会发生古怪的“终止”现象。在“终止”的情况下，系统的“位置”和“速度”都固定不变，这当然是不合情理的事情。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图10.21.png} 
+\caption{}
+\label{fig:10_21}
+\end{figure}
+
+其实，在真实情况下，系统的运动状态是不可能“终止”的，它总是要在时间过程中进行的。得出上述的荒谬结果的理由也是可以解释的：因为实际的开关动作总是有时滞的，所以，一个解与开关线相交时驱动函数并不立刻改变符号，所以解还要继续前进一段时间，在这一段继续前进的时间中驱动函数还保持原来的符号。在第一种情形中，因为这样一个时滞不很大，所以对系统的基本运动状态没有什么影响，但是，在现在的情形中，时滞就可以使系统的解避免发生“终止”现象。现在我们来观察一个到达“终止点”的解。由于时滞的缘故，解不再在这一点终止，而要继续前进某一段距离，然后才发生开关动作，开关动作就使得在相平面上画出一个隅角，但是，在隅角上解还是存在的。从这个隅角出发，解又在相反的方向上越过开关线，解越过开关线一个短的距离以后，又在相平面上画出另一个隅角，以后的过程也是类似的，就像图\ref{fig:10_21}所画的那样。从这个图也可以看到，这种“锯齿状”的运动，最后就使得系统“爬出”$S_P S_N$区域，最后，解就趋近于某一个焦点。所以，时滞可以消除解的终止现象，但是，系统的运动状态还是不能令人满意的，因为，解还是不能最后到达原点。
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图10.22.png}
+    \caption{ }
+    \label{fig:10_22}
+\end{wrapfigure}
+在第三种情形中，$a<0$，而$b>0$。这种情形的开关线也是通过相平面的第一象限和第三象限的，但是，现在的正系统在开关线的左方，负系统在开关线的右方。（这与第二种情形恰好相反）。在这种情形中，总是存在一个稳定的周期解（或者说是一个稳定的极限环）（图\ref{fig:10_22}），而且，这个周期解就决定了所有的情况，因为，所有其他的解最后都趋近于这个周期解。所以，在这种情形里，还是不能使系统达到相平面的原点。
+
+第四种情形就是$a<0$同时$b<0$的情形。这种情形的开关线与第一种情形相同，而正弧和负弧的分布状态与第三种情形相同。可以证明，在这种情形中不可能有周期解。如果，开关动作没有时滞，那么，$S_P S_N$线段（图\ref{fig:10_23}）就是由终止点组成的。如果，从$S_P S_N$线段上每一点出发向后（也就是在时间减小的方向上）描画解的图线，就可以看到这些曲线盖满了全平面，这也就是说，所有的解都“终止”在开关线的$S_P S_N$线段上。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图10.23.png} 
+\caption{}
+\label{fig:10_23}
+\end{figure}
+
+但是，这里也和第二种情形一样，时滞的存在就使情况大不相同了。当解还没有到达$S_P S_N$线段的时候，时滞并没有什么重要作用；但是，当解到达$S_P S_N$线段时，时滞就使解不再终止，而能使解越过开关线一段不大的距离。然后，画出一个隅角，接着又越过开关线，又作出另一个隅角，以后还是这样继续下去。从图\ref{fig:10_23}可以看出，这种锯齿状的运动就使系统的运动状态趋近于原点，最后，系统就在原点附近作频率高振幅小的振动。时滞越小，振动的频率就越高。这种状态就称为继电器伺服系统的颤震。
+
+这样一来，我们就看出，讨论过的四种情形中，只有第四种情形能使系统趋于所希望的平衡状态，但是，即使如此，系统还是在平衡状态附近颤震。
+
+以上就是弗吕格-罗茨和克罗特尔的理论分析的介绍，从这个介绍里，就可以看出线性开关的缺点，同时也会知道，使伺服系统具有最优运转状态的\underline{最优开关函数}一定不会是线性开关函数。以下各节的讨论就可以使我们更清楚地了解这方面的问题。
+
+
+
+\section{最优开关函数}
+
+如果一个二阶自持系统的驱动函数的大小总是一，那么，这个系统的方程就可以写成
+\begin{equation}\label{eq:ch10_general_system}
+\begin{cases}
+\dfrac{dy}{dt} = y,\\
+\dfrac{dy}{dt} + g(y, \dot{y}) = \varphi(y, \dot{y}),
+\end{cases}
+\end{equation}
+其中 $\varphi(y, \dot{y})$ 是一个不连续的函数，它只能取 $+1$ 和 $-1$ 这两个函数值。这时，就可以提出这样一个最优开关问题：要求找出一个函数 $\varphi(y, \dot{y})$，使得方程 \eqref{eq:ch10_general_system} 的经过相平面上任何一点 $p$ 的解都能经过原点 $O$，而且，沿着这条经过 $p$ 的解的路径，从 $p$ 变动到 $0$ 所需要的时间对于 $\varphi$ 来说是极小的，也就是说，任何一个其他的函数 $\varphi$ 都不能使这个时间更短一些。这样求出函数 $\varphi(y, \dot{y})$ 就是这个特殊问题“最优开关函数”。这个特别的开关问题曾经被布绍 (D. W. Bushaw) 研究过\footnote{D. W. Bushaw, \textit{Experimental Towing Tank}, Stevens Institute of Technology Report, 469, Hoboken, N. J., (1953).}，而且，对于 $g(y, \dot{y})$ 的线性的特殊情形 $g(y, \dot{y}) = 2\zeta \dot{y} + y$ ($\zeta$ 是任何实数)，他给出了完全的解答\footnote{参阅[44,47,48],也可以参阅[5]。}。然而，布绍所用的数学方法非常复杂，而且很难推广到其他的情形中去，所以，在以下的讨论中，我们只限于说明他所得到的结果。
+
+只要 $g(y, \dot{y})$ 是连续函数，那么，布绍所提出的正则路线的概念就是一个很有用的普遍概念。所谓\underline{路线}就是相平面上的运动曲线。既然 $\varphi(y, \dot{y})$ 只能取 $+1$ 和 $-1$ 两个值，所以一个路线只是由正弧和负弧组成的。在时间增加的过程中，当驱动函数从 $+1$ 变为 $-1$ 时，路线就由一个正弧转到一个负弧上去，这两个弧的交点就称为一个正负隅角。类似地，相当于开关函数从 $-1$ 变到 $+1$ 的交点就称为负正隅角。如果一条路线在 $y$ 轴的上方不包含负正隅角而且在 $y$ 轴的下方不包含正负隅角，那么，这条路线就称为\underline{正则路线}。正则路线的重要性在于：\underline{极小路线}（所用的时间是极小值的路线）一定是正则路线。这也就是说，如果从 $p$ 点出发给定一条不是正则的路线 $\Delta$，那么，总可以找到一条从 $p$ 出发的正则路线，经过这条路线所用的时间比经过 $\Delta$ 所用的时间短。这是很容易证明的。譬如说，一条路线在 $y$ 轴上方有一个负正隅角 $p$，就像图\ref{fig:10_24}所画的那样。用 $p'$ 表示路线在 $p$ 点以前的最后一个隅角或者路线与 $y$ 轴的交点，这两个点中哪一点离 $p$ 比较近，就规定 $p'$ 是那一点。在 $p$ 点以后的相当点用 $p''$ 表示。从 $p'$ 点出发向前画一条正路线，再从 $p''$ 点出发向后画一条负路线，这两条路线相交于 $p'''$ 点。根据基本方程 \eqref{eq:ch10_general_system} 我们就有：
+\begin{equation}
+\frac{d\dot{y}}{dy} = \frac{-g(y, \dot{y}) + \varphi(y, \dot{y})}{\dot{y}}.
+\end{equation}
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{图10.24.png}
+    \caption{ }
+    \label{fig:10_24}
+\end{wrapfigure}
+因此，在相平面上的任何一点正路线的斜率的代数值总是大于负路线的斜率的代数值。所以，路线之间的几何形式就是图\ref{fig:10_24}所画的那种情形。如果我们把给定的路线 $p'p''$ 改为 $p'p'''p''$，那么，路线在 $y$ 轴上方的负正隅角 $p$ 就被消除掉了，因而也就变成正则路线。如果我们用 $t(p'pp'')$ 表示从 $p'$ 经过 $p$ 到 $p''$ 所用的时间，用 $t(p'p'''p'')$ 表示经过正则路线 $p'p'''p''$ 所用的时间，那么
+\begin{equation*}
+t(p'p''') = \int_{p'pp''} \frac{dy}{\dot{y}},
+\end{equation*}
+\begin{equation*}
+t(p'p'''p'') = \int_{p'p'''p''} \frac{dy}{\dot{y}}.
+\end{equation*}
+但是，对于任何一个固定的 $y$ 值来说，正则路线上的 $\dot{y}$ 值总是大于原来的路线 $(p'pp'')$ 上的 $\dot{y}$ 值，因而 $t(p'p'''p'') < t(p'pp'')$。所以，正则路线比非正则路线“短”。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{图10.25.png} 
+\caption{}
+\label{fig:10_25}
+\end{figure}
+
+作为应用最优开关函数理论的一个简单例子，我们取 $g(y, \dot{y}) = \zeta \dot{y}$。于是，方程组 \eqref{eq:ch10_general_system} 变为
+\begin{equation}\label{eq:ch10_simple_example}
+\begin{cases}
+\dfrac{dy}{dt} = y,\\
+\dfrac{dy}{dt} = -\zeta \dot{y} + \varphi(\dot{y}, y).
+\end{cases}
+\end{equation}
+
+路线弧的正系综和负系综当然与 $\zeta$ 值有关；但是，由于方程组 \eqref{eq:ch10_simple_example} 中不明显地包含 $y$，所以，弧的系统所包含的弧都是沿 $y$ 轴方向移动而得出的平行曲线。在图\ref{fig:10_25}中，对于 $\zeta$ 值的三种可能的情形，画出了通过原点的一个典型的正弧和一个典型的负弧。$\zeta<0$ 的情形与其余两种情形不同，如果要求最后到达原点，那么 $\dot{y}$ 的初始值就必须在 $-1/\zeta$ 与 $+1/\zeta$ 之间。所以，对于这种情形来说，只有当 $\dot{y}$ 的初始值在所说的范围内的时候，最优开关问题才有意义。
+
+我们用 $\Gamma$ 表示经过原点的正路线在 $y$ 轴下方的那一部分，用 $\Gamma^-$ 表示 $\Gamma$ 对原点的“反射”（对称曲线）。所以，$\Gamma^-$ 就是经过原点的负路线在 $y$ 轴上方的部分。$\Gamma$ 和 $\Gamma^-$ 组成一条曲线 $C$。如果在某一条曲线的上方开关函数 $\varphi(y, \dot{y})$ 取 $-1$ 值，在这条曲线的下方，开关函数 $\varphi(y, \dot{y})$ 取 $+1$ 值，这条曲线就称为\underline{开关曲线}；可以证明，上述的曲线 $C$ 就是最优开关曲线。图\ref{fig:10_26}所画的就是这种情形。开关动作的物理过程是这样的：从 $C$ 上方的任何一点 $p$ 开始，驱动函数的值是 $-1$，系统的运动状态就沿着一个负弧到达开关曲线 $C$。这时驱动函数的值就变为 $+1$，然后系统就沿着 $C$ 最后达到原点。如果初始点 $p$ 在 $C$ 的下方，驱动函数的值是 $+1$。于是系统就沿着一个正弧到达开关曲线 $C$。在开关线上，驱动函数的值变为 $-1$，然后系统就沿着 $C$ 达到原点。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{图10.26.png} 
+\caption{}
+\label{fig:10_26}
+\end{figure}
+
+从以下的说明中，就可以看到所谓的最优开关曲线是正确的。首先，我们都知道，为了达到原点，路线的最后一部分必须是 $C$，因为只有 $C$ 是通过原点的路径。假定初始点在 $C$ 的上方，按照布绍的结果，最优路线的第一部分是一个从 $p$ 到 $C$ 的负弧，第二部分就是沿着 $C$ 到达原点的路线。这也就是图\ref{fig:10_27}(a) 中包含虚线部分的路线。如果开关动作开始得太早，在到达 $C$ 之前就会有一个负正隅角。为了到达原点，我们还必须使开关动作再进行一次，因而也就要再作出一个正负隅角。如果这个开关动作在 $p'$ 点发生，这时 $\dot{y}$ 还是负数，这就使路线不能满足正则路线的条件。因此，在这条变化了的路径上所用的时间一定比最优路线长。如果正负隅角在 $p''$ 点，这时 $\dot{y}$ 是正数，然而，沿这条路线到达原点所用的时间还要更长一些，因为在这条路线中还更多包含了一条花费时间的闭路线。这样我们就可以看出：过早的开关动作是不利的。图\ref{fig:10_27}(b) 表示的是开关动作过迟发生的情形。既然 $p'O$ 和 $p''p''$ 这两条路线是平行的，经过这两条路线所用的时间也应该是一样长的，所以，从图\ref{fig:10_27}(b) 来看，过迟发生开关动作也是有害的。图\ref{fig:10_27}(c) 所表示的又是另一种情形，这时，路线的第一部分就是一个正弧而不是负弧。可是，从图形上就能明显地看出，这个情形也比最优路线的情形坏。以上的各种考虑表明，选取正则路线为最优路线的做法是正确的。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{图10.27.png} 
+\caption{}
+\label{fig:10_27}
+\end{figure}
+
+\section{二阶线性系统的最优开关曲线}
+
+布纽把 $g(y, \dot{y}) = 2\zeta \dot{y} + y$（$\zeta$ 可以是任意实数）的二阶线性系统的最优开关曲线具体地确定出来。在这里，我们只叙述他的结果而不加以证明；但是，从上一节关于简单情形的讨论来看，所要介绍的结果的一般性质也是不难理解的。对于这个 $g(y, \dot{y})$ 来说，正系统和负系统就是把图\ref{fig:10_12}到图\ref{fig:10_16}中的原点分别移到 $(+1,0)$ 点和 $(-1,0)$ 点所得到的两族曲线。
+
+和上一节的简单情形最相像的就是 $\zeta > 1$ 的情形。开关曲线是由一条从相平面上的无限远处到原点的正弧和一条从无限远处到原点的负弧组成的。和上一节一样，在 $C$ 的上方，开关函数 $\varphi$ 的值是 $-1$；在 $C$ 的下方，$\varphi$ 的值是 $+1$。如果初始点在 $C$ 的上方，最优路线就是像图\ref{fig:10_28}所画的那样。
+
+当 $\zeta < -1$ 时，也和上一节的简单情形一样，只有当初始点在相平面的一个有限的区域之内时，系统才能最后到达原点；这是因为当没有驱动函数 $\varphi$ 的时候，系统是不稳定的缘故。布纽证明：这个区域的边界是由两个弧组成的：一个弧是从 $(+1,0)$ 点到 $(-1,0)$ 点的正弧，另一个弧是从 $(-1,0)$ 点到 $(+1,0)$ 点的负弧。图\ref{fig:10_29}所画的就正是这种情形。只有当初始点在这个区域内的时候，开关问题才有意义。最优开关曲线 $C$ 是由一条走向原点的正弧和一条走向原点的负弧组成的。在 $C$ 的上方，开关函数 $\varphi$ 等于 $-1$，在 $C$ 的下方，$\varphi$ 等于 $+1$。图\ref{fig:10_29}画出了一条初始点 $p$ 在 $C$ 上方的最优路线。
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.28.png}
+        \captionof{figure}{}
+        \label{fig:10_28}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{图10.29.png}
+        \captionof{figure}{}
+        \label{fig:10_29}
+    \end{minipage}
+\end{figure}
+
+当 $\zeta = 0$ 时，正系统和负系统分别是以 $(+1,0)$ 点和 $(-1,0)$ 点为中心的无限多个圆。最优开关曲线 $C$ 是一系列半径是 $1$ 的半圆弧（图\ref{fig:10_30}），这一系列半圆从原点出发沿着 $y$ 轴向左右两个方向无限地伸延出去。在 $y$ 是正数的部分，这些半圆都在 $y$ 轴的下方；在 $y$ 是负数的部分，这些半圆都在 $y$ 轴的上方。在 $C$ 的上方，开关函数 $\varphi$ 等于 $-1$，在 $C$ 的下方，$\varphi$ 等于 $+1$。从图\ref{fig:10_30}中所画的那样一个 $p$ 点出发，路线的一部分是一个负弧，负弧当然就是一个以 $(-1,0)$ 点为圆心的圆弧。当路线与 $C$ 在 $a$ 点相交的时候，路线就变成一个正弧，正弧就是一个以 $(+1,0)$ 点为心的圆弧。然后，路线又在 $b$ 点与 $C$ 相交，于是路线又在 $b$ 点变为负弧，接着，又在下一个交点处变为正弧，以后的过程也是类似的。路线与 $C$ 的最后一个交点是 $d$，从 $d$ 点开始，系统就沿着 $C$ 到达原点。这样一个开关动作的过程就比 $\zeta > 1$ 的情形复杂得多了。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图10.30.png} 
+\caption{}
+\label{fig:10_30}
+\end{figure}
+
+$0 < \zeta < 1$ 的情形，也就是收敛螺线的情形比以上的情形还要困难一些。对于这种情形，布绍证明最优开关曲线的画法是这样的：我们先从原点开始沿着时间的反方向画一条正螺线。从原点到这条螺线与 $y$ 轴的第一个交点之间的螺线弧就是 $C$ 的第一个弧（图\ref{fig:10_31}）。既然，每一个 $y$ 轴上方的螺线弧都与 $y$ 轴相交于两点，我们就可以把每一个弧对于它的右边的交点的反射图形画出来，这样就得出一系列“反射”的螺线弧。最后，我们再把这些弧平行于 $y$ 轴移动，使它们按照次序首尾相接地排列成 $y$ 轴下面的一条连续曲线，这条曲线从原点开始向 $y$ 轴右方无限地延展下去。这就是最优开关曲线的正半部分；把这条曲线对于原点的反射图形就是最优开关曲线的负半部分。同样，在这条开关曲线 $C$ 的上方开关函数 $\varphi$ 等于 $-1$；在 $C$ 的下方，$\varphi$ 等于 $+1$（图\ref{fig:10_31}）。这个情形和图\ref{fig:10_30}所画的 $\zeta = 0$ 的情形是十分类似的，唯一的区别就是把半圆弧换成了螺线弧。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图10.31.png} 
+\caption{}
+\label{fig:10_31}
+\end{figure}
+
+最后一种情形就是发散螺线的情形，这时 $-1 < \zeta < 0$。最优开关曲线的做法基本上和前一种情形完全相同，不过这里的一系列螺线弧是越向外越小的，和前一种情形中越向外越大的情况恰好相反。虽然螺线弧的个数是无穷多的，但是开关曲线所占据的范围却是有限的，正像图\ref{fig:10_32}所画的那样，它的宽度只是在 $y$ 轴上的 $(-a, 0)$ 点到 $(+a, 0)$ 之间。事实当然也应该就是这样的；因为这里的阻尼是负的，正像图\ref{fig:10_29}的情形一样，只有当初始点在原点附近的某一个有限的范围内时，路线才能够最后到达原点。这里的边界是由一条从 $(+a, 0)$ 到 $(-a, 0)$ 的正弧和一条从 $(-a, 0)$ 到 $(+a, 0)$ 的负弧组成的。在开关曲线 $C$ 的上方的相平面部分最优开关函数 $\varphi$ 取 $-1$ 值，在 $C$ 下方，$\varphi$ 取 $+1$ 值。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图10.32.png} 
+\caption{}
+\label{fig:10_32}
+\end{figure}
+
+在图\ref{fig:10_32}和图\ref{fig:10_29}的情形中，可能有最优开关状态的初始值的范围都是有限的，而且这个范围是由闭合的边界曲线所限定的，很显然，这两个闭曲线都是在 $y=0$ 发生开关动作的极限环。每一个都表示相当的继电器伺服系统的一个周期解。但是，也可以明显地看出：这样的周期解是不稳定的：最微小的一点扰动都会使得系统的运动曲线离开这个周期解，——或者趋近于原点，或者无限地发散出去。因此，实际上是不可能有周期解的。
+
+在以上的最优开关问题的各种情形的解里，我们看出一个共同的性质：在所有情形中，最优开关函数 $\varphi$ 在相平面的第一象限里总是取 $-1$ 值，在第三象限里总是取 $+1$ 值。把方程 \eqref{eq:ch10_simple_example} 写成下列形式，
+\begin{equation*}
+\frac{d^2 y}{d t^2} = -2 \zeta \frac{d y}{d t} - y + \varphi \left( y, \frac{d y}{d t} \right),
+\end{equation*}
+从这个方程就可以很容易看出上述共同性质的原因。我们的设计目的就是要求在尽可能短的时间内使系统回到 $y=0$ 的状态（或 $t$ 轴）上去。当 $y$ 和 $dy/dt$ 都是正数的时候，为了达到设计目的，我们就使 $d^2 y / dt^2$ 或 $y(t)$ 的曲率是一个数值尽可能大的负数，所以 $\varphi$ 应该是 $-1$。当 $y$ 和 $dy/dt$ 都是负数的时候，$d^2 y / dt^2$ 就应该是一个尽可能大的正数，所以 $\varphi$ 应该是 $+1$。这样一个直观的推理与关于最优开关函数的严密结果是一致的。当 $y$ 与 $dy/dt$ 的符号不相同时，最优开关函数 $\varphi$ 的值就不能这样简单地确定出来了，因为这时系统回到 $t$ 轴的速度与 $y$ 和 $x$ 之间的复杂的交互作用有关；布绍的贡献就在于把最优开关函数 $\varphi$ 在这一部分（相平面的第二象限和第四象限）也确定出来了。但是，从这个讨论我们可以肯定，最优开关曲线 $C$ 一定在第二象限和第四象限里。
+
+对于阶数更高的系统以及被控制变数的个数大于一的系统来说，就不能再用相平面来表示运动状态了，对于这些情形，我们就必须用多维的相空间来表示运动状态。利用与以上的讨论相类似的方法，我们相信，对于这些比较复杂的系统的最优开关问题也可以找到相空间中的最优开关曲面从而使问题得到解决。费特（G. H. Fett）和康（C. L. Kang）对这个问题作过初步的尝试\footnote{C. L. Kang and G. H. Fett, \textit{J. Appl. Phys.}, \textbf{24}, 38~41 (1953).}。对于高阶系统而言，描述系统的微分方程的特征根是实数的情形，求最优开关曲面的问题已经由苏联学者费尔德包姆$^{[5,27,43]}$（\rufont{A. A. Фельдбаум}）等解决了。至于方程的特征根之中包含虚根的情形，求最优开关曲面的问题目前尚未解决。
+
+\section{多方式的控制作用}
+
+当继电器的开关动作使系统达到相平面的原点以后，系统的情况将会怎样呢？很明显，如果系统到达原点以后，驱动函数还保持系统到达原点以前的数值，那么，系统就会又离开所需要的平衡状态（原点）；当系统又离开这个状态以后，设计好的开关动作就会起作用，又把系统“拉”回原点，然后又重复这样的运动。所以，继电器伺服系统的工作状态就是：首先，从被扰动以后的位置很快地回到原点；然后，就在原点附近作高频率的振动，这种振动就是颤震运动（参看第\ref{ch10_sec6_linear_switch}节）。
+
+如果离开平衡状态（原点）的微小偏差在所考虑的问题中是可以容许的，那么，只要在离原点足够近（也就是 $y$ 和 $\dot{y}$ 已经小到可以忽略的程度）时把驱动函数 $\varphi$ 除掉，就可以避免原点附近的颤震。如果采取这个做法，系统的控制作用就有两种方式：当偏差大的时候，继电器的开关动作与继电器的输出都起反馈控制作用；当偏差足够小时的时候，系统的这种反馈输入就被开断了。在以后各章里，我们还会看到伺服系统的这种\underline{多方式控制作用}的必要性。
+
+因为最优开关曲线通常不是直线，所以不能用简单的线性电路来控制继电器的开关动作。事实上，从输出 $y(t)$ 测量出来的数据必须要被一个由非线性装置做成的\underline{开关计算机}加以“改造”。这个计算机能够根据最优开关曲线发出操纵继电器的开关信号。除此而外，还应该有一个\underline{开断计算机}；当系统的偏差离开静止状态或者原点很小的时候，开断计算机就把继电器的输出从系统上开断。所以，这样一个继电器伺服系统的方块图就是图\ref{fig:10_32}\footnote{关于非线性反馈可以参阅[40,49]。}。在以后各章中所讨论的更复杂的控制系统中，计算机常常是重要的组成部分。其实，从基本概念上来看，这并不是什么新的方法；譬如说，为了改善系统的传递函数而在普通的伺服系统中采用的补偿电路实质上也是一个计算机。当然，在这些比较简单的控制系统里，执行计算作用的只是一个线性电路（例如，电阻电容电路）而已。在第十三章里，我们还要更广泛地讨论关于计算机的问题。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图10.33.png} 
+\caption{}
+\label{fig:10_33}
+\end{figure}
