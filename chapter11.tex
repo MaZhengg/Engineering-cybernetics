@@ -1,3 +1,149 @@
 
 % To be included
 \chapter{非线性系统}
+
+系统的输入是 $x(t)$，输出是 $y(t)$。如果输入变为 $cx(t)$（$c$ 是任何一个常数）时，输出不成比例地变为 $cy(t)$（也就是说，输出与输入不成比例），这个系统就是\underline{非线性系统}。继电器伺服系统就是非线性系统的一个简单的例子。在第六章里，我们曾经讲过一种把任何一个非线性伺服系统加以线性化的普遍方法，具体地说，也就是把非线性系统作成振荡控制伺服系统，从而使系统的运动性能与线性系统相像。在上一章中，我们又提出了一个分析包含有非线性的频率迟钝机构的伺服系统的方法。这些设计非线性伺服系统的方法对于很大一批实际的非线性工程问题都能适用，而且对于处理普通的系统的综合问题来说也是很够用的了。
+
+从另一方面来看，正像上一章的最后几节所表示的那样，最充分地利用系统的非线性性质来改善系统的运转性能的问题，通常要比只考虑稳定性的设计问题困难得多。事实上，对于这个问题的研究还只是刚刚开始，而且还没有什么重大的成就。所以，我们也不可能在这里给出一个能够处理一般的非线性伺服系统的完善方法。既然在目前不可能普遍地解决非线性系统的分析问题，对待实际发生的非线性问题采取一种不同的现实态度也许倒是更明智的：我们不再先假定已经有了一个已知的非线性系统，然后直接去分析这个系统的运动性能，相反地，我们先把系统的运转性能规定下来，然后，再来确定所需要的非线性性质。我们将在第十四章里讨论这种方法。现在这一章的范围是很有限的，我们只来说明有目的地利用非线性系统的特性的一些可能性。
+
+\section{有非线性反馈的继电器伺服系统}
+
+如果我们只限于考虑离开平衡状态的偏差很小的情况，那么，在第\ref{chapter_10_section_8}节中，介绍了将继电器伺服系统的最优开关曲线所得出的结果，就可以大为简化。从那节的讨论中可以看出，在原点附近，最优开关曲线 $C$ 可以近似地表示成
+\begin{equation}\label{eq:ch11_approx_switch}
+y |\dot{y}| = -2y.
+\end{equation}
+这个结果表明，如果采用方程 \eqref{eq:ch11_approx_switch} 所表示的非线性开关曲线就可以使系统的运动性能比用线性开关曲线（第\ref{ch10_sec6_linear_switch}节）的系统好。如果 $x$ 是输入，$y$ 是输出，那么，方程 \eqref{eq:ch11_approx_switch} 就应该相应地改为
+\begin{equation}\label{eq:ch11_feedback1}
+a^2 y | y | = x - y
+\end{equation}
+或
+\begin{equation}\label{eq:ch11_serme}
+\operatorname{sgn}(x - y) \sqrt{|x - y|} = a y,
+\end{equation}
+其中 $a$ 是常数。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图11.1.png} 
+\caption{}
+\label{fig:11_1}
+\end{figure}
+
+采用方程 \eqref{eq:ch11_feedback1} 的开关条件的继电器伺服系统的方块图就是图\ref{fig:11_1}的那种情形，这种用 $y | y |$ 作反馈信号的方法是乌特莱（A. M. Uttley）和哈芒德（P. H. Hammond）二人为改进简单的继电器伺服系统的性能而建议的\footnote{A. M. Uttley, P. H. Hammond, \textit{Automatic and Manual Control}, p. 285, （这个文集的编者A. Tustin）, Butterworth \& Co. Ltd., London（1952）, 参阅[40]。}。这里，我们只要求计算机能产生 $a^2 y | y |$ 信号，所以，这个计算机可以是相当简单的。方程 \eqref{eq:ch11_serme} 所表示的相当的开关条件可以根据反馈信号 $a y$ 和反馈信号 $\operatorname{sgn}(x - y) \sqrt{|x - y|}$ 来执行。因为 $x - y$ 是误差，所以，$\operatorname{sgn}(x - y) \sqrt{|x - y|}$ 就称为误差符号误差绝对值平方根，简称为\underline{SERME}（这是误差符号误差绝对值平方根的英文名称 sign error root-modulus error 的缩写）；这个控制系统也就称为误差符号误差绝对值平方根系统或 SERME 系统。图\ref{fig:11_2}就是这个系统的方块图。这里的计算机也是相当简单的。这个系统是威斯特（J. C. West）所建议的\footnote{J. C. West, \textit{Automatic and Manual Control}（这个文集的编者A. Tustin）, Butterworth \& Co. Ltd., London（1952）, 参阅[40], 俄文译本第296页。}。
+
+这些有非线性反馈的继电器伺服系统虽然都是比较简单的，可是，还是无法加以严密的分析，其实，我们关于这些系统的优点所作的论述是相当含混的，并不是一个很完整很确切的论证；因此，利用这些方法设计出来的每一个个别的系统都必须经过试验才能最后确定。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图11.2.png} 
+\caption{}
+\label{fig:11_2}
+\end{figure}
+
+\section{弱非线性系统}
+
+现在，我们所考虑的 $n$ 阶系统不是方程\eqref{eq:n_order_diff_equation}所表示的那种线性系统，而是一个有一些区别的非线性系统，假定系统的微分方程是：
+\begin{equation}\label{eq:ch11_weak_nonlinear}
+a_n \frac{d^n y}{dt^n} + a_{n-1} \frac{d^{n-1} y}{dt^{n-1}} + \cdots + a_1 \frac{dy}{dt} + a_0 y + \mu f \left( y, \frac{dy}{dt}, \cdots, \frac{d^{n-1} y}{dt^{n-1}} \right) = x(t)
+\end{equation}
+其中的各个系数 $a$ 和 $\mu$ 都是常数，$x(t)$ 是输入，$y(t)$ 是输出，$f$ 是它的自变量的一个非线性函数。方程\eqref{eq:ch11_weak_nonlinear}的左端的前一部分是一个与方程\eqref{eq:n_order_diff_equation}的左端相同的线性微分运算子，系统的全部非线性性质都是由方程左端的后一部分 $\mu f$ 所表示的。我们当然可以假定方程\eqref{eq:ch11_weak_nonlinear}的变数 $t$ 已经是一个无量纲的时间变数了，所以，各个系数 $a$ 和 $\mu$ 的量纲都是相同的。所谓弱非线性，也就是说，$\mu$ 比各个系数 $a$ 都小得多。
+
+对于这种“弱非线性”的情形，我们就可以设法把方程的解形式地写成 $\mu$ 的幂级数的样子：
+\begin{equation}\label{eq:ch11_power_series}
+y(t) = y^{(0)}(t) + \mu y^{(1)}(t) + \mu^2 y^{(2)}(t) + \cdots
+\end{equation}
+把方程\eqref{eq:ch11_power_series}代入方程\eqref{eq:ch11_weak_nonlinear}，然后，再让方程两端的 $\mu$ 的同次方幂相等，就得出
+\begin{equation}\label{eq:ch11_zero_approx}
+a_n \frac{d^n y^{(0)}}{dt^n} + a_{n-1} \frac{d^{n-1} y^{(0)}}{dt^{n-1}} + \cdots + a_1 \frac{dy^{(0)}}{dt} + a_0 y^{(0)} = x(t),
+\end{equation}
+\begin{equation}\label{eq:ch11_first_correction}
+a_n \frac{d^n y^{(1)}}{dt^n} + a_{n-1} \frac{d^{n-1} y^{(1)}}{dt^{n-1}} + \cdots + a_1 \frac{dy^{(1)}}{dt} + a_0 y^{(1)} = -f \left( y^{(0)}, \cdots, \frac{d^{n-1} y^{(0)}}{dt^{n-1}} \right),
+\end{equation}
+以及相当于 $\mu$ 的更高次方幂的一系列方程。所以，系统的运动方程的第零次近似(11.6)就是像方程\eqref{eq:n_order_diff_equation}那样的线性方程。但是，更重要的事情是：由于非线性性质量而引起的第一次改正项是由方程\eqref{eq:ch11_first_correction}所确定的，从形式上就可以看出，这个方程与第零次近似[方程\eqref{eq:ch11_zero_approx}]在特性上是完全一样的。换言之，如果系统的第零次线性近似\eqref{eq:ch11_power_series}表明近似的系统 $y^{(0)}(t)$ 是有阻尼的，而且还具有伺服系统所必需的其他特性，那么第一次改正项 $y^{(1)}(t)$ 也同样具有这些特性。此外，因为在展开式\eqref{eq:ch11_zero_approx}中 $y^{(1)}(t)$ 之前有一个相当小的因数 $\mu$，所以，由于非线性效应所必须作的改正是很小的。这也就是说，在一个性能良好的系统中，微弱的非线性性质不会使系统的运转状态与它的线性近似发生重大的差别。因此，从工程近似的观点来看，我们就可以把这些系统当作线性系统来处理。就是在工程实际中的“线性”系统里，也还是有一些微弱的非线性性质的，但是，根据上面所讲的道理，只用线性伺服系统理论来研究这些系统也就可以得到很好的结果。
+
+另一方面，如果近似的线性系统的阻尼非常小，我们都知道，这时就有发生共振现象的可能性。也就是说，即使输入 $x(t)$ 的数量级和1相同，$x \sim 1$，近似的线性系统\eqref{eq:ch11_zero_approx}的输出 $y^{(0)}(t)$ 就可能比1大得很多，$y^{(0)} \gg 1$。在这种情形里，虽然 $\mu$ 很小，可是 $\mu f \left( y^{(0)}, \cdots, \frac{d^{n-1} y^{(0)}}{d t^{n-1}} \right)$ 这个数，或者说非线性效应，仍然可以和线性项的数量级相同。换句话说，我们在上一段里所作的形式上的级数展开式就不能成立了，所以，在系统的阻尼作用很微弱的情形里，即使非线性性质很弱，我们也必须考虑到可能发生的强大影响。在以下各节里，我们将要简短地描述一下非线性系统的多种多样的运动状态，非线性力学中这样一些现象的详细处理方法可以在米诺尔斯基(N. Minorsky)\footnote{N. Minorsky, \textit{Introduction to Nonlinear Mechanics}, Edwards Bros., Inc., Ann Arbor, Mich., (1947).}与斯托克尔(J. J. Stoker)\footnote{J. J. Stoker, \textit{Nonlinear Vibrations}, Interscience Publishers, Inc., New York (1950),参阅[46]。}的著作中找到。
+
+
+\section{跳跃现象}
+
+正像第\ref{chapter10_section2}节所讲过的那样。如果系统的\underline{自激振荡}能够由于离开平衡状态的微小偏差而自动地形成，那么，它就称为\underline{软的自激振荡}；如果离开平衡状态足够大的偏差才能引起自激振荡，这个自激振荡就称为\underline{硬的自激振荡}。在某些情形里，系统的微分方程的系数与系统的一个参数有关。如果当 $\lambda$ 取某一个特别的临界值 $\lambda_0$ 时，系统的平衡状态的特性就从稳定状态变为不稳定状态。那么，在 $\lambda \geq \lambda_0$ 的时候就会出现极限环，也就是自激振荡。如果这种自激振荡是软的，发生的现象就像图\ref{fig:11_3}(a)所画的那样；如果自激振荡是硬的，那就像图\ref{fig:11_3}(b)所画的那样。对于第一种情形来说，如果 $\lambda$ 是逐渐增大的，那么，当 $\lambda$ 还没有增大到临界值 $\lambda_0$ 的时候，系统的平衡状态并没有任何变化。当 $\lambda$ 增加到 $\lambda_0$ 时，系统的平衡状态就由稳定的变为不稳定的，同时也就出现了一个稳定的极限环。而且这个极限环的振幅随着 $\lambda$ 的增加而逐渐加大。如果，再让 $\lambda$ 逐渐减小，那么，系统的平衡状态的情况就沿着原来的变化路线变化回来（图\ref{fig:11_3}(a)），当 $\lambda$ 减小到 $\lambda_0$ 时，极限环就消失了。对于第二种情形来说，自激振荡是硬的，这时的情况就不同了（图\ref{fig:11_3}(b)）。在 $\lambda$ 逐渐增大的过程中，在 $\lambda = \lambda_0$ 时，突然就出现一个振幅是有限的极限环；$\lambda$ 继续增大的时候，相应的极限环的振幅也随之增大。如果 $\lambda$ 逐渐减小，那么，当 $\lambda$ 减小到 $\lambda_0$ 时，极限环（自激振荡）并不立刻消失，直到 $\lambda$ 再继续减小到一定的数值时，极限环的振幅才由一个有限数值突然变为零。所以，这种\underline{跳跃现象}是和系统的运动状态的滞后现象相联系的。
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图11.3.png} 
+\caption{}
+\label{fig:11_3}
+\end{figure}
+
+\section{频率缩减}
+
+如果作用在一个非线性系统上周期性的输入中包含两个频率 $\omega_1$ 和 $\omega_2$，那么，系统的输出中不但包含有这两个频率以及相当于这两个频率的高次谐波，而且还有一个额外的频率谱，借用声学的术语，这个谱称为\underline{合成音}，它是由频率 $m\omega_1 + n\omega_2$（$m, n$ 是整数）组成的。譬如说，把一个电压 $x = x_0 (\cos \omega_1 t + \cos \omega_2 t)$ 加到一个非线性导体上去，假设这个导体的电流 $y$ 与电压 $x$ 之间的关系是$y = a_1 x + a_2 x^2 + a_3 x^3$。那么，输出 $y(t)$ 的频率谱中就包含有下列各种频率：$\omega_1, \omega_2, 2\omega_1, 2\omega_2, 3\omega_1, 3\omega_2, \omega_1 + \omega_2, \omega_1 - \omega_2, 2\omega_1 + \omega_2, 2\omega_1 - \omega_2, \omega_1 + 2\omega_2$ 以及 $\omega_1 - 2\omega_2$。前六个频率是普通的谐波，但是后六个频率就是由于导体的非线性性质所引起的合成音。这些合成音中，有一些比原来的 $\omega_1$ 和 $\omega_2$ 高，而另外一些就比 $\omega_1$ 和 $\omega_2$ 低。这些频率比较低的谐波就称为次谐波。产生次谐波的过程就称为\underline{频率缩减}。
+
+不难了解，如果 $\omega_1$ 和 $\omega_2$ 相当接近，那么 $\omega_1 - \omega_2$ 就比原来的两个频率都小得多。此外，如果对于这样低的频率，系统还能是稳定的，我们就可以得到频率的数量级只是输入频率的 $1/100$，甚至于更低的次谐波。如果把若干个这样的系统串联起来，使一个系统的输出是其次一个系统的输入，我们还可以得到更低的频率。
+
+\section{频率侵占现象}
+
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{图11.4.png}
+    \caption{ }
+    \label{fig:11_4}
+\end{wrapfigure}
+如果一个非线性系统有一个自激振荡的频率 $\omega_1$，那么，当系统的输入的频率 $\omega_2$ 与 $\omega_1$ 相差很小时，我们自然会想到输出中不但同时有 $\omega_1$ 和 $\omega_2$ 两种频率，而且，由于非线性的交互作用，输出中还有\underline{拍频率} $\omega_2 - \omega_1$。但是，在实际情形下，现象是按照图\ref{fig:11_4}的那种形式发生的：只要 $\omega_2$ 进入一定的\underline{同步区域} $AB$ 时，拍频率就立刻消失。在这个区域内只有 $\omega_2$ 这一个频率，所有发生的现象都好像是可变频率 $\omega_2$ 把原有频率 $\omega_1$“侵占”掉了一样。
+
+万·德尔·波尔 (van der Pol) 是最先解释了这种\underline{频率侵占}现象的人，后来，又有些其他的人发展了这方面的理论。
+
+假定系统是二阶的，它的微分方程是
+\begin{equation}\label{eq:ch11_van_der_pol}
+\frac{d^2y}{dt^2} - \alpha \frac{dy}{dt} + \gamma \left( \frac{dy}{dt} \right)^3 + \omega_1^2 y = B\omega_1^2 \sin \omega_2 t,
+\end{equation}
+这里的 $\alpha, \gamma$ 和 $B$ 都是正常数。如果 $B=0$，那么，当振荡的振幅足够小的时候，系统的阻尼就是负的，当振幅足够大的时候，系统的阻尼就是正的，因此，就存在一个特别的振幅值，系统可以用这个振幅进行持续的自激振荡。不仅如此，如果 $\alpha$ 和 $\gamma$ 都相当小，那么这个自激振荡的频率就与 $\omega_1$ 相当接近。万·德尔·波尔证明：当 $\omega_2$ 与 $\omega_1$ 相当接近时，方程\eqref{eq:ch11_van_der_pol}的解就可以写成下列形式：
+\begin{equation}\label{eq:ch11_solution_form}
+y(t) = b_1(t) \sin \omega_2 t + b_2(t) \cos \omega_2 t,
+\end{equation}
+而且，$b_1(t)$ 和 $b_2(t)$ 都是变化得相当缓慢的时间函数，它们变化速度满足下列条件：
+\begin{equation*}
+\left| \frac{db_1}{dt} \right| \ll |\omega_2 b_1(t)|, \quad \left| \frac{db_2}{dt} \right| \ll |\omega_2 b_2(t)|.
+\end{equation*}
+把方程\eqref{eq:ch11_solution_form}代入方程\eqref{eq:ch11_van_der_pol}，并且只保留一阶以下的项，我们就可以把 $b_1$ 和 $b_2$ 的微分方程组写成下列形式：
+\begin{equation}\label{eq:ch11_amplitude_eqs}
+\begin{cases}
+\dfrac{db_1}{dt} = f_1(b_1, b_2; \omega_2), \\[6pt]
+\dfrac{db_2}{dt} = f_2(b_1, b_2; \omega_2).
+\end{cases}
+\end{equation}
+这是一个自持的一阶微分方程组。所以，我们可以用等倾法来解，就像前一章在相平面上解二阶线性系统的做法一样。分析的结果表明：如果 $\omega_2$ 在 $\omega_1$ 附近的一个一定范围之内，方程组\eqref{eq:ch11_amplitude_eqs}在 $b_1b_2$ 平面上有一个稳定的结点。所以，不论 $b_1$ 和 $b_2$ 的初始值是多少，$b_1(t)$ 和 $b_2(t)$ 最后总要分别趋近于相当这一固定点的 $b_1$ 值和 $b_2$ 值。因此，根据方程\eqref{eq:ch11_solution_form}，就只有频率是 $\omega_2$ 的振荡，根本不会再有频率是 $\omega_2 - \omega_1$ 的振荡。如果 $\omega_2$ 在那个范围之外，那么，在 $b_1b_2$ 平面上就有一个稳定的极限环，因而也就可以说明图\ref{fig:11_4}所表示的现象。
+
+
+\section{异步激发和异步抑制}
+
+在某些非线性系统里，一个频率是 $\omega$ 的振荡可以被另一个频率是 $\omega_1$ 的振荡激发起来或者抑制下去，而 $\omega_1$ 却根本不等于 $\omega$。在第一种情形中，那种现象就称为\underline{异步激发}，而第二种情形中的现象就称为\underline{异步抑制}。只要回想一下以下的事实就可以理解这些现象：即使在相空间中存在一个极限环，系统也不一定有持续的自激振荡。如果要发生持续的振荡，极限环就必须是稳定的，所谓“稳定”的意思，也就是说，当系统受到扰动或者从极限环移到相空间的其他一点以后，系统具有一个再回到极限环上去的倾向。不稳定的极限环在一个实际的物理系统中是不可能实现的。既然如此，我们就不难看出，在一定的情况下，一个新的振荡的发生，就可能给另一个振荡创造出稳定的条件，也可能破坏另一个振荡的稳定条件，第一种情形就是“异步激发”现象，第二种情形就是“异步抑制”现象。这里，“异步”这样一个形容词只是用来强调 $\omega$ 与 $\omega_1$ 之间的关系是完全任意的而已。
+
+\section{参数激发和参数阻尼}
+
+\begin{wrapfigure}{r}{0.2\textwidth}
+    \centering
+    \includegraphics[width=0.2\textwidth]{图11.5.png}
+    \caption{ }
+    \label{fig:11_5}
+\end{wrapfigure}
+很久以来人们就知道，如果一个振荡系统中有一个以频率 $\omega$ 作周期变化的参数，系统就以频率 $\omega/2$ 开始振荡。瑞雷爵士 (Lord Rayleigh) 曾经用以下的实验来说明这种现象：把一根拉紧了的金属线的一端系在音叉的一股上，如果音叉以频率 $\omega$ 进行振荡，那么，金属线就以频率 $\omega/2$ 进行横向振荡。我们再举一个类似的例子：一个单摆（也就是悬挂在一根没有重量的杆子的一个质量）在杆的上端受到一个正弦变化的外力（图\ref{fig:11_5}）。假设 $\theta$ 是单摆离开铅直位置的微小角度位移，不损害普遍性，我们还可以假定正弦变化的外力的频率是1。这个外力也就可以写作 $mg + a\cos t$，于是 $\theta$ 的微分方程就是\footnote{关于单摆的运动可以参阅[50]。}
+\begin{equation}\label{eq:ch11_pendulum}
+ml \frac{d^2 \theta}{dt^2} + (mg + a\cos t) \theta = 0,
+\end{equation}
+其中 $m$ 是质量，$g$ 是重力加速度，$l$ 是摆的长度，$a$ 是周期外力的振幅。这个方程可以写成
+\begin{equation}\label{eq:ch11_mathieu}
+\frac{d^2 \theta}{dt^2} + (\alpha + \beta \cos t) \theta = 0,
+\end{equation}
+所以，$\alpha$ 就等于 $g/l$，$\beta$ 等于 $a/ml$。对于倒立摆（也就是质量在支承点上方的摆）的情形，$\theta$ 的方程也是\eqref{eq:ch11_mathieu}，只不过把其中的 $g$ 换成 $-g$ 就是了。所以，对于普通的摆，$\alpha$ 是正数；对于倒立摆，$\alpha$ 是负数。方程\eqref{eq:ch11_mathieu}确实是一个线性方程，只是加在摆上的外力作周期性的变化而已。因此，我们就可以把这个系统看作是参数作周期性变化的系统。
+
+方程\eqref{eq:ch11_mathieu}就是有名的马丢(Mathieu)方程。解的稳定性是由 $\alpha$ 和 $\beta$ 这两个常数来确定的。具体地说，可以把 $\alpha\beta$ 平面分成一个稳定区域和一个不稳定区域，就像图\ref{fig:11_6}所画的那样（这个图中有阴影的就是稳定区域）。可以从图\ref{fig:11_6}看出，对于正的 $\alpha$，也就是普通的摆的情形来说，当周期外力不存在的时候，或者说 $\beta = 0$ 的时候，系统就是稳定的。这当然是显而易见的。然而，有兴趣的事实是：如果 $\beta$ 取某些适当的值，系统就成为不稳定的了。这时，摆的摆动的振幅就会越来越大，直到非线性效应最后把振幅固定在一个相当大的常数上为止。这种现象就称为参数激发。对于负的 $\alpha$，也就是倒立摆的情形来说，当支点上没有周期外力的时候，系统自然是不稳定的；但是，当 $\beta$ 在一个一定的狭小范围之内的时候，系统还可以是稳定的，只要 $\alpha$ 也取某些适当的数值就可以了。这个现象就称为\underline{参数阻尼}。
+
+任何一个系统，只要它有一个作用期变化的参数，在这个系统中就可能发生参数激发和参数阻尼的现象。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图11.6.png} 
+\caption{}
+\label{fig:11_6}
+\end{figure}
+
+这种现象和以前介绍过的几种非线性现象，都可以在控制系统中加以利用，使控制系统得到所需要的性能。事实上，的确也有不少非线性现象已经被应用到伺服控制系统的许多元件上去了。但是，这些非线性元件在目前还只是一些“新奇”的重要性不大的东西，而且，与其说它们是根据理论分析设计出来的，倒不如更恰当地说是依靠经验和试验“设计”出来的。把特殊的非线性现象应用到整个控制系统的系统设计上去的问题\footnote{关于最优非线性系统的综合法可以参阅[48]。}，还是一个没有被探讨过的科学领域。我们在以上几节中的讨论只不过是说明这种应用的广泛的可能性而已。

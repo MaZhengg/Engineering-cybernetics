@@ -82,7 +82,7 @@ F_r(i\omega) \approx \frac{4A}{\pi} \frac{1}{a} \quad a \gg 1。
 
 可见，这些极端情况下的 $F_r(i\omega)$ 的值是由继电器的特性所确定的。
 
-\section{柯氏(Kochenburger)方法}
+\section{柯氏(Kochenburger)方法}\label{chapter10_section2}
 
 我们暂且假定输入的各个调和分量(也就是各次谐波)的振幅都是 $a$。这时，继电器的频率特性就是一个由方程\eqref{eq:ch10_relay_freq_response}所给定的复常数。图\ref{fig:10_2}的控制线电路中除了继电器之外，还有其他的部件，假设这些部分的频率特性是 $F_1(i\omega)$。那么，前向控制线路的总的频率特性就是 $F_r(i\omega)F_1(i\omega)$。我们让 $\omega$ 从0变到$\infty$，把相当的乃氏图线 $1/[F_r(i\omega)F_1(i\omega)]$ 画在复平面上，根据乃氏准则，如果系统是稳定的，乃氏图线必定要“包围”一个点，换句话说，乃氏图线一定要在$-1$点的左方穿过实轴。但是，在振幅都是常数 $a$ 的情况下，$F_r(i\omega)$ 是一个常数，所以上述的稳定性条件也就相当于要求频率特性曲线 $1/F_1(i\omega)$ ($\omega$ 从 $0$ 变到 $\infty$) 包围 $-F_r(i\omega)$ 点。以上的讨论结果就是确定继电器伺服系统的柯氏方法的基础\footnote{R. J. Kochenburger, \textit{Trans. AIEE}, \textbf{69}, 270-284 (1950)。}。果德戈尔布$^{[39]}$(\rufont{J.C. Гольдфарб})在比较早的时候已经采用过这种方法，都梯尔(J.R. Dutilh)也独立地发明了一个类似的方法\footnote{J. R. Dutilh, \textit{rufont{L'Onde électrique}}, \textbf{30}, 438-445 (1950)。}。
 
@@ -302,8 +302,6 @@ f(y, \dot{y}, \ddot{y}; t) = x(t), \\
 \end{wrapfigure}
 我们把$a > 0$，$b > 0$的情形称为\underline{第一种情形}。这时，\underline{开关曲线}$ay + b\dot{y} = 0$是一条经过相平面的原点而且位置是在第二象限和第四象限内的直线。在这条直线的右方$ay + b\dot{y}$是正数，所以，那里是一个正系统的区域。在这条直线的左方，$ay + b\dot{y}$是负数，所以，是一个负系统的区域。在这条开关线上，正系统和负系统连接起来，而且，运动曲线的\underline{隅角}（即正弧与负弧的连接点）也发生在这条线上（图\ref{fig:10_17}）。存在周期解的条件就是：存在一个正弧，这个正弧与开关线的两个交点与原点距离相等。理由是这样的：如果确实存在这样一个正弧，那么，根据对称性，在开关曲线的另一方也必然有一个连结这两个交点的负弧。因此，这两个弧就组成一条相平面上的闭合曲线。用非线性力学的术语来说，这种周期解就称为\underline{极限环}。在以下的讨论中我们就会看到，在所考虑的情形中确实可以发生周期解。
 
-
-
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.4\textwidth]{图10.18.png} 
@@ -429,7 +427,7 @@ t(p'p'''p'') = \int_{p'p'''p''} \frac{dy}{\dot{y}}.
 \label{fig:10_27}
 \end{figure}
 
-\section{二阶线性系统的最优开关曲线}
+\section{二阶线性系统的最优开关曲线}\label{chapter_10_section_8}
 
 布纽把 $g(y, \dot{y}) = 2\zeta \dot{y} + y$（$\zeta$ 可以是任意实数）的二阶线性系统的最优开关曲线具体地确定出来。在这里，我们只叙述他的结果而不加以证明；但是，从上一节关于简单情形的讨论来看，所要介绍的结果的一般性质也是不难理解的。对于这个 $g(y, \dot{y})$ 来说，正系统和负系统就是把图\ref{fig:10_12}到图\ref{fig:10_16}中的原点分别移到 $(+1,0)$ 点和 $(-1,0)$ 点所得到的两族曲线。
 
