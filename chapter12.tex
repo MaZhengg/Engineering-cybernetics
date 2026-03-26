@@ -1,3 +1,206 @@
 
 % To be included
 \chapter{变系数线性系统}
+
+以前各章中，我们只比较详细地讨论过一个\underline{变系数系统}（系数也是时间 $t$ 的函数）的系统，这个系统就是：在支承端受到一个周期性外力的单摆。这个系统是在讨论参数激发与参数阻尼时提到的（第十一章）。在所有其余讨论过的系统的微分方程中，系数全都不明显地与时间变量 $t$ 有关。然而，我们曾经在第一章里指出：系数随时间变化的线性系统的运动状态可以和常系数线性系统完全不同。在这一章里，我们再回到这个问题上来，并且比较仔细地讨论一个典型的但是很简单的变系数系统——短射程的火箭弹。我们将要说明：这样一些变系数系统的稳定性问题不能用处理常系数线性系统的方式来解决。在这种情形中，不但拉氏变换和传递函数方法都不再能解决问题，而且，我们还不得不把处理问题的方式完全加以改变。
+
+我们将要研究一个火箭弹在火箭推力起作用的过程中的运动状态，假定这个火箭是依靠尾翼来稳定的。我们特别来考虑火箭轴线与投射角之间的偏差角，这个偏差角是由于发射过程中的扰动以及飞行过程中尾翼所受到的阻力作用所引起的。
+
+关于火箭弹的动力学的一般问题，曾经在第二次世界大战时期内被不同国家的许多学者仔细地研究过。罗色尔（J. B. Rosser），牛顿（R. R. Newton）和格罗司（G. L. Gross）曾经把美国学者的工作加以总结\footnote{J. B. Rosser, R. R. Newton and G. L. Gross, \textit{Mathematical Theory of Rocket Flight}, McGraw-Hill Company, Inc., New York, (1947), 参阅[52]。}。兰金（R. A. Rankin）曾经报告了英国方面的工作\footnote{R. A. Rankin, \textit{Trans. Roy. Soc. London} (A), \textbf{241}, 457~585 (1949)。}，卡里埃尔（P. Carrière）的论文代表了法国学者对于这个问题的研究工作\footnote{P. Carrière, \textit{Mém. artillerie franc.}, \textbf{25}, 253~360 (1951)。}。我们在这里的讨论将是大为化简了的，讨论的目的只是要提出变系数线性系统的研究中的几个有兴趣的重要特点而已。
+
+\section{火箭弹在燃烧过程中的运动状态}
+
+对于一个用尾翼稳定的火箭弹来说，铅直面内的运动与水平面内的运动之间的相互影响可以忽略掉，也就是说，在铅直面内由于水平面内的运动而产生的空气动力是可以忽略的。所以，我们只考虑和研究铅直面内的运动情况，也就能够知道火箭弹的特性了。因为这是短射程的火箭弹，所以，我们把地面看成是一个平面。设 $v$ 是火箭弹的速度的绝对值，$\theta$ 是速度向量的倾角，$\phi$ 是火箭弹的轴线的倾角（图\ref{fig:12_1}）。于是，火箭弹的冲角就是
+\begin{equation}\label{eq:ch12_attack_angle}
+\alpha = \phi - \theta。
+\end{equation}
+
+设 $m$ 是火箭弹的质量，$g$ 是重力加速度。所以作用在火箭弹上的重力就是铅直向下的力 $mg$。空气动力是推力 $L$，阻力 $D$ 和转矩 $M$，$L$ 和 $D$ 分别垂直于和平行于运动的方向。这些力都是作用在火箭的重心上的。火箭的推力 $S$ 是常数，就像图 12.1 所画的那样，$S$ 与轴线之间有一个偏差角度 $\beta$，对于重心来说，$S$ 的力矩臂是 $\delta$。所以，沿弹道方向的加速度的方程就是
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图12.1.png} 
+\caption{}
+\label{fig:12_1}
+\end{figure}
+\begin{equation}\label{eq:ch12_along_trajectory}
+m \frac{dv}{dt} = S \cos(\alpha - \beta) - mg \sin \theta - D。
+\end{equation}
+垂直于弹道方向的加速度的方程就是
+\begin{equation}\label{eq:ch12_perp_trajectory}
+mv \frac{d\theta}{dt} = S \sin(\alpha - \beta) - mg \cos \theta + L。
+\end{equation}
+最后，如果火箭对于通过重心的横轴的回转半径是 $k$，那么，角加速度就是
+\begin{equation}\label{eq:ch12_angular_acc}
+mk^2 \frac{d^2\phi}{dt^2} = S\delta - M。
+\end{equation}
+在方程 \eqref{eq:ch12_angular_acc} 中，我们已经把所谓的喷射阻尼转矩忽略掉了$^{[54]}$，因为它比尾翼的恢复转矩小。
+
+空气动力和空气动力转矩都与冲角 $\alpha$ 有关。但是，如果火箭的尾翼安装得不正，即使 $\alpha=0$，也还会有推力和转矩。所谓安装得不正，也就是说尾翼的安装引起了一个角度误差 $\gamma$，以至于 $L$ 和 $M$ 在 $\alpha=\gamma$ 时消失，而不在 $\alpha=0$ 时消失。如果 $\rho$ 是空气密度，$d$ 是火箭弹弹身的直径，我们就可以用下列公式引进推力系数 $K_L$，阻力系数 $K_D$ 和转矩系数 $K_M$：
+\begin{equation}\label{eq:ch12_lift}
+L = K_L \rho v^2 d^2 \sin(\alpha - \gamma),
+\end{equation}
+\begin{equation}\label{eq:ch12_drag}
+D = K_D \rho v^2 d^2,
+\end{equation}
+\begin{equation}\label{eq:ch12_torque}
+M = K_M \rho v^2 d^3 \sin(\alpha - \gamma).
+\end{equation}
+对于短射程火箭弹来说，弹道的顶点并不高，所以，我们可以把密度 $\rho$ 看作是常数。此外，最大的速度值也不是很大，以至于系数 $K_L$、$K_D$ 和 $K_M$ 都还可以看作是与飞行的马赫（Mach）数（火箭弹的速度与音速的比值）无关的常数。再者，对于短射程火箭来说，燃料的质量只占火箭弹的总质量很小的一部分，所以，把火箭弹的质量看作是一个常数也不会引起严重的误差。考虑到这些简化的假设，方程 \eqref{eq:ch12_attack_angle} 到方程 \eqref{eq:ch12_torque} 就确定了火箭弹的弹道。
+
+这种类型的火箭弹的燃烧时间都是很短的（譬如说，只有 0.2 秒），所以就必须使加速度 $S/m$ 很大才行。事实上，推力 $S$ 是相当大的，和它比起来，重力和阻力都小到可以忽略掉的程度。而且，推力方向与飞行方向之间的偏差角度 $\alpha-\beta$ 总是很小的。所以，方程 \eqref{eq:ch12_along_trajectory} 的第零次近似就是
+\begin{equation}\label{eq:ch12_zero_approx_vel}
+\frac{dv}{dt} = \frac{S}{m}.
+\end{equation}
+因此，弹道的第零次近似就是一条倾角是初始倾角 $\theta_0$ 的直线（图\ref{fig:12_1}）。沿着这条直线的运动是一个等加速度 $S/m$ 的运动。如果 $z$ 是沿着这条直线量度的距离，那么，这个运动也可以用下列方程表示：
+\begin{equation}\label{eq:ch12_vel_distance}
+v^2 = \frac{2S}{m}z = \left( \frac{S}{m} \right)^2 t^2.
+\end{equation}
+如果发射火箭弹的初始速度是零，$z$ 就是到发射点的确实距离；如果有一个初始速度，$z$ 就是到发射点前面的某一点的距离，而不是到发射点的距离。从方程 \eqref{eq:ch12_vel_distance} 我们得到
+\begin{equation}\label{eq:ch12_ddt_to_ddz}
+\frac{d}{dt} = \frac{dz}{dt} \frac{d}{dz} = v \frac{d}{dz} = \sqrt{\frac{2S}{m}z} \frac{d}{dz}.
+\end{equation}
+利用这个第零次的近似解，我们就可以计算火箭弹弹道的第一次近似解；下面我们就来作这件工作。
+
+
+\section{线性化的弹道方程}
+
+因为在燃烧过程中真正的弹道与它的第零次近似解之间的偏差总是很小的，所以，我们总是可以把方程\eqref{eq:ch12_perp_trajectory}和\eqref{eq:ch12_angular_acc}中的速度 $v$ 和时间导数用方程\eqref{eq:ch12_vel_distance}和\eqref{eq:ch12_ddt_to_ddz}来代替。此外，因为 $\alpha - \beta$ 很小，$\sin(\alpha - \beta)$ 也就可以用 $\alpha - \beta$ 来代替。$\cos\theta$ 可以用 $\cos\theta_i$ 来代替。我们把举力 $L$ 也忽略掉，因为它比推力的横向分量以及火箭的重量都小得多。采用这些简化的假设，方程\eqref{eq:ch12_perp_trajectory}和\eqref{eq:ch12_angular_acc}就成为
+\begin{equation}\label{eq:ch12_theta_eq}
+2z \frac{d\theta}{dz} = (\alpha - \beta) - \frac{mg}{S} \cos\theta_i
+\end{equation}
+和
+\begin{equation}\label{eq:ch12_phi_eq}
+2z \frac{d^2\phi}{dz^2} + \frac{d\phi}{dz} = \frac{\delta}{k^2} - \frac{8\pi^2}{\sigma^2}z(\alpha - \gamma),
+\end{equation}
+这里的 $\sigma$ 的定义是
+\begin{equation}\label{eq:ch12_sigma_def}
+\sigma^2 = 4\pi^2 \frac{k^2m}{K_M\rho d^3},
+\end{equation}
+很明显，$\sigma$ 的量纲是长度。我们可以把 $\sigma$ 取作火箭的扰动运动（对于第零次近似而言）的特征长度，并且也可以看作是扰动的弹道的“波长”。方程\eqref{eq:ch12_attack_angle}、\eqref{eq:ch12_theta_eq}和\eqref{eq:ch12_phi_eq}就是三个未知函数 $\alpha, \theta$ 和 $\phi$ 的线性化的方程。方程的线性化是在这样一个假设之下作的：对于一个理想的发射角 $\theta_i$ 来说，弹道与直线之间的差别很小。
+
+我们可以把 $\theta$ 和 $\phi$ 消去而得出 $\alpha$ 的单独一个方程。做法是这样的：先用 $2\sqrt{z}$ 除方程\eqref{eq:ch12_theta_eq}，再把结果对 $z$ 微分。这样就得到
+\begin{equation*}
+\sqrt{z} \frac{d^2\theta}{dz^2} + \frac{1}{2\sqrt{z}} \frac{d\theta}{dz} = \frac{1}{2\sqrt{z}} \frac{d\alpha}{dz} - \frac{1}{4z\sqrt{z}} \left( \alpha - \beta - \frac{gm}{S}\cos\theta_i \right).
+\end{equation*}
+现在，我们再用 $2\sqrt{z}$ 除方程\eqref{eq:ch12_phi_eq}，然后，从结果中减去上面的方程，最后，再利用方程\eqref{eq:ch12_attack_angle}的关系，就得出
+\begin{equation*}
+\sqrt{z} \frac{d^2\alpha}{dz^2} + \frac{1}{\sqrt{z}} \frac{d\alpha}{dz} + \left[ \frac{4\pi^2\sqrt{z}}{\sigma^2} - \frac{1}{4z\sqrt{z}} \right] \alpha = \frac{\delta}{2k^2\sqrt{z}} + \frac{4\pi^2\sqrt{z}}{\sigma^2} \gamma - \frac{1}{4z\sqrt{z}} \left( \beta + \frac{gm}{S}\cos\theta_i \right).
+\end{equation*}
+这个方程明白地表示出下列事实：用来研究火箭弹的微分方程不是常系数方程。其实，只要按照下列公式引进一个无量纲距离 $\xi$，
+\begin{equation}\label{eq:ch12_xi_def}
+\xi = \frac{2\pi z}{\sigma},
+\end{equation}
+$\sigma$ 就是方程 \eqref{eq:ch12_sigma_def} 所规定的“波长”，我们就可以把 $\alpha$ 的方程化为贝塞尔（Bessel）方程的标准形状，也就是
+\begin{equation}\label{eq:ch12_bessel_alpha}
+\frac{d^2 \alpha}{d \xi^2} + \frac{1}{\xi} \frac{d \alpha}{d \xi} + \left[ 1 - \frac{(1/2)^2}{\xi^2} \right] \alpha = \gamma + \left( \frac{\delta \sigma}{4 \pi k^2} \right) \frac{1}{\xi} - \frac{1}{4} \left( \beta + \frac{g m}{S} \cos \theta_i \right) \frac{1}{\xi^2}.
+\end{equation}
+把 $\alpha$ 确定出以后，再积分下列方程也就可以把 $\theta$ 计算出来：
+\begin{equation}\label{eq:ch12_dtheta_dxi}
+\frac{d \theta}{d \xi} = \frac{1}{2 \xi} \left( \alpha - \beta - \frac{m g}{S} \cos \theta_i \right).
+\end{equation}
+这个方程是由方程\eqref{eq:ch12_theta_eq}变化出来的。
+
+这些微分方程中的自变量 $z$ 或 $\xi$ 并不是时间变数而是距离变数。但是，正如方程\eqref{eq:ch12_vel_distance}所表示的那样，$z$ 是时间 $t$ 的单调增函数，$\xi$ 当然也就是 $t$ 的增函数。因此，把自变量从 $t$ 改为 $\xi$ 并不会改变系统方程的稳定性；也就是说，如果系统对于 $\xi$ 来说是稳定的，那么，系统对于 $t$ 来说也是稳定的。在这里，“稳定”的意思就是，当 $t$ 或 $\xi$ 增加时，弹道与理想的直线弹道之间的偏差会逐渐地减小。因此，稳定性问题完全可以用自变量 $\xi$ 来讨论。当时间 $t$ 增加时，$\xi$ 就从 $t=0$ 时的初始值 $\xi_0$ 增大起来。如果，火箭弹的初始发射速度是零，初始值 $\xi_0$ 也就是零。
+
+\section{火箭弹的稳定性}
+
+为了讨论稳定性问题，我们必须根据特定的初始条件去解方程\eqref{eq:ch12_bessel_alpha}和方程\eqref{eq:ch12_dtheta_dxi}，然后，再确定，当 $\xi$ 增加的时候，冲角 $\alpha$ 是否趋于零，或者更恰当些，考虑弹道的倾角的偏差 $\theta - \theta_i$ 是否趋于零。方程\eqref{eq:ch12_bessel_alpha}确实是一个 $\frac{1}{2}$ 阶的贝塞尔方程，所以，补充函数就是 $\frac{1}{2}$ 阶的和 $-\frac{1}{2}$ 阶的贝塞尔函数。但是，这些补充函数都是可以用初等函数表示的。事实上，方程\eqref{eq:ch12_bessel_alpha}可以改写为
+\begin{equation}\label{eq:ch12_zeta_eq}
+\frac{d^2 \zeta}{d \xi^2} + \zeta = Q(\xi),
+\end{equation}
+其中
+\begin{equation}\label{eq:ch12_zeta_def}
+\zeta = \sqrt{\xi} \alpha,
+\end{equation}
+而
+\begin{equation}\label{eq:ch12_Q_def}
+Q(\xi) = \gamma \sqrt{\xi} + \left( \frac{\delta \sigma}{4 \pi k^2} \right) \frac{1}{\sqrt{\xi}} - \frac{1}{4} \left( \beta + \frac{gm}{S} \cos \theta_i \right) \frac{1}{\xi^{3/2}}.
+\end{equation}
+因此，对于新未知函数 $\zeta$ 来说，补充函数就是 $\sin \xi$ 和 $\cos \xi$。
+
+火箭弹离开发射器时的条件，或者初始条件就是
+\begin{equation}\label{eq:ch12_initial_conditions}
+\begin{cases}
+v = v_0, \\
+\theta = \theta_0, \\
+\alpha = \alpha_0, \\
+d\phi/dt = (d\phi/dt)_0.
+\end{cases}
+\end{equation}
+这里的下标“0”表示 $t=0$ 时刻的值。$\xi$ 和 $\zeta$ 的初始值当然就是
+\begin{equation}\label{eq:ch12_xi0}
+\xi_0 = \frac{2\pi}{\sigma} \frac{m}{2S}v_0^2 = \frac{\pi m v_0^2}{\sigma S}
+\end{equation}
+和
+\begin{equation}\label{eq:ch12_zeta0}
+\zeta_0 = \sqrt{\xi_0}\alpha_0.
+\end{equation}
+根据方程\eqref{eq:ch12_dtheta_dxi}，$t=0$ 时就有
+\begin{equation*}
+\sqrt{\xi_0}\left(\frac{d\theta}{d\xi}\right)_0 = \frac{\alpha_0 - \beta - (mg/S)\cos\theta_i}{2\sqrt{\xi_0}}.
+\end{equation*}
+但是 $\theta = \phi - \alpha$，所以
+\begin{equation*}
+\sqrt{\xi_0}\left(\frac{d\alpha}{d\xi}\right)_0 + \frac{1}{2\sqrt{\xi_0}}\alpha_0 = \left(\frac{d\zeta}{d\xi}\right)_0 = \sqrt{\xi_0}\left(\frac{d\phi}{d\xi}\right)_0 + \frac{\beta + (mg/S)\cos\theta_i}{2\sqrt{\xi_0}}
+\end{equation*}
+或更明显地，
+\begin{equation}\label{eq:ch12_dzeta0}
+\left(\frac{d\zeta}{d\xi}\right)_0 = \sqrt{\xi_0}\frac{\sigma(d\phi/dt)_0}{2\pi v_0} + \frac{\beta + (mg/S)\cos\theta_i}{2\sqrt{\xi_0}}.
+\end{equation}
+
+把初始条件这样变化以后，我们就可以把方程\eqref{eq:ch12_zeta_eq}的解 $\zeta$ 或 $\alpha$ 直接写出来：
+\begin{equation}\label{eq:ch12_alpha_solution}
+\begin{array}{ll}
+\alpha(\xi,\xi_0) = &\frac{1}{\sqrt{\xi}}\cos(\xi - \xi_0)\left[\zeta_0 - \int_{\xi_0}^{\xi}\sin(\eta - \xi_0)Q(\eta)d\eta\right]\\
+ & + \frac{1}{\sqrt{\xi}}\sin(\xi - \xi_0)\left[\left(\frac{d\zeta}{d\xi}\right)_0 + \int_{\xi_0}^{\xi}\cos(\eta - \xi_0)Q(\eta)d\eta\right],
+\end{array}
+\end{equation}
+这里的 $Q$ 就是方程\eqref{eq:ch12_Q_def}所表示的驱动函数。因为 $Q(\eta)$ 中包含有 $\eta$ 的半次方幂，所以方程\eqref{eq:ch12_alpha_solution}中的积分确实都是福来内尔(Fresnel)积分。把 $\alpha$ 计算出来以后，用积分方法就可以由方程\eqref{eq:ch12_dtheta_dxi}求出 $\theta$ 来：
+\begin{equation}\label{eq:ch12_theta_solution}
+\theta - \theta_i = (\theta_0 - \theta_i) - \frac{1}{2}\left(\beta + \frac{mg}{S}\cos\theta_i\right)\log\frac{\xi}{\xi_0} + \frac{1}{2}\int_{\xi_0}^{\xi}\frac{\alpha(\eta,\xi_0)}{\eta}d\eta.
+\end{equation}
+
+我们再来把发射器上的各种扰动的作用分离开来考虑：把方程\eqref{eq:ch12_theta_solution}写成若干项，每一项都代表一种类型的扰动。写法是这样的：
+\begin{equation}\label{eq:ch12_theta_perturbation}
+\begin{array}{ll}
+\theta - \theta_i = &(\theta_0 - \theta_i) + \left(\beta + \frac{mg}{S}\cos\theta_i\right)G_1(\xi,\xi_0) + \frac{\delta\sigma}{2\pi k^2}G_2(\xi,\xi_0) \\
+&- \gamma \bigl[G_1(\xi,\xi_0) + G_3(\xi,\xi_0)\bigr] + \alpha_0 G_3(\xi,\xi_0) + \frac{1}{2}\frac{\sigma}{\pi v_0}\left(\frac{d\phi}{dt}\right)_0 G_4(\xi,\xi_0).
+\end{array}
+\end{equation}
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{图12.2.png}
+    \caption{ }
+    \label{fig:12_2}
+\end{wrapfigure}
+第一项表示弹道倾角的初始偏差的影响。第二项表示推力不正和重力的影响。第三项表示推力的转矩的影响。第四项表示尾翼的安装不正所引起的误差。第五项表示初始冲角的影响。最末一项表示火箭弹的初始角速度的影响。每一个 $G$ 都是 $\xi$ 和 $\xi_0$ 这两个变数的函数，并且也是由一些福来内尔积分组成的。罗色尔和他的合作者把这些函数称为\underline{火箭函数}，并且在他们的书里还把这些函数作成函数表。用图线表示这些函数的几个图（图\ref{fig:12_2}到\ref{fig:12_5}），也是从他们的书里采用的。
+
+把图\ref{fig:12_2}到\ref{fig:12_5}这几个图观察一下，就可以看出这样一个事实：对于很大的 $\xi$ 值来说，所有这些火箭函数 $G$ 几乎都是常数。所以，各种扰动都不能阻尼掉。方程\eqref{eq:ch12_theta_perturbation}的第一项和最后两项表示在发射点所受的初始扰动的影响，然而，当 $\xi$ 很大时，它们还保持不变等于零的有限值。方程\eqref{eq:ch12_theta_perturbation}的其余三项都是由于“输入”（或者说驱动函数）而产生的“输出”。对于很大的 $\xi$ 值来说，它们的值也不是零。$G_1$ 函数的性质尤其恶劣：当 $\xi$ 很大的时候，它差不多等于 $\log \xi$，所以也就要无限地增大。因此，如果我们用以前提出的系统稳定性的判断准则（也就是说，初始扰动应该趋于消失，而且对于“合理”的输入，输出总应该是有限的）来衡量火箭弹的运动，那么，火箭弹就是不稳定的。从另一方面来看，基本方程\eqref{eq:ch12_bessel_alpha}的补充函数都是贝塞尔函数，当自变量无限增大的时候，这些函数是趋于零的，这个事实却很容易使人错误地认为系统是稳定的。如果我们不加思索地搬用关于常系数线性系统的经验，那么，变系数系统的运动状态就很难使人理解了。然而，以上的讨论只不过是说明一件消极的事实：研究常系数线性系统时所能应用的一些概念，对于系数随时间变化的系统是不能应用的。从积极方面来考虑，我们就需要有一种方法来处理变系数系统的稳定性问题和控制问题。关于这一点，我们就在下一节里加以讨论。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.55\textwidth]{图12.3.png} 
+\caption{}
+\label{fig:12_3}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.55\textwidth]{图12.4.png} 
+\caption{}
+\label{fig:12_4}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.55\textwidth]{图12.5.png} 
+\caption{}
+\label{fig:12_5}
+\end{figure}
+
+\section{变系数系统的稳定性问题和控制问题}
+
+对于常系数线性系统的情况，我们以前所作的讨论表明：只要没有驱动函数（输入）的齐次方程的解都衰减得足够快，就能保证系统在稳定性以及其他控制性能方面都相当良好。因此，虽然系统的驱动函数（或输入）可能从一种情形变到另一种很不相同的情形，可是，性能的判断准则以及以此为依据的设计问题都只是以对齐次方程的解（整个的运动方程的补充函数）的研究为基础的，这就是普通的伺服系统理论的基本原理，至于根据拉氏变换建立传递函数，再用传递函数进行分析的方法只是一个很有用的技巧而已；譬如说，只从原则上来看，求补充函数的古典方法也并不次于艾文思的根轨迹法。
+
+我们在这一章前三节中的讨论明确地说明这样一个事实：如果一个线性系统的系数随时间变化（参数），那么，即使微分方程的所有补充函数都是衰减的，我们也不能保证有驱动函数作用时这个系统还有良好的运转状态。尽管补充函数都衰减，但是，只要有某种输入（驱动函数）的作用，输出趋于无限大都是可能的。因此，如果不知道系统的输入函数（驱动函数），我们就无法回答运转状态是否良好的问题。既然有这样一个必须先肯定输入函数的要求，而且，具体地解释齐次变系数微分方程也是十分困难的，所以，为变系数系统的稳定性和控制性能建立一个普遍理论的任务好像是毫无希望的。但是，我们必须把计算上的困难和建立一个普遍理论的实质的困难区别开来。事实上，只要有快速的计算机，计算的困难就可以被克服，所以，这并不能认为是真正的困难。如果，这种条件已经实现了，我们就会知道，为分析系统的运动状态而具体给出输入函数的工作实质上就是为一个特定的目的进行设计的问题：在设计系统以前，我们必须知道在怎样的情况下对于系统的要求是怎样的。如果我们采用这种解决办法，也就不需要提出一般性的稳定问题了；因为，我们的设计工作已经使系统具有特定的令人满意的性能，这已经完全解决了实际问题，如果，再去一般地讨论稳定性问题就是多余的了。根据这个解决问题原则，我们就可以提出一个关于变系数线性系统的控制设计的一般理论。这个理论是古典的弹道摄动理论的一个应用。下一章我们要就讨论这个理论。把以前的讨论整个回顾一下，我们可以这样说：普通的伺服系统理论是关于一类\underline{特殊类型}的系统的设计的\underline{一般理论}。下一章的摄动理论却是关于一类更\underline{一般的类型}的系统的设计的\underline{特殊理论}。
