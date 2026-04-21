@@ -1,3 +1,549 @@
 
 % To be included
 \chapter{满足指定积分条件的控制设计}\label{chapter_14}
+
+在前面几章里，我们主要从分析的观点去讨论控制系统的设计问题。那就是，首先假定了系统的结构，然后找出系统具有什么性能。
+
+在上面一章里，我们第一次引入了一种不同的、更为直接的观点：我们首先指定某些性能，然后寻求能够给出所要求的性能的控制系统。本章内，我们将把这一原理用到任意的系统，这种控制系统中，希望被满足的性能准则是用被控制量的积分表示的。结果得到一个非常普遍的微分方程来表示系统的性能，一般说来，这是一个非线性的微分方程。按这种原理设计成功的控制系统通常就是一个非线性系统。这里非线性的性质，是有目的地用来使系统能给出最优的性能。
+
+我们把满足指定积分条件的控制设计的数学原理叙述如下：在控制系统里，我们引入一个或者若干个外加参数。这些外加参数是人为地加进去的，而不是由控制系统内在的物理规律所确定的。由于系统必须满足所有那些指定的积分条件，我们就可以得到决定外加参数的条件，然后通过安装在系统里的计算机使这些条件实现，这种控制设计原理首先由勃克森包姆和胡德(R. Hood)\footnote{A. S. Boksenbom and R. Hood, NACA TR, 1068 (1952)。}提出。在下面的讨论中，引用了这两位作者的一部分工作。
+
+\section{控制的准则}
+
+假设 $y$ 代表系统的输出。我们有理由认为：控制系统的总的工作性能的量度可以表示成 $y$ 的某种函数 $f$ 对于时间的积分。于是性能准则就是这些积分取极小值($\min$)，或者这些积分等于常数值($\mathrm{const}$)；也就是，
+\begin{equation}
+\int_{0}^{t_1} f(y) \mathrm{d}t = \mathrm{const} \text{ 或 } \min
+\label{eq:ch14_perf_general}
+\end{equation}
+或者，特别地，
+\begin{equation}
+\int_{0}^{t_1} (y - y_s)^2 \mathrm{d}t = \mathrm{const} \text{ 或 } \min ^{[13,17,56\sim58]}
+\label{eq:ch14_perf_ise}
+\end{equation}
+其中 $t_1$ 代表过渡过程终止的时刻，$y_s$ 表示指定量，或者希望输出量 $y$ 能到达的量。方程\eqref{eq:ch14_perf_ise}表示：在误差产生的这段时间间隔内，测量出误差的平方的总和，也即估计对于 $y_s$ 的平均平方误差。另外一种类型的准则可以要求过渡过程经历的时间最短，或者等于一个常数；那就是，
+\begin{equation}
+\int_{0}^{t_1} \mathrm{d}t = \mathrm{const} \text{ 或 } \min
+\label{eq:ch14_perf_time}
+\end{equation}
+假设仅仅采用单独某一个准则，比如方程\eqref{eq:ch14_perf_general}，结果会得到 $f(y)=\mathrm{const}$，因为要是没有另外的准则加到系统里其他变量上的话，这个结论是合理的，一般说来 $f(y)$ 可以等于常数值。通常，系统里另外那些变量受着一定条件的限制，这些条件必须包括在最初的准则里。例如，可以写出像下面一类合适的准则：
+
+\begin{equation}
+\left.
+\begin{aligned}
+&\int_{0}^{t_1} (y - y_s)^2 \mathrm{d}t = \min \\
+\mbox{当}&\\
+&\int_{0}^{t_1} f(z) \mathrm{d}t = \mathrm{const}
+\end{aligned}
+\right\}
+\label{eq:ch14_perf_multi}
+\end{equation}
+例如，$y$ 代表发动机的速率，$z$ 代表燃气轮发动机的特性温度，准则\eqref{eq:ch14_perf_multi}限定要求设计出来一种系统，这种系统对于某个特殊的温度积分值来说，速率误差的平方对时间的积分取极小值。假设已经知道了在一定时间内所能容许的超温条件，并且希望在过渡过程里保持平均速率误差最小，例如这种情形就可以采用上述的准则。其中那个包含 $z$ 的积分表示加到燃气轮发动机叶片上的总热量。
+
+通过普遍的理论将会证明：可以根据需要而拟定出不论多少像方程\eqref{eq:ch14_perf_general}至\eqref{eq:ch14_perf_multi}那种类型的准则，并从而推导出一个能够自动地同时满足所有这些准则的控制系统。
+
+控制准则的另外一方面是关于方程\eqref{eq:ch14_perf_general}到\eqref{eq:ch14_perf_multi}中积分的上限问题。必须选取这些积分等于极小值或者常数值的时间间隔。一个合理的时间间隔是这样一段时间：在这段时间内，那些主要干扰等于常数值，并且控制系统由一个主要运行状态过渡到另外一个主要运行状态。主要干扰是指那种干扰，当系统遭到这种干扰时，不可能即时加以修正。如果在准则成立的时间间隔内有主要干扰出现，那么根本不可能设计成功一种确实能够实现的系统，它能够预料到这个干扰，以便在干扰发生以前具有适当的性质。所谓一个主要运行状态仅仅是指那些连续变量的某一个特殊状态。关于喷气发动机的情形，可以用一个一阶的微分方程来描写过渡过程的性能。机器的速率决定了运行状态。假使必须考虑燃料系统的影响，或者假设温度的变化不是立刻反应到速率的变化，那么就要同时用机器的速率和加速率来描写机器的主要状态。我们立刻就会看到这一切。
+
+无论用那种设计方法得到的控制系统，都必须确实能够实现。这个问题有两方面，第一，可能给出的是任何系统都不能达到的准则，或者给出互相矛盾的准则。如果采用了上述准则，那么这种不现实性可能有两种情况，第一种情况是：这种准则也许能作为将来对控制系统的要求，但是现有的技术是做不到的，第二种情况是这种准则使得某些微分方程的边界条件得不到满足。在许多情况下，只要对所采用的准则和控制系统了解得很清楚，就能防止这类矛盾。
+
+关于控制系统确实能够实现的第二方面问题是纯粹的数学问题。我们希望把满足控制准则，并且满足由这个方程引出来的所有边界条件的控制系统或被控制系统给以描写(用一个微分方程来描写)。虽然问题的数学解答可能是这个微分方程的某种微分或者积分，可是这个问题的物理解答要求自己满足边界条件，而且不出现未确定的积分常数。像这种形式
+\begin{equation*}
+\dot{y} = c \dot{x}
+\end{equation*}
+和
+\begin{equation*}
+y = c x
+\end{equation*}
+用来描写控制系统的某些部分时，就不一定能把这两个式子看作是等价的。因为这两种形式有一个未定积分常数的差别。对于稳定的线性系统，这个积分常数影响非常小，但是像这里出现的非线性系统，我们就必须考虑这个常数的影响。
+
+\section{稳定性问题}
+
+稳定性的要求是一种特殊的准则，在过渡过程里，主要控制系统的设计中，并不考虑这一特殊准则。这种情况像上一章一样，因为系统满足了那些指定条件，整个系统已经具有合适的性能，用不着考虑稳定性。但一般说来，必须在系统里加上一个稳定装置，这个装置直到过渡过程结束的时候才发生作用，因此这个稳定装置将不会影响到系统满足其他准则。对于一个一阶系统，这个装置可以描写如下，当
+
+\begin{equation}
+\left.
+\begin{aligned}
+&y = y_s, \\
+\mbox{则}&\\
+&\dot{y} = 0
+\end{aligned}
+\right\}
+\label{eq:ch14_stab_first_order}
+\end{equation}
+对于二阶系统，当
+则
+\begin{equation}
+\left.
+\begin{aligned}
+&y = y_s, \\
+\mbox{则}&\\
+&\dot{y} = 0 \quad \text{及} \quad \ddot{y} = 0
+\end{aligned}
+\right\}
+\label{eq:ch14_stab_second_order}
+\end{equation}
+
+当这样的一个装置加到控制系统以后。控制系统有两种运行方式，这也就是一个多方式的控制系统（参看\ref{chapter10_section9}节）。当过渡过程期间，主要控制系统按照指定的性能运行。过渡过程终止时，再换到第二个系统进行控制，这时候系统具有方程\eqref{eq:ch14_stab_first_order}或者\eqref{eq:ch14_stab_second_order}所描写的性质，保证系统最后处于稳定状态，避免系统离开希望到达的运转点。
+
+\section{一阶系统的一般理论}
+
+根据前面方程\eqref{eq:ch14_perf_general}到方程\eqref{eq:ch14_perf_multi}给出的那一类准则，我们可以按下面的方式把控制方程加以公式化：假设准则是这样一些准则，要求积分中的一个在其他积分都等于常数的条件下取极小值。按照变分法原理，上述准则是下面公式成立的充分条件，
+\begin{equation*}
+\int_{0}^{t_1} f(y) \mathrm{d}t + \lambda_1 \int_{0}^{t_1} (y - y_s)^2 \mathrm{d}t + \lambda_2 \int_{0}^{t_1} f_0(z) \mathrm{d}t + \lambda_3 \int_{0}^{t_1} \mathrm{d}t = \min
+\end{equation*}
+或
+\begin{equation}
+\int_{0}^{t_1} \left[ f(y) + \lambda_1 (y - y_s)^2 + \lambda_2 f_0(z) + \lambda_3 \right] \mathrm{d}t = \min
+\label{eq:ch14_lambda_multiplier}
+\end{equation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{图14.1.png}
+    \caption{ }
+    \label{fig:14_1}
+\end{wrapfigure}
+这些 $\lambda$ 是作为可调整的参数而加到系统里的任意常数，参数 $\lambda$ 的具体数值要依据上面那些等于常数值的积分所取的值确定。在某些约束条件下求极值的一类问题，广泛的采用了这种“$\lambda$ 乘子”法。实际上，并不一定非要积分形式的条件不可，变量之间是泛函数关系或者微分关系的情形也可以用同样的方法处理\footnote{例如 C. Lanczos, \textit{The Variational Principles of Mechanics}, University of Toronto Press, Toronto, (1946), 或参阅[59]。}。当包含着所有可能的约束条件时，方程\eqref{eq:ch14_lambda_multiplier}可以变为非常普遍的方程。在最后的方程里，如果不采用某个准则，那么相应的 $\lambda \to 0$。假设某个准则等于零，那么相应的 $\lambda \to \infty$。
+
+如果控制系统是一个常系数一阶系统，那么只有一个基本的输出量 $y$，变量 $y$ 和 $z$ 间有一定的关系，用 $z = z(y, \dot{y})$ 表示。通常方程\eqref{eq:ch14_lambda_multiplier}可以写成
+\begin{equation}
+\int_{0}^{t_1} F(y, \dot{y}) \mathrm{d}t = \min
+\label{eq:ch14_first_order_min}
+\end{equation}
+其中 $F$ 是 $y$ 和 $\dot{y}$ 的连续函数，而 $y$ 是时间 $t$ 的连续函数。我们注意，函数 $F$ 不明显地包含时间变数 $t$。
+
+如果我们认为 $y(t)$ 是一个解，那就是说，$y(t)$ 是所有可能得到的输出里的某个输出，它满足方程\eqref{eq:ch14_first_order_min}表示的条件。我们考虑 $y(t)$ 附近的一些解 $y(t) + \varepsilon \delta y(t)$。其中 $\delta y(t)$ 是一个任意的函数，$\varepsilon$ 是一个数值很小的参数。如果 $y(t)$ 满足方程\eqref{eq:ch14_first_order_min}表示的条件，那么
+\begin{equation*}
+\left[ \frac{\mathrm{d}}{\mathrm{d}\varepsilon} \int_{0}^{t_1 + \varepsilon \delta t_1} F(y + \varepsilon \delta y, \dot{y} + \varepsilon \delta \dot{y}) \mathrm{d}t \right]_{\varepsilon=0} = 0
+\end{equation*}
+或
+\begin{equation}
+\int_{0}^{t_1} \frac{\partial F}{\partial y} \delta y \mathrm{d}t + \int_{0}^{t_1} \frac{\partial F}{\partial \dot{y}} \delta \dot{y} \mathrm{d}t + F(t_1) \delta t_1 = 0
+\label{eq:ch14_variation_deriv}
+\end{equation}
+变分 $\delta t_1$ 出现的原因在于：方程\eqref{eq:ch14_first_order_min}里那个积分的上限并非固定，而是在图14.1表示的曲线 $y = f(t)$ 上变动\footnote{这就是通常称为端点不固定的变分问题。}。这就是前面讨论过的从一个主要变量运行状态过渡到另外一个状态的边界条件。用部分积分法，方程\eqref{eq:ch14_variation_deriv}变成
+\begin{equation*}
+\int_{0}^{t_1} \left[ \frac{\partial F}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}t} \left( \frac{\partial F}{\partial \dot{y}} \right) \right] \delta y \mathrm{d}t + \left( \frac{\partial F}{\partial \dot{y}} \right)_{t_1} \delta y(t_1) - \left( \frac{\partial F}{\partial \dot{y}} \right)_0 \delta y(0) + F(t_1) \delta t_1 = 0
+\end{equation*}
+由于末端满足的条件，很容易计算出 $\delta y(t_1)$ 和 $\delta t_1$ 之间的关系，那就是
+\begin{equation*}
+\dot{y} \delta t_1 + \delta y(t_1) = f'(t_1) \delta t_1
+\end{equation*}
+然后把 $\delta y(t_1)$ 消掉，因为 $\delta t$ 是任意的，我们得到
+\begin{equation}
+\int_{0}^{t_1} \left[ \frac{\partial F}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}t} \left( \frac{\partial F}{\partial \dot{y}} \right) \right] \delta y \mathrm{d}t = 0
+\label{eq:ch14_variation_int_zero}
+\end{equation}
+以及
+\begin{equation}
+\delta t_1 \left\{ F(t_1) + \left( \frac{\partial F}{\partial \dot{y}} \right)_{t_1} \left[ f'(t_1) - \dot{y}(t_1) \right] \right\} - \left( \frac{\partial F}{\partial \dot{y}} \right)_0 \delta y(0) = 0
+\label{eq:ch14_variation_boundary}
+\end{equation}
+方程\eqref{eq:ch14_first_order_min}中，那一段时间间隔，被考虑为系统从一个主要运行状态过渡到另一个状态的时间；在这种情况下，系统变数 $y$ 从一个固定值变化到另一个固定值。那么曲线 $y = f(t)$ 必须是一条直线，这条直线的方程是 $f(t) = \mathrm{const}$，因此
+\begin{equation}
+\left.
+\begin{aligned}
+\delta y(0) &= 0, \\
+f'(t_1) &= 0
+\end{aligned}
+\right.
+\label{eq:ch14_fixed_boundary}
+\end{equation}
+于是方程\eqref{eq:ch14_variation_int_zero}和方程\eqref{eq:ch14_variation_boundary}变成
+\begin{equation}
+\frac{\partial F}{\partial y} = \frac{\mathrm{d}}{\mathrm{d}t} \left( \frac{\partial F}{\partial \dot{y}} \right)
+\label{eq:ch14_euler_lagrange}
+\end{equation}
+以及
+\begin{equation}
+\text{如果} \left( \frac{\partial F}{\partial \dot{y}} \right)_0 \text{是有限数} \quad F(t_1) = \dot{y}(t_1) \left( \frac{\partial F}{\partial \dot{y}} \right)_{t_1}
+\label{eq:ch14_boundary_condition}
+\end{equation}
+
+因为 $\delta y(0)=0$，当 $t=0$ 时，并不一定要求方程\eqref{eq:ch14_euler_lagrange}成立，唯一的条件是：$t=0$ 时 $(\partial F/\partial \dot{y})_0$ 是有限数，而且 $y$ 连续变化。一个新的过渡过程开始时，$\dot{y}, F, (\partial F/\partial y)$，和 $(\partial F/\partial \dot{y})$ 可以不连续。因为方程\eqref{eq:ch14_euler_lagrange}的缘故，在其他点($0 < t \leqslant t_1$)，$\partial F/\partial y$ 将是连续的。
+
+方程\eqref{eq:ch14_euler_lagrange}表示满足方程\eqref{eq:ch14_first_order_min}那个条件的变量 $y(t)$ 的微分方程。通常把方程\eqref{eq:ch14_euler_lagrange}叫做变分问题的欧拉-拉格朗日(Euler-Lagrange)方程。这里所考虑的问题中，函数 $F$ 不明显地包含时间变数 $t$。于是我们可以立刻得到方程\eqref{eq:ch14_euler_lagrange}的一个第一积分。方程\eqref{eq:ch14_euler_lagrange}的第一积分中，满足边界条件方程\eqref{eq:ch14_boundary_condition}的第一积分具有下述形式，
+\begin{equation}
+F(y, \dot{y}) = \dot{y} \frac{\partial F}{\partial \dot{y}}
+\label{eq:ch14_first_integral}
+\end{equation}
+把这个方程对时间 $t$ 微分，我们得到
+\begin{equation*}
+\frac{\partial F}{\partial y} \dot{y} + \ddot{y} \frac{\partial F}{\partial \dot{y}} = \ddot{y} \frac{\partial F}{\partial \dot{y}} + \dot{y} \frac{\mathrm{d}}{\mathrm{d}t} \left( \frac{\partial F}{\partial \dot{y}} \right)
+\end{equation*}
+既然在那些 $y, \partial F/\partial \dot{y}$，等连续的地方，下面公式成立，
+\begin{equation*}
+\dot{y} \left[ \frac{\partial F}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}t} \left( \frac{\partial F}{\partial \dot{y}} \right) \right] = 0
+\end{equation*}
+那么，或者 $\dot{y}=0$，或者满足方程\eqref{eq:ch14_euler_lagrange}。但是通常在过渡过程中 $\dot{y}$ 不会等于零（也即无论在任何时间间隔内不恒等于零），于是由方程\eqref{eq:ch14_euler_lagrange}和\eqref{eq:ch14_boundary_condition}所描述的 $y(t)$ 的两个必须满足的条件，可以用单独一个方程\eqref{eq:ch14_first_integral}代替。
+
+这样一来，方程\eqref{eq:ch14_first_integral}描述了实际上可以实现的系统，系统具有下述性质：当外干扰等于常量，系统从一个主要运行状态过渡到另一状态这段时间间隔内，系统将会同时自动地满足那些包含在 $F$ 里的准则。在过渡过程终了的时候，$y$ 达到终了状态，这时必须把一个稳定装置加到系统里；方程\eqref{eq:ch14_stab_first_order}就描写了这样一个理想装置。
+
+\section{一般理论对喷气发动机的控制的应用}
+
+关于喷气发动机控制设计的一般情形，发动机的速率 $N$ 决定发动机的主要运行状态，它是被控制的量。结果，其他适当的特征（例如推力）也就决定了。发动机的限制条件是关于超速，超温，压缩机的浪涌，燃烧室的熄灭等。令 $N_s$ 表示指定的速率。$T$ 表示加到轮机里的温度，$P$ 表示压缩机出口处的压力，于是可以用下述积分表示发动机的性能准则：
+
+\begin{equation}
+\left.
+\begin{array}{lr}
+\int_{0}^{t_1} f_1(N - N_s) \mathrm{d}t, \quad & \text{控制速率} \\
+\int_{0}^{t_1} f_2(N) \mathrm{d}t, \quad & \text{超速} \\
+\int_{0}^{t_1} f_3(T) \mathrm{d}t, \quad & \text{温度容许的上限和下限} \\
+\int_{0}^{t_1} f_4\left[ P - g(N) \right] \mathrm{d}t, \quad & \text{压缩机浪涌} \\
+\int_{0}^{t_1} f_5\left[ P - h(N) \right] \mathrm{d}t, \quad & \text{熄灭} \\
+\int_{0}^{t_1} \mathrm{d}t. \quad & \text{升起的时间}
+\end{array}
+\right\}
+\label{eq:ch14_jet_engine_criteria}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图14.2.png} 
+\caption{}
+\label{fig:14_2}
+\end{figure}
+
+这些被积函数的性质如图\ref{fig:14_2}所示，量 $P - g(N)$ 是压缩机出口处的压力超出安全压力而发生浪涌的总量，$g(N)$ 表示对于浪涌以下的安全值，是每一个发动机速率所对应的压缩机出口处压力。燃烧室熄灭的情况可以用同样方式处理。升起的时间是系统从一个主要运行状态过渡到另一状态总共需要的时间。
+
+这里和第\ref{chapter5_section6}节谈到过的喷气发动机的情形相似，线性化以后发动机的特性可以表示如下：
+\begin{equation}
+\left.
+\begin{aligned}
+T &= aN + a\tau \dot{N}, \\
+P &= bN + cT,
+\end{aligned}
+\right\}
+\label{eq:ch14_jet_engine_linear}
+\end{equation}
+其中 $\tau$ 是发动机的时间常数。将这些关系式代到方程\eqref{eq:ch14_jet_engine_criteria}的积分里，我们看到它们全都有下面的形式：
+\begin{equation*}
+\int_{0}^{t_1} f(N, \dot{N}) \mathrm{d}t,
+\end{equation*}
+其中 $f$ 是 $N$ 和 $\dot{N}$ 的连续函数，$N$ 是时间 $t$ 的连续函数。
+
+
+\section{温度有一定限制条件的速率控制}
+
+当控制速率的时候，如果只把误差考虑成最重要的因素，准则就变成
+\begin{equation*}
+\int_{0}^{t_1} f(N-N_s)\mathrm{d}t = \min,
+\end{equation*}
+于是，方程\eqref{eq:ch14_first_integral}的控制条件简单地给出
+\begin{equation*}
+f_1(N-N_s) = 0。
+\end{equation*}
+由于 $f_1$ 的性质，$N=N_s$。这个结果表示：在发动机的性能没有受到其他限制条件的情况下，这种速率控制将保持速率误差恒等于零。然而只有允许温度无限升高，才可能实际达到上述要求。这个结果和前面的方程\eqref{eq:ch14_first_integral}前后不一致，在那个方程里，$N$ 并不是一个时间的不连续的函数。这个例子是一般问题的一种显然情形。但是这个结果指出必须附带有另外的准则才能给出实际上有意义的系统。
+
+现在假设控制速率的问题中，把误差和温度容许的上限和下限合在一起考虑，于是
+\begin{equation}
+\int_{0}^{t_1} \big[f_1(N-N_s)+\lambda f_3(T)\big]\mathrm{d}t = \min,
+\label{eq:ch14_temp_limit_perf}
+\end{equation}
+所以 $F=f_1(N-N_s)+\lambda f_3(T)$。由于利用方程\eqref{eq:ch14_jet_engine_linear}，方程\eqref{eq:ch14_first_integral}变成
+\begin{equation}
+f_1(N-N_s)+\lambda f_3(T) = \lambda a\tau \dot{N}f_3'(T)。
+\label{eq:ch14_temp_limit_control_eq}
+\end{equation}
+这是过渡过程的控制方程。当过渡过程终止时，理想的稳定装置发生作用，所以当时，就有
+\begin{equation}
+\left.
+\begin{aligned}
+N &= N_s \\
+\dot{N} &= 0。
+\end{aligned}
+\right\}
+\label{eq:ch14_temp_limit_stab}
+\end{equation}
+方程\eqref{eq:ch14_temp_limit_control_eq}和\eqref{eq:ch14_temp_limit_stab}描写出整个控制系统的性质。所以我们可以设想，有一架计算机安装在系统里，它由测量机构获得有关 $N$ 和 $T$ 的资料，贮藏有 $\lambda,a$，和 $\tau$ 的资料，以及燃料速率和 $N,T$ 之间的联系，然后根据方程\eqref{eq:ch14_temp_limit_control_eq}，产生适当的燃料喷射率的信号。当 $N$ 即将到达 $N_s$ 时，稳定机构参与作用，所以过渡过程终止时方程\eqref{eq:ch14_temp_limit_stab}自然满足。一般说来，控制方程\eqref{eq:ch14_temp_limit_control_eq}是非线性方程，计算机不可能是线性元件，不像简单的电阻电容线路那样。
+
+作为一个例子，考虑下述情况，当 $T>L_2$ 时，$f_3(T)=(T-L_2)^n$，当 $T<L_1$ 时，$f_3(T)=(L_1-T)^n$。通常，次数 $n$ 必须大于1，因为如果 $n<1$，$T$ 可以是无限大，这样即使积分
+\begin{equation*}
+\int_{0}^{t_1} f_3(T)\mathrm{d}t
+\end{equation*}
+是有限的，将使 $N$ 不连续，这不符合实际情况。在讨论中，令 $n=2$，并且令 $f_1(N-N_s)=(N-N_s)^2$。所以我们又以对于给定值所发生的平均平方误差作为误差的量度，于是方程\eqref{eq:ch14_temp_limit_control_eq}变成
+\begin{equation}
+\frac{(N-N_s)^2}{\lambda}+(L-aN)^2 = a^2\tau^2\dot{N}^2,
+\label{eq:ch14_temp_limit_nonlinear}
+\end{equation}
+在这个式子里：加速率的情形，或者当 $N<N_s$，
+\begin{equation}
+\dot{N}>0,\quad \text{以及}\quad L=L_2;
+\label{eq:ch14_temp_accel}
+\end{equation}
+减速率的情形，或者当 $N>N_s$，
+\begin{equation}
+\dot{N}<0,\quad \text{以及}\quad L=L_1。
+\label{eq:ch14_temp_decel}
+\end{equation}
+
+控制系统的方块图用图\ref{fig:14_3}表示如下：
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图14.3.png} 
+\caption{}
+\label{fig:14_3}
+\end{figure}
+$N_e$ 是真正的发动机速率，假定我们考虑减速率的情况，$N>N_s$。在过渡过程中，$N_e-N_s$ 是正的，计算机和发动机伺服系统之间的开关是闭合，从计算机发出的信号起着作用。计算机根据方程\eqref{eq:ch14_temp_limit_nonlinear}产生信号 $a\tau\dot{N}$。在图\ref{fig:14_3}中用一个直角三角形边长的关系描写信号之间的联系。发动机伺服控制系统要设计得使发动机尽可能服从计算机所发出的信号 $a\tau\dot{N}$。这只要利用图中所表示的放大率很高的线路就可以达到目的。当速率误差的值变得非常小的时候，计算机就停止发出信号，于是系统的稳定装置将保证系统保持指定速率 $N_s$，而处于稳定状态，于是系统满足方程\eqref{eq:ch14_temp_limit_stab}的条件。
+
+控制系统里有一个可调整的参数 $\lambda$。对于任意一个给定的 $\lambda$ 和得到的超温积分来说，这个系统将会使速率误差平方的积分取极小值。$\lambda$ 的值确定超温积分的值。我们考虑 $aN_s=L$ 这一\underline{特殊情况}，那就是，与温度的限制相适应的加速率或减速率是服从方程\eqref{eq:ch14_jet_engine_linear}的。有兴趣地注意到，在这个特殊例子里，根据方程\eqref{eq:ch14_temp_limit_nonlinear}的控制条件，当 $N=N_s$ 时，$\dot{N}=0$，所以并不需要一个额外的稳定装置，图\ref{fig:14_3}中控制系统里的开关也就可去掉。在这一特殊情况下，方程\eqref{eq:ch14_temp_limit_nonlinear}变成线性的，可以写成
+\begin{equation}
+E(L-aN) = a\tau\dot{N},
+\label{eq:ch14_temp_limit_linear}
+\end{equation}
+其中
+\begin{equation}
+E = \left(1+\frac{1}{a^2\lambda}\right)^{\frac12}。
+\label{eq:ch14_temp_limit_E_def}
+\end{equation}
+现在那些积分可以很容易的计算出来，例如，温度积分是
+\begin{equation*}
+\begin{aligned}
+\int_{0}^{t_1} (T-L)^2\mathrm{d}t&=\int_{0}^{t_1} (aN-L+a\tau\dot{N})^2\mathrm{d}t \\
+&=(E-1)^2\int_{0}^{t_1} (L-aN)^2\mathrm{d}t \\
+&=a^2(E-1)^2\int_{0}^{t_1} (N_s-N)^2\mathrm{d}t \\
+&=a^2(E-1)^2\int_{N_0}^{N_s} (N_s-N)^2\frac{\mathrm{d}N}{\dot{N}} \\
+&=a^3\tau(E-1)^2\int_{N_0}^{N_s}\frac{(N_s-N)^2\mathrm{d}N}{Ea(N_s-N)} \\
+&=a^2\tau\frac{(E-1)^2}{E}\cdot\frac12(N_s-N_0)^2 \\
+&=\frac{\tau}{2}\frac{(E-1)^2}{E}(L-aN_0)^2。
+\end{aligned}
+\end{equation*}
+于是得到
+\begin{equation}
+\frac{1}{\tau}\int_{0}^{t_1}\frac{(T-L)^2}{(L-aN_0)^2}\mathrm{d}t = \frac{(E-1)^2}{2E},
+\label{eq:ch14_temp_integral_result}
+\end{equation}
+其中 $N_0$ 是过渡过程开始时的发动机速率。同样，速率积分是
+\begin{equation}
+\frac{a^2}{\tau}\int_{0}^{t_1}\left(\frac{N-N_s}{L-aN_0}\right)^2\mathrm{d}t = \frac{1}{2E},
+\label{eq:ch14_speed_integral_result}
+\end{equation}
+假设 $T_\mathrm{max}$ 是最高温度，于是
+\begin{equation}
+\frac{T_\mathrm{max}-L}{L-aN_0} = E-1。
+\label{eq:ch14_temp_max_relation}
+\end{equation}
+从方程\eqref{eq:ch14_temp_limit_linear}，我们有
+\begin{equation*}
+Ea(N_s-N) = a\tau\frac{\mathrm{d}N}{\mathrm{d}t}。
+\end{equation*}
+在过渡过程中，控制系统的特性时间用 $\tau^*$ 表示，
+\begin{equation}
+\tau^* = \frac{\tau}{E}。
+\label{eq:ch14_char_time}
+\end{equation}
+这些方程的左端已经化成无量纲的形式了。最高温度 $T_\mathrm{max}$ 是过渡过程开始时的温度。
+
+当 $E=1(\lambda=\infty)$，这时候温度不超出，这与我们前面的叙述相符：当 $\lambda\to\infty$ 时，表示超温的积分等于零。速率积分等于 $0.5$，并且 $\tau^*=\tau$。如果 $E$ 增大（或者 $\lambda$ 减小），温度积分和最高温度增大，而速率积分和时间常数减小。可以取 $\sqrt{2}$ 为 $E$ 的一个折衷值，或者 $a^2\lambda=1$。只要把 $E$ 或者 $\lambda$ 的值给定，控制计算机的程序也就确定了，于是可以进行控制系统的设计工作。
+
+对于方程\eqref{eq:ch14_temp_limit_nonlinear}的普遍情形，积分值计算起来非常麻烦，但是可以采用同样的步骤设计控制系统。勃克森包姆和胡德给出方程\eqref{eq:ch14_temp_limit_linear}真正的解答，那就是求出 $t$ 的函数 $N$。但是我们在这里对于控制系统的设计并不着重在求得这种解。控制系统的全部资料由方程\eqref{eq:ch14_temp_limit_linear}本身给出，因为这个方程已经告诉我们应该如何构造控制计算机。如果根据那些条件做出计算机，于是就能保证得到希望的性能。$N$ 对于时间的具体变化情况倒并不重要。因此我们的设计方法与其说是根据假设的方程的解去进行设计，倒不如说是“设计”非线性方程本身。
+
+\section{两个自由度的二阶系统}
+对于两个自由度的常系数二阶系统，方程\eqref{eq:ch14_first_order_min}变成
+\begin{equation}
+\int_{0}^{t_1} F(y,\dot{y},\ddot{y},z,\dot{z},\ddot{z})\mathrm{d}t = \min,
+\label{eq:ch14_2dof_perf}
+\end{equation}
+其中 $y$ 和 $z$ 表示输出，而且对于时间变数 $t$ 来说 $y$ 和 $z$ 是相互无关的两个函数。使方程\eqref{eq:ch14_2dof_perf}满足的条件是，当 $\varepsilon=0$ 时，
+\begin{equation}
+\frac{\mathrm{d}}{\mathrm{d}\varepsilon}\int_{0}^{t_1+\varepsilon\delta t_1}
+F(y+\varepsilon\delta y,\dot{y}+\varepsilon\delta\dot{y},\ddot{y}+\varepsilon\delta\ddot{y},
+z+\varepsilon\delta z,\dot{z}+\varepsilon\delta\dot{z},\ddot{z}+\varepsilon\delta\ddot{z})\mathrm{d}t = 0
+\label{eq:ch14_2dof_var_def}
+\end{equation}
+方程\eqref{eq:ch14_2dof_perf}中积分的时间间隔由一个固定时刻($t=0$)开始，可是不是在某个固定时刻终止，而是终止在曲线 $y=f_1(t),\dot{y}=f_2(t),z=g_1(t)$，以及 $\dot{z}=g_2(t)$ 上。$\delta y$ 和 $\delta z$ 是任意的函数，自然是时间的互相无关的函数。
+
+我们把方程\eqref{eq:ch14_2dof_var_def}的微分运算写出来：
+\begin{equation*}
+\int_{0}^{t_1}\left[
+\frac{\partial F}{\partial y}\delta y
++\frac{\partial F}{\partial \dot{y}}\delta\dot{y}
++\frac{\partial F}{\partial \ddot{y}}\delta\ddot{y}
++\frac{\partial F}{\partial z}\delta z
++\frac{\partial F}{\partial \dot{z}}\delta\dot{z}
++\frac{\partial F}{\partial \ddot{z}}\delta\ddot{z}
+\right]\mathrm{d}t
++F(t_1)\delta t_1 = 0。
+\end{equation*}
+经过部分积分以后，我们得到
+\begin{equation}
+\begin{aligned}
+&\int_{0}^{t_1}\left[
+\frac{\partial F}{\partial y}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \dot{y}}\right)
++\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{\partial F}{\partial \ddot{y}}\right)
+\right]\delta y\mathrm{d}t \\
++&\int_{0}^{t_1}\left[
+\frac{\partial F}{\partial z}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \dot{z}}\right)
++\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{\partial F}{\partial \ddot{z}}\right)
+\right]\delta z\mathrm{d}t \\
++&\left.\left[
+\frac{\partial F}{\partial \dot{y}}\delta y
++\frac{\partial F}{\partial \ddot{y}}\delta\dot{y}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{y}}\right)\delta y
+\right]\right|_{0}^{t_1}
++F(t_1)\delta t_1 \\
++&\left.\left[
+\frac{\partial F}{\partial \dot{z}}\delta z
++\frac{\partial F}{\partial \ddot{z}}\delta\dot{z}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{z}}\right)\delta z
+\right]\right|_{0}^{t_1}
+= 0。
+\end{aligned}
+\label{eq:ch14_2dof_part_int}
+\end{equation}
+和前面的讨论相类似，积分中被积函数以及边界条件必须分别都等于零。从给出的终止条件，我们得到
+\begin{equation}
+\left.
+\begin{aligned}
+\delta y(t_1) &= \big[f_1'(t_1)-\dot{y}(t_1)\big]\delta t_1, \\
+\delta\dot{y}(t_1) &= \big[f_2'(t_1)-\ddot{y}(t_1)\big]\delta t_1, \\
+\delta z(t_1) &= \big[g_1'(t_1)-\dot{z}(t_1)\big]\delta t_1, \\
+\delta\dot{z}(t_1) &= \big[g_2'(t_1)-\ddot{z}(t_1)\big]\delta t_1。
+\end{aligned}
+\right\}
+\label{eq:ch14_2dof_end_cond}
+\end{equation}
+从方程\eqref{eq:ch14_2dof_part_int}得到的三个条件可以写成两个联立的欧拉-拉格朗日方程
+\begin{equation}
+\left.
+\begin{aligned}
+\frac{\partial F}{\partial y}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \dot{y}}\right)
++\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{\partial F}{\partial \ddot{y}}\right) &= 0, \\
+\frac{\partial F}{\partial z}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \dot{z}}\right)
++\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{\partial F}{\partial \ddot{z}}\right) &= 0,
+\end{aligned}
+\right\}
+\label{eq:ch14_2dof_euler_lagrange}
+\end{equation}
+以及
+\begin{equation}
+\begin{aligned}
+&\bigg\{
+\left[
+F-\dot{y}\frac{\partial F}{\partial \dot{y}}
++\dot{y}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{y}}\right)
+-\ddot{y}\frac{\partial F}{\partial \ddot{y}}
+-\dot{z}\frac{\partial F}{\partial \dot{z}}
++\dot{z}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{z}}\right)
+-\ddot{z}\frac{\partial F}{\partial \ddot{z}}
+\right]_{t=t_1} \\
+&+f_1'(t_1)\left[
+\frac{\partial F}{\partial \dot{y}}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{y}}\right)
+\right]_{t=t_1}
++f_2'(t_1)\left(\frac{\partial F}{\partial \ddot{y}}\right)_{t=t_1}
++g_1'(t_1)\left[
+\frac{\partial F}{\partial \dot{z}}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{z}}\right)
+\right]_{t=t_1} \\
+&+g_2'(t_1)\left(\frac{\partial F}{\partial \ddot{z}}\right)_{t=t_1}
+\bigg\}\delta t_1
++\delta y(0)\left[
+\frac{\partial F}{\partial \dot{y}}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{y}}\right)
+\right]_{t=0}
++\delta\dot{y}(0)\left(\frac{\partial F}{\partial \ddot{y}}\right)_{t=0} \\
+&+\delta z(0)\left[
+\frac{\partial F}{\partial \dot{z}}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{z}}\right)
+\right]_{t=0}
++\delta\dot{z}(0)\left(\frac{\partial F}{\partial \ddot{z}}\right)_{t=0}
+= 0。
+\end{aligned}
+\label{eq:ch14_2dof_boundary_full}
+\end{equation}
+方程\eqref{eq:ch14_2dof_euler_lagrange}表示两个微分方程的系统，这个系统满足方程\eqref{eq:ch14_2dof_perf}原来给出的准则。这种问题的物理解答必须满足方程\eqref{eq:ch14_2dof_euler_lagrange}，除此以外还要满足方程\eqref{eq:ch14_2dof_boundary_full}的那些边界条件。但是，因为 $F$ 不明显地包含变数 $t$，这一系列的条件可以加以修改：如果把方程\eqref{eq:ch14_2dof_euler_lagrange}中第一个方程乘以 $\dot{y}$，第二个方程乘以 $\dot{z}$，然后加起来，就得到一个全微分，它的积分就是：
+\begin{equation}
+F-\dot{y}\frac{\partial F}{\partial \dot{y}}
++\dot{y}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{y}}\right)
+-\ddot{y}\frac{\partial F}{\partial \ddot{y}}
+-\dot{z}\frac{\partial F}{\partial \dot{z}}
++\dot{z}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{z}}\right)
+-\ddot{z}\frac{\partial F}{\partial \ddot{z}}
+= C
+\label{eq:ch14_2dof_first_integral}
+\end{equation}
+因为 $F$ 是 $\dot{y}$ 和 $\ddot{y}$ 的一个函数，$\partial F/\partial \dot{y}$ 和 $\partial F/\partial \ddot{y}$ 未必会等于零，$\partial F/\partial \ddot{y}$ 也不一定是时间的常数函数，于是 $\dfrac{\partial F}{\partial y}-\dfrac{\mathrm{d}}{\mathrm{d}t}\left(\dfrac{\partial F}{\partial \dot{y}}\right)$ 不一定等于零。所以，我们有理由认为在方程\eqref{eq:ch14_2dof_boundary_full}中
+\begin{equation*}
+\delta y(0)=\delta\dot{y}(0)=f_1'(t_1)=f_2'(t_1)=0。
+\end{equation*}
+变量 $z$ 也有类似的情形。于是得到一系列边界条件如下：
+\begin{equation}
+\left.
+\begin{aligned}
+\delta y(0) &= 0,\quad f_1'(t_1) = 0, \\
+\delta\dot{y}(0) &= 0,\quad f_2'(t_1) = 0, \\
+\delta z(0) &= 0,\quad g_1'(t_1) = 0, \\
+\delta\dot{z}(0) &= 0,\quad g_2'(t_1) = 0。
+\end{aligned}
+\right\}
+\label{eq:ch14_2dof_simple_boundary}
+\end{equation}
+这些边界条件也是与变量 $y,\dot{y},z$ 和 $\dot{z}$ 的起始值和终止值对应的条件，但是过渡过程的时间间隔 $t_1$ 可以变化。由方程\eqref{eq:ch14_2dof_simple_boundary}的边界条件，方程\eqref{eq:ch14_2dof_boundary_full}指出方程\eqref{eq:ch14_2dof_first_integral}右端的那个常数 $C$ 必须等于零。方程\eqref{eq:ch14_2dof_perf}的最后解答如下：
+\begin{equation}
+F-\dot{y}\frac{\partial F}{\partial \dot{y}}
++\dot{y}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{y}}\right)
+-\ddot{y}\frac{\partial F}{\partial \ddot{y}}
+-\dot{z}\frac{\partial F}{\partial \dot{z}}
++\dot{z}\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \ddot{z}}\right)
+-\ddot{z}\frac{\partial F}{\partial \ddot{z}}
+= 0,
+\label{eq:ch14_2dof_final_sol}
+\end{equation}
+并且满足下面两个方程中的一个：
+\begin{equation}
+\left.
+\begin{aligned}
+\frac{\partial F}{\partial y}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \dot{y}}\right)
++\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{\partial F}{\partial \ddot{y}}\right) &= 0, \\
+\frac{\partial F}{\partial z}
+-\frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{\partial F}{\partial \dot{z}}\right)
++\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{\partial F}{\partial \ddot{z}}\right) &= 0。
+\end{aligned}
+\right\}
+\label{eq:ch14_2dof_final_euler}
+\end{equation}
+方程\eqref{eq:ch14_2dof_final_sol}和\eqref{eq:ch14_2dof_final_euler}表示一个系统的两个变量 $y$ 和 $z$ 的微分方程，它们是控制方程，也是设计计算机所用的方程。
+
+边界条件\eqref{eq:ch14_2dof_simple_boundary}确定系统由一个主要运行状态过渡到另一状态的过渡过程的初始准则。这样，如果方程\eqref{eq:ch14_2dof_simple_boundary}所表示的条件必须都成立，系统由一组固定的 $y,\dot{y},z,\dot{z}$ 过渡到另一组固定的 $y,\dot{y},z,\dot{z}$。方程\eqref{eq:ch14_2dof_final_sol}是一个三阶微分方程。方程\eqref{eq:ch14_2dof_final_euler}是一个四阶微分方程。于是除了 $y,\dot{y},z$ 和 $\dot{z}$ 的四个初始值而外，还可以假设一组与最后的 $y$ 相应的三个值 $\dot{y},z$ 和 $\dot{z}$，那就是，当 $y=y_s$ 时；$\dot{y}=0,z=z_s$，以及 $\dot{z}=0$。还必须在系统里加入一个稳定装置，使得在终止点，满足
+\begin{equation*}
+\ddot{y}=0 \quad\text{以及}\quad \ddot{z}=0。
+\end{equation*}
+我们看到，虽然上述情况比前面讨论过的一阶系统更为复杂，但是完全可以用同样的办法处理。
+
+\section{以微分方程作为附加条件的控制设计}
+用 $y$ 表示被控制的主要变量，$z$ 是另一个变量，我们把它加到系统里用来保证 $y$ 能够具有所需要的性能（例如，$y$ 表示发动机的速率，$z$ 是决定进入燃烧室的燃料的炉门的坐标），系统固有的动力学特性给出一个 $y$ 和 $z$ 之间的关系式，一般说来，这种关系是一个非线性微分方程，比如说，是一个二阶微分方程
+\begin{equation}
+g(y,\dot{y},\ddot{y};z,\dot{z},\ddot{z};t) = 0。
+\label{eq:ch14_constraint_diff_eq}
+\end{equation}
+比如说，在过渡过程中 $y$ 的性能规定成，
+\begin{equation}
+\int_{0}^{t_1} f(y)\mathrm{d}t = \min,
+\label{eq:ch14_constraint_perf}
+\end{equation}
+方程\eqref{eq:ch14_perf_ise}的误差积分，就可以当作这种类型的例子。这里问题在于求出同时满足方程\eqref{eq:ch14_constraint_diff_eq}和\eqref{eq:ch14_constraint_perf}的控制方程。
+
+数学上的问题就是一个以方程\eqref{eq:ch14_constraint_diff_eq}作为约束条件的变分问题，这类问题仍然可以利用欧拉-拉格朗日乘子 $\lambda(t)$\footnote{例如参看 O. Bolza, \textit{Vorlesungen über Variationsrechnung}, Teubner, (1909)第十一章，或[59](第五章)}的方法解决。那就是
+\begin{equation}
+\int_{0}^{t_1} F(y,\dot{y},\ddot{y};z,\dot{z},\ddot{z};t)\mathrm{d}t = \min,
+\label{eq:ch14_constraint_total_perf}
+\end{equation}
+其中
+\begin{equation}
+F = f(y)+\lambda(t)g(y,\dot{y},\ddot{y};z,\dot{z},\ddot{z};t)。
+\label{eq:ch14_constraint_F_def}
+\end{equation}
+这里和从前不同的地方在于引入了一个随时间变化的乘子 $\lambda(t)$。方程\eqref{eq:ch14_constraint_total_perf}的问题完全和方程\eqref{eq:ch14_2dof_perf}相同。所以前面一节推导出来的那些方程全都可以采用。但是，现在有三个未知数：$y,z$ 和 $\lambda$，它们由方程\eqref{eq:ch14_2dof_euler_lagrange}，\eqref{eq:ch14_constraint_diff_eq}，以及满足方程\eqref{eq:ch14_2dof_part_int}的 $F$ 所确定。方程\eqref{eq:ch14_constraint_diff_eq}表示物理系统的内在联系，控制系统曾自动地满足这个关系。然而方程\eqref{eq:ch14_2dof_euler_lagrange}就需要人为地加以处理才能得到满足。这时两个方程所组成的那个方程组就成为控制计算机的运转状态的根据。安装得合适的控制计算机由主要输出 $y$ 取得资料，经过加工，然后产生一个连续的控制信号 $z$。当这个信号 $z$ 加到控制系统里以后，就迫使系统按照\eqref{eq:ch14_constraint_perf}所规定的性质运转。
+
+\section{控制设计概念的比较}
+上一章及本章内，我们已经讨论了当控制系统的性能规定得十分确切情况时的设计方法。上一章的方法，以摄动法为基础，适用于变系数线性系统，这一章所用的方法具有更一般的性质，甚至于控制系统本身可以是非线性的。对于这种一般的系统，这些新方法是设计控制系统唯一有效的工具；这样设计出来的包含有计算机的复杂的控制系统似乎是唯一合理的解决办法。但是，这一章和前一章的方法也同样适用于以前各章所处理过的比较简单的物理系统，也就是常系数线性系统。因此，对于比较简单的系统的控制问题，我们就有两种不同的处理方法。现在把这两种设计概念加以比较。
+
+在第五章，采用了一般伺服控制原理处理过发动机控制问题。在这一章中，我们又采用了满足指定的积分条件的控制设计这种比较新的方法；我们讨论了这样几乎相同的问题以后，下列事实立刻就可以明白了：用老方法设计的控制系统是线性系统，元件可以是简单的电阻电容线路；可是用新方法设计的系统是非线性的，主要的控制装置是计算机，即使最简单的计算机也比电阻电容线路复杂得多。但是这种复杂化不是没有好处的：以一般伺服控制原理为基础的控制系统，在性能上，虽然也可以完全适合；然而包含有非线性计算机的控制系统能够保证给出最优的性能——在同样设计条件下没有其他的控制系统比它更好。但是只有当我们知道了所需要的性能时这种比较才有意义。例如，假设我们不知道方程\eqref{eq:ch14_temp_limit_perf}的温度积分究竟是什么，我们就不能用所有这一章讨论过的方法。另外一方面，根据老的伺服控制设计概念设计一个合适的系统并不需要把条件叙述得这样严格。
+
+自然，必须对最好的控制行为到底包含什么内容有了清楚的了解以后，才能提出关于最好的性能的确切要求。所以，当我们想得到一个最优的控制系统时，我们当然要掌握确定严格的控制准则的资料。由这个观点来看，最后这两章满足指定控制性能的这种比较新的原则，比一般伺服控制理论当然是迈进了一步，这种新原则是更为先进的控制设计原则。比较先进的控制系统也应该比较复杂，这也是可以预先想到的。
+
