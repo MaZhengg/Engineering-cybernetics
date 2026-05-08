@@ -1,3 +1,284 @@
 
 % To be included
 \chapter{自动寻求最优运转点的控制系统}
+
+在以前各章中，我们所讨论的各种控制系统，在普遍性和复杂性上都是逐渐增加的。可是自始至终有一个基本假设：假设已经知道了被控制的系统所具有的性质和特征。普通线性伺服控制系统的情形，伺服机构以及其他元件的传递函数在设计前已经确定。至于变系数线性系统的情形，我们举出长距离火箭的导航系统为例子，那里，在设计以前，火箭的动力学特性和空气动力学性质就已经确定了。上一章所处理过根据指定积分条件进行设计的一般控制系统中，系统对于被控制的输入变化的反应也假定是预先确定了的，控制系统的设计工作是以系统的这些知识为依据。反馈作用仅仅是把输出处的资料传送到计算机里，然后计算机就根据它所有的关于系统性质的知识发出“明智的”控制信号。
+
+在这一章里，我们甚至于希望把这个对于控制设计似乎是起码的要求还进一步放宽，我们将引入\underline{连续“理解”和连续测量的控制设计原理}。根据这种原理，进行控制设计时就不需要有关控制系统性质的确切知识，在这里我们采用在控制过程中不断测量的办法来代替预先了解控制性质的要求，这种系统就称为\underline{自动寻求最优运转点的控制系统}（以下简称自寻最优点系统）。我们下面将特别地讨论关于这种控制系统的一个简单例子。
+
+\section{基本概念}
+
+无论我们从控制计算机中得到的信号是多么准确，一个控制系统性能的精确程度总是与设计所依据的数据的精确程度有关。假设像前面各章那样我们默认：在了解控制系统的整个设计之前，我们已经确定了控制系统的性质，那么由于以下两点理由我们不可能获得非常精确的控制性能：第一，原来假定的对象在制造过程中常常会发生微小的差异。例如，火箭模型的机翼的性能是依靠在风洞中进行实验所测定，然而，真正的火箭机翼的性能和模型机翼的性能就不会完全相同，所以火箭的空气动力学特性实际上和实验结果有些不同。第二，任何一个工程系统都会在时间过程中发生一些变化，这种变化可能是由于磨损和疲劳而使系统逐渐损坏，也可能是由于系统所处的周围环境有所改变的缘故。简言之，在系统实际进行运转之前永远不可能丝毫不差地知道一个工程系统的性质。因此，如果要求系统具有高度精确的控制性能，我们就必须采用连续理解的控制原理。
+
+希望控制设计能够非常精确，这个要求也并不是改变控制概念的唯一原因；实际上，常常会发生这种情况：系统的性质会发生某些预料不到的巨大变化，因而使得我们非采用连续理解的控制原理不可。在处理长距离火箭导航问题时，考虑空气扰动的影响时我们已经引进了这个原理；在那里，我们利用火箭的动力学状态本身作为连续测量那些影响的测量仪器。此外飞机在结冰的气候条件下飞行是一个更明显的例子。在机翼和机身表面上冰层的堆积和溶化会使飞机的外形有一些改变。而且，冰块的堆积方式就是无法预先精确测定的那种变量，所以由于冰块的影响飞机的空气动力学特性会发生相当大的变化，而且这种变化方式无法预料，更不幸的是：所有这些变化总是使飞机的性能降低，也就是说，每加仑汽油所能飞行的哩数一定减少。所以，我们的兴趣在于：设法了解发动机的功率，发动机每分钟旋转次数，以及飞机的飞行情况应该如何配合起来才会使每加仑汽油得到最大的哩数。因为我们应该使飞机在最优状态下飞行，尽量少消耗那不多的燃料，可是就在这种危急情况下，由于结冰的作用，我们原先关于飞机性能的了解和实际情况却又不相符合了，因此，在这种不利的情势之下，只有一个解决这种飞行控制问题的办法，这就是采用自动理解和测量的控制系统，也就是自寻最优点系统。这种系统自动地使飞机保持最优的运转条件。
+
+一个熟练的工作人员自然而然的采用寻求最优的原理控制机器的运转。他随时注意机器的输入和输出的仪表读数，然后根据他的知识和经验来断定需要向哪一个方向调节，把输入调节以后，输出读数也就改变了，根据这个新的输出读数他又来判断是否到达或者超过最优运转条件，然后再进行输入的调节。连续调节输入是“理解”的过程，念出输出的读数是反馈过程。然而，人工控制的办法只有系统反应缓慢的情况下才能成功，但是对于复杂的系统，用人工直接来控制的办法无论动作得怎样好都不容易得到合乎理想的效果。自寻最优点的控制是由椎拍(C. S. Draper)李耀滋(Y. T. Li)和拉宁(H. Laning, Jr.)\footnote{Y. T. Li(李耀滋), \textit{Instruments},25,72$\sim$77,190$\sim$193,228,324$\sim$327,350$\sim$352(1952)。\\C. S. Draper and Y. T. Li, \textit{Principles of Optimalizing Control Systems and an Application to Internal Combustion Engine}, ASME Publications (1951)。} 提出的，舒尔(J. R. Shull)\footnote{J. R. Shull, \textit{Trans IRE (Electronic Computers)}, December,47$\sim$51(1952)。}曾经讨论过这种原理在操纵飞机方面的应用。
+
+
+\section{自动寻求最优点控制的原理}
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \includegraphics[width=0.4\textwidth]{图15.1.png}
+    \caption{ }
+    \label{fig:15_1}
+\end{wrapfigure}
+自寻最优点控制系统的重要部分是一个非线性环节，通过这个环节来确定相应的最优运转条件。为了讨论起来简单起见，我们假设这个基本元件只有一个输入和一个输出。在现阶段，我们将忽略时滞的影响，假设输出仅仅由于输入的瞬时值所决定。因为系统有一个最优的运转点，作为输入的函数，这个输出函数在 $x_0$ 的地方有一个极大值 $y_0$，如图\ref{fig:15_1}。通常输出和输入的关系以最优点作为参考点，于是 $x+x_0$ 是系统的输入，$y^*+y_0$ 是输出，最优点就是 $x=y^*=0$。自动寻求最优点系统的目的在于找到这个最优点，使系统保持在这一点附近运转。在这一点附近 $x$ 和 $y^*$ 之间的关系可以近似地表成
+\begin{equation}
+y^* = -kx^2。
+\label{eq:ch15_peak_parabola}
+\end{equation}
+在概念方面，关于得到一个自寻最优点系统的方法，可以叙述如下：假设我们开始有一个负的输入，也就是比最优输入的值要小一些的输入，像图\ref{fig:15_2}(a)所表示那样，我们以速率等于常数的方式使输入增加，相应的输出 $y^*$ 首先将会增加，逐渐到达最优值，然后开始减少，如图\ref{fig:15_2}(b)。$y^*$ 对于时间的微商，$\mathrm{d}y^*/\mathrm{d}t$，首先是正的，在1那一点降到零(图\ref{fig:15_2}(c))，以后就变成负的。在2那一点，$\mathrm{d}y^*/\mathrm{d}t$ 的值达到系统中设计时确定的临界值，于是输入变化的方向就反转过来。现在的输入 $x$ 开始减少，它下降的速率和以前增加时的常数速率相等。现在 $y^*$ 又增加了，$\mathrm{d}y^*/\mathrm{d}t$ 跳到正的值。在3那一点，输出达到了它的极大值，于是 $\mathrm{d}y^*/\mathrm{d}t$ 又变成零。在4那一点，$\mathrm{d}y^*/\mathrm{d}t$ 又到达临界值，使输入再改变它的方向。系统自己重复地进行这种过程，而且这种状态是有周期性的，这时，我们说系统围绕着最优点进行搜索；周期 $T^*$ 叫做\underline{搜索周期}，输出的最小值 $\Delta^*$ 叫做输出 $y^*$ 的\underline{搜索范围}。因为方程\eqref{eq:ch15_peak_parabola}表示输入和输出是抛物线关系，输出的平均值等于 $\dfrac13\Delta^*$，比最优输出小，这个差别 $D^*$ 是一种损失，$D^*$ 称为\underline{搜索损失}，这是为了把控制系统保持在最优点附近而付出的代价。我们知道
+\begin{equation}
+D^* = \frac13\Delta^*。
+\label{eq:ch15_search_loss_zigzag}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图15.2.png} 
+\caption{}
+\label{fig:15_2}
+\end{figure}
+
+系统的其他特征数量可以用 $\Delta^*$ 和 $T^*$ 来进行计算：利用方程\eqref{eq:ch15_peak_parabola}，输入的极值等于$\pm\sqrt{\Delta^*/k}$。输入的变化速率等于 $2\sqrt{\Delta^*/k}/T^*$。输出的变化速率的临界值是$-4\Delta^*/T^*$。所以，假设我们把搜索范围 $\Delta^*$（或者搜索损失 $D^*$），以及搜索周期 $T^*$ 确定下来以后，系统就确定了。这种自寻最优点系统的主要部分是输入的试探变化、测量输出的装置、对输出求微商的装置以及 $\mathrm{d}y^*/\mathrm{d}t$ 达到预先规定的临界数值时使输入反转方向的开关装置。理解和找到最优点的这种作用是由于强制输入变化而实现。但是输入一直在变化也使得输出有微小的损失 $D$。我们希望搜索范围 $\Delta^*$ 比较小，但是如果 $\Delta^*$ 小，那么决定输入变化反转方向的 $\mathrm{d}y^*/\mathrm{d}t$ 的临界值也就减小。由于系统中难免有干扰或者噪声出现，于是就增加了发生意外的输入反向的危险性。假设系统运转离开了最优点，很明显，再找到最优运转点的时间和搜索周期 $T^*$ 成正比。确切地说，$T^*$ 越大，这个时间也就越长，在非线性系统里的这种关系是单调的，但不是线性的；当 $T^*$ 小的时候这种关系大致是线性的关系。这样看来，希望搜索周期短一些。但是如果 $T^*$ 太小，那么在搜索运转中就很难把输出信号和其他随机干扰区分开来。关于这一点我们将在下一节里再加以讨论。
+
+系统中试探输入变化可以是一个光滑的时间函数而不是图\ref{fig:15_2}(a)那种齿形曲线。例如，我们可以使输入 $x$ 由一个变化缓慢的量 $x_a$ 和一个正弦函数组合而成，这个正弦函数的振幅是常数 $a$，频率是 $\omega$，这样
+\begin{equation}
+x = x_a + a\sin\omega t。
+\label{eq:ch15_sine_probe_input}
+\end{equation}
+
+于是，根据方程\eqref{eq:ch15_peak_parabola}，相应的输出 $y^*$ 是
+\begin{equation}
+y^* = -k\left(x_a^2+\frac{a^2}{2}\right)-2kx_a a\sin\omega t+\frac{ka^2}{2}\cos(2\omega t)。
+\label{eq:ch15_sine_probe_output}
+\end{equation}
+把输出信号加到一个通频带滤波器上，可以消除变化缓慢的第一项和第三项的双调和部分。过滤后留下的信号是$-2kx_a a\sin\omega t$，然后通过一个整流相乘器，把这个信号乘以正弦信号 $a\sin\omega t$，得到
+\begin{equation}
+-2kx_a a^2\sin^2\omega t = -kx_a a^2\big[1-\cos(2\omega t)\big],
+\label{eq:ch15_rectify_signal}
+\end{equation}
+然后再滤掉双调和项，于是最后我们得到信号 $-ka^2 x_a$。这个信号可以用来改变输入的分量 $x_a$，使得下列方程满足
+\begin{equation}
+\alpha \frac{\mathrm{d}x_a}{\mathrm{d}t} = -ka^2 x_a。
+\label{eq:ch15_adapt_dynamic}
+\end{equation}
+于是 $x_a$ 趋于零，它衰减的时间常数等于 $2T^*$，
+\begin{equation}
+2T^* = \frac{a}{ka^2},
+\label{eq:ch15_time_const_def}
+\end{equation}
+因为输入和输出之间是抛物线关系，输出衰减的时间常数等于 $T^*$。所以这样一种控制系统也会找到最优点而渐进地接近最优点。这种具有连续试探信号的自寻最优点系统，它的运转情况表示在图\ref{fig:15_3}上。图\ref{fig:15_3}(c)表示过滤后的输出信号。图\ref{fig:15_3}(d)表示整流相乘器的影响。
+
+当系统运转接近最优点时，因为输入有一个正弦振动，输出是$-ka^2\sin^2\omega t$，所以仍然有输出损失 $D^*=ka^2/2$。为了损失较小，试探输入的振幅必须相当小，但是由于要考虑系统中干扰和噪声的影响，又有一定的限制，振幅不可能太小。这里输出的搜索范围 $\Delta^*$ 等于 $ka^2$，我们得到关系式
+\begin{equation}
+D^* = \frac12\Delta^*。
+\label{eq:ch15_search_loss_sine}
+\end{equation}
+方程\eqref{eq:ch15_time_const_def}指出与输入策动信号有关的设计参数 $\alpha$ 根据下面关系式由 $D^*$ 和时间常数 $T^*$ 决定
+\begin{equation}
+\alpha = 4D^*T^* = 2\Delta^*T^*。
+\label{eq:ch15_design_param_alpha}
+\end{equation}
+
+由方程\eqref{eq:ch15_sine_probe_input}试探输入，得到的信号[方程\eqref{eq:ch15_rectify_signal}]的整流部分$-ka^2x_a$，真实地表示输入信号对最优输入的偏差的一个量度。根据方程\eqref{eq:ch15_adapt_dynamic}来连续策动输入信号的办法，只是很多种可能采用办法中的一种办法。显然，也可以用这个信号给出一个按照齿形变化的输入并且加上一个正弦振动，当信号$|-ka^2x_a|$达到临界值，就反转输入的方向。这个自寻最优点系统的搜索运转过程包含两个不同的频率：一个是低频分量 $x_a$，另外一个是由正弦输入振荡产生的高频分量。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图15.3.png} 
+\caption{}
+\label{fig:15_3}
+\end{figure}
+
+\section{干扰的影响}
+
+以前关于理想化的自寻最优点控制系统的讨论已经表明：尽量减小试探输入变化的振幅以及减小时间常数 $T^*$ 是有重要意义的。然而，由于物理系统中普遍存在噪声和干扰，因此在实际的设计上就有一些限制。为了有效地测量由于为了探测到最优点的距离而加的输入变化而得到的输出变化，那么随时间变化的输出信号的这一部分频率分量，应该能够与由于噪声和干扰而产生的输出部分区分开来。由于干扰而产生的输出的频率分量的相对振幅可以画成一个以频率为变数的函数图线。这种干扰输出的频谱通常像图\ref{fig:15_4}所画的那样：有一个低频部分（飘移干扰），以及一个高频部分。在这两部分中间，通常有一个噪声影响较小的频率区域。如果设计自寻最优点系统时，使试探输入变化的频率在这个区域内，那么试探输入的振幅可以很小，不致被干扰影响掩蔽而丧失了作用。于是，一般情况下，输入变化中试探函数必须使输入变化得足够快以避免飘移干扰的影响，同时为了防止杂乱的高频噪声，变化又不能过分快。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图15.4.png} 
+\caption{}
+\label{fig:15_4}
+\end{figure}
+
+关于噪声影响的这些考虑，指出前面讨论过那两类自寻最优点系统的困难所在。第一类系统具有齿形输入，它们采用输出对时间的微商作为控制信号。假设输出中有随机干扰，由于采用输出对时间的微商，于是高频分量的相对振幅将会有所增加，那么就减小了自寻最优点系统的有效频率区域。这是一个严重的缺点。第二类自寻最优点系统，采用光滑的正弦试探函数，要求噪声影响小的频带相当宽，因为除了输入中 $x_a$ 的变化而外，还有一个频率相当高的正弦变化。所以，如果控制系统只有噪声影响小的频带相当狭窄，以上讨论过的这两类自寻最优点系统都是不适用的。在下一节，我们将讨论另一种比较好的系统，那种系统叫做\underline{自动保持最高点的控制系统}。
+
+\section{自动保持最高点的控制系统}
+
+自动保持最高点控制系统的输入变化情形和这里研究过的第一类自寻最优点系统相同，也是速率等于常数的周期变化。这里主要的区别在于产生反转输入信号方向的方法有所改进：当输出达到它的极大值以后逐渐下降接近于限制的搜索范围时就反转输入信号的方向。现在就用这个事实本身作为策动这种自动保持最高点控制系统输入信号反转方向的条件。可以用下述办法实现这个条件：用一个电压量度输出 $y^*$。这个电压称为输出的指示电压，这个电压经过一个只会充电而不能放电的阀门通到一个电容器上。所以，在 $y^*$ 达到最大值以前，电容器的电压，数值和表示 $y^*$ 的电压相同。当输入增加超过最优值时，输出 $y^*$ 逐渐下降，但是电容器的电压将仍然保持那个极大值，于是电容器的电压和输出的指示电压之间，有一个电压差 $v$。这个电压差所容许的最大值由搜索范围 $\Delta^*$ 决定。当 $v$ 达到 $\Delta^*$ 时，安装在系统里的一个开关发生作用，反转输入信号的方向，在同一时刻，电容器放电，使它的电压等于输出的指示电压 $y^*$。关于这类自寻最优点控制系统的运转情况，可以用图15.5表示出来。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图15.5.png} 
+\caption{}
+\label{fig:15_5}
+\end{figure}
+
+搜索范围$\Delta^*$ 和搜索损失$D^*$ 之间的关系，也像方程\eqref{eq:ch15_search_loss_zigzag}给出那样。输入的极值仍然等于 $\pm\sqrt{\Delta^*/k}$，输入的速率还是 $2\sqrt{\Delta^*/k}/T^*$。可以看出，自动保持最高点控制系统的输出只有一个基本频率，这个频率由搜索周期 $T^*$ 决定，而不采用输出的微商。这种方法特别适用于噪声影响小的频率区域比较狭窄的系统。事实上，这方面有更好的改善办法，不直接利用电容器的电压和输出指示电压 $y^*$ 之间的电压差 $v$ 决定反转输入信号的方向，而采用 $v$ 对于时间的积分。于是可以制止高频干扰的影响，那么搜索范围和搜索损失可以减小而不至于发生输入信号出人意料而反转方向的情形。
+
+
+\section{动力学现象的影响}
+
+前面几节的讨论中，我们已经假定输入与输出之间的关系是方程\eqref{eq:ch15_peak_parabola}确定的抛物线关系，并且与输入的速率或者输入对时间的高级微商无关。实际上只有在输出对输入的反应是瞬时的，根本没有时滞的情形下，这个假设才正确。但是在任何一个物理系统中，这个假设都是不可能严格地被满足，事实上，总是有惯性或者其他动力学现象的影响。于是我们把方程\eqref{eq:ch15_peak_parabola}给出的输出 $y^*$ 作为虚构地“可能输出”而不是由指示输出的仪表上真正量得的输出 $y$。只有当自寻最优点系统的时间常数 $T^*$ 无限增大时，$y^*$ 才和 $y$ 相等。$y^*$ 与 $y$ 的关系决定于动力学现象的影响。但是我们已经看到，可以相当准确地用一个线性系统近似的描述这种影响。假设把自寻最优点控制原理用到一个内燃发动机上，如同椎拍和李耀滋所做过的那样，可能输出基本上是仪表上指示的发动机的平均有效压力，而真正的输出是发动机的实际平均有效压力。这里，动力学现象的影响主要是由于发动机的活塞，曲柄轴，以及其他会移动部分的惯性影响所产生的。如果发动机的运转条件变化得很小，这种影响可以通过一个常系数线性微分方程来表示。由于指定输入和输出以最优输入 $x_o$ 以及最优输出 $y_o$ 为参考点。这样，实际上的可能输出 $y^*+y_o$ 与实际上由仪表指出的输出 $y+y_o$ 之间可以写成一个运算子形式的方程
+\begin{equation*}
+y+y_o = F_o\left(\frac{\mathrm{d}}{\mathrm{d}t}\right)(y^*+y_o),
+\end{equation*}
+其中 $F_o$ 通常是运算子 $\mathrm{d}/\mathrm{d}t$ 的两个多项式相除的有理分式。采用拉氏转换的说法，$F_o(s)$ 是传递函数。这个线性系统把可能输出转变为用来控制输入变化的指示输出。我们把这一部分线性系统叫做自寻最优点系统的\underline{输出线性部分}。所以 $F_o(s)$ 是输出线性部分的传递函数，但是忽略动力学现象影响时，或者当 $s=0$，可能输出就等于指示输出。所以下面公式成立
+\begin{equation}
+F_o(0) = 1。
+\label{eq:ch15_output_tf_dc_gain}
+\end{equation}
+因为 $y_o$ 是一个常数，所以可能输出和指示输出之间的运算子方程可以化简成
+\begin{equation}
+y = F_o\left(\frac{\mathrm{d}}{\mathrm{d}t}\right)y^*。
+\label{eq:ch15_output_relation}
+\end{equation}
+与上述情况相类似，我们可以引入一个“可能输入”$x^*$，这是自寻最优点系统中实际产生的驱动函数，而不是真正地输入 $x$。$x$ 和 $x^*$ 两者之间的关系是由输入策动系统中惯性以及其他动力学影响所决定。我们把这个输入策动系统叫做自寻最优点系统的\underline{输入线性部分}。可能输入 $x^*$ 和真正输入 $x$ 之间有下面运算子方程的关系
+\begin{equation}
+x = F_i\left(\frac{\mathrm{d}}{\mathrm{d}t}\right)x^*,
+\label{eq:ch15_input_relation}
+\end{equation}
+$F_i(s)$ 就是输入线性部分的传递函数。与方程\eqref{eq:ch15_output_tf_dc_gain}相类似，我们有
+\begin{equation}
+F_i(0) = 1。
+\label{eq:ch15_input_tf_dc_gain}
+\end{equation}
+于是，整个自寻最优点系统的方块图可以画成图\ref{fig:15_6}那样。系统中非线性元件是最优输入策动机构以及系统本身。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图15.6.png} 
+\caption{}
+\label{fig:15_6}
+\end{figure}
+
+输入 $x$ 和输出 $y$ 之间的关系是由方程\eqref{eq:ch15_peak_parabola}，\eqref{eq:ch15_output_relation}，\eqref{eq:ch15_input_relation}以及某种特定类型的最优输入策动机构所决定。例如，假设最优输入策动机构是前面一节讨论过的自动保持最高点那一种类型，于是可能输入 $x^*$ 是周期等于 $2T$，振幅等于 $a$ 的齿形波，如图\ref{fig:15_7}(a)。
+
+令
+\begin{equation}
+\omega_0 = \frac{2\pi}{T}。
+\label{eq:ch15_fundamental_freq}
+\end{equation}
+$x^*$ 可以展开成富氏级数如下：
+\begin{equation}
+\begin{aligned}
+x^* &= \frac{8a}{\pi^2}\sum_{n=0}^\infty (-1)^n \frac{1}{(2n+1)^2}\sin\left[2(n+1)\frac{\omega_0 t}{2}\right] \\
+&= \frac{8a}{\pi^2}\sum_{n=0}^\infty (-1)^n \frac{1}{(2n+1)^2} \frac{1}{2i}\left[\mathrm{e}^{\frac{2n+1}{2}\mathrm{i}\omega_0 t} - \mathrm{e}^{-\frac{2n+1}{2}\mathrm{i}\omega_0 t}\right]。
+\end{aligned}
+\label{eq:ch15_input_fourier}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{图15.7.png} 
+\caption{}
+\label{fig:15_7}
+\end{figure}
+
+根据方程\eqref{eq:ratio_of_steady_solution_to_function}那个关系式，由方程\eqref{eq:ch15_input_relation}所表示的真正输入 $x$，可以计算如下：
+\begin{equation}
+\begin{aligned}
+x &= \frac{8a}{\pi^2}\sum_{n=0}^\infty \frac{(-1)^n}{2i(2n+1)^2}\left[F_i\left(\frac{2n+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{\frac{2n+1}{2}\mathrm{i}\omega_0 t}\right. \\
+&\quad \left. - F_i\left(-\frac{2n+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{-\frac{2n+1}{2}\mathrm{i}\omega_0 t}\right]。
+\end{aligned}
+\label{eq:ch15_actual_input_fourier}
+\end{equation}
+
+可能输出 $y^*$ 由方程\eqref{eq:ch15_peak_parabola}给出。利用方程\eqref{eq:ch15_actual_input_fourier}，我们得到
+\begin{equation}\label{eq:ch15_y_star}
+\begin{aligned}
+y^* &= \frac{16a^2k}{\pi^4}\sum_{n=0}^\infty \sum_{m=0}^\infty \frac{(-1)^{n+m}}{(2n+1)^2(2m+1)^2} \\
+&\quad \cdot \left[F_i\left(\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{(n+m+1)\mathrm{i}\omega_0 t}\right. \\
+&\quad - F_i\left(\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(-\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{(n-m)\mathrm{i}\omega_0 t} \\
+&\quad - F_i\left(-\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{-(n-m)\mathrm{i}\omega_0 t} \\
+&\quad \left. + F_i\left(-\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(-\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{-(n+m+1)\mathrm{i}\omega_0 t}\right]。
+\end{aligned}
+\end{equation}
+
+再利用方程\eqref{eq:ratio_of_steady_solution_to_function}，并且根据方程\eqref{eq:ch15_output_relation}，最后得到指示输出 $y$ 如下：
+\begin{equation}
+\begin{aligned}
+y &= \frac{16a^2k}{\pi^4}\sum_{n=0}^\infty \sum_{m=0}^\infty \frac{(-1)^{n+m}}{(2n+1)^2(2m+1)^2} \\
+&\quad \cdot \left\{F_o\left[(n+m+1)\mathrm{i}\omega_0\right]F_i\left(\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{(n+m+1)\mathrm{i}\omega_0 t}\right. \\
+&\quad - F_o\left[(n-m)\mathrm{i}\omega_0\right]F_i\left(\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(-\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{(n-m)\mathrm{i}\omega_0 t} \\
+&\quad - F_o\left[-(n-m)\mathrm{i}\omega_0\right]F_i\left(-\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{-(n-m)\mathrm{i}\omega_0 t} \\
+&\quad \left. + F_o\left[-(n+m+1)\mathrm{i}\omega_0\right]F_i\left(-\frac{2n+1}{2}\mathrm{i}\omega_0\right)F_i\left(-\frac{2m+1}{2}\mathrm{i}\omega_0\right)\mathrm{e}^{-(n+m+1)\mathrm{i}\omega_0 t}\right\}。
+\end{aligned}
+\label{eq:ch15_actual_output_fourier}
+\end{equation}
+
+方程\eqref{eq:ch15_y_star}和\eqref{eq:ch15_actual_output_fourier}清楚的表示出，输出的搜索周期 $T$ 只是输入的变化周期的二分之一。由于输入和输出之间的基本抛物线关系，这自然是可以预料得到的结论。
+
+$y$ 对于时间的平均值给出以最优输出 $y_o$ 作为参考的搜索损失 $D$。由方程\eqref{eq:ch15_actual_output_fourier}可知，平均值是那个方程中第二项和第三项内 $m=n$ 的量相加得到的结果。注意到方程\eqref{eq:ch15_output_tf_dc_gain}，就得出
+\begin{equation}
+D = \frac{32a^2k}{\pi^4}\sum_{n=0}^\infty \frac{1}{(2n+1)^4}\left|F_i\left(\frac{2n+1}{2}\mathrm{i}\omega_0\right)\right|^2。
+\label{eq:ch15_search_loss_with_dynamics}
+\end{equation}
+
+当没有动力学现象影响的时候，$F_i\equiv1$，我们可以很容易检验这个公式是否正确，如果 $F_i\equiv1$，级数的求和就简单了，这时得到 $D=D^*=a^2k/3=\Delta^*/3$，正与方程\eqref{eq:ch15_search_loss_zigzag}要求的相同。方程\eqref{eq:ch15_search_loss_with_dynamics}也表明：输出的平均值和搜索损失与输出线性群部分无关，自然，这正是我们想像得到的情形，因为输出的状态由输入 $x$ 决定，并不受输出线性部分动力学现象的影响。输出线性部分的影响仅仅是使输出有一些微小的变化。在内燃发动机的例子中，发动机的功率是输出，输出线性部分动力学现象的影响由那些能活动部分的惯性所决定。发动机的功率必然与那些能活动部分的惯性无关。
+
+如果输入和输出之间只有一般形式的传递函数，那么，根据方程\eqref{eq:ch15_actual_output_fourier}计算输出 $y$ 是件很困难的事情。但是实际设计自寻最优点系统的时候，为了避免高频干扰，通常使搜索周期 $T$ 比较长，这时动力学影响虽然不是完全可以忽略的，但影响也不大。换句话说，我们可以假设输入线性部分以及输出线性部分的时间常数比搜索周期小，然后根据这种假设进行分析。例如，假设输入线性部分可以近似地用一个一阶系统表示，它的时间常数等于 $\tau_i$，也就是
+\begin{equation}
+F_i(s) = \frac{1}{1+\tau_i s},
+\label{eq:ch15_input_tf_first_order}
+\end{equation}
+
+由于假设 $\tau_i$ 和 $T$ 比较起来是一个小的数量，于是无量纲量 $\tau_i\omega_0$ 也相当小，在这种条件下，方程\eqref{eq:ch15_input_fourier}和\eqref{eq:ch15_actual_input_fourier}那个级数中开始几个谐波差不多具有相同的振幅。根据方程\eqref{eq:steady_output_format_2}，$x^*$ 和 $x$ 中所包含的相应的低频谐波之间，差别只在于相角间有一个大小等于 $\tau_i$ 的滞后。所以离策动反转点比较远的那些 $x^*$ 以及 $x$ 的区域，$x^*(t)$ 以及 $x(t)$ 曲线的曲率很小，它们的值主要由开始几个谐波决定，曲线 $x(t)$ 滞后于曲线 $x^*(t)$ 一个相角 $\tau_i$，而振幅不改变。从 $x^*$ 变到 $x$，齿形波的尖角变圆了，但曲线的形状大致没有改变，正如图\ref{fig:15_7}(a)那样。假设输出线性部分也可以近似地用一个特性时间等于 $\tau_o$ 的一阶系统表示，于是也可以同样地考虑 $y$ 和 $y^*$ 之间的关系，不难看出， $y$ 和 $y^*$ 的曲线形状基本上相同，只是 $y$ 滞后于 $y^*$ 一个相角 $\tau_o$。这个事实正如图\ref{fig:15_7}(b)所画的那样。
+
+对于方程\eqref{eq:ch15_input_tf_first_order}给出来输入线性部分的传递函数，我们可以由方程\eqref{eq:ch15_search_loss_with_dynamics}来计算搜索损失，
+\begin{equation*}
+\begin{aligned}
+D &= \frac{32a^2k}{\pi^4}\sum_{n=0}^\infty \frac{1}{(2n+1)^4}\frac{1}{1+(2n+1)^2(\tau_i\omega_0/2)^2} \\
+&= \frac{32a^2k}{\pi^4}\left[\sum_{n=0}^\infty \frac{1}{(2n+1)^4} - \left(\frac{\tau_i\omega_0}{2}\right)^2\sum_{n=0}^\infty \frac{1}{(2n+1)^2}\right. \\
+&\quad \left. + \left(\frac{\tau_i\omega_0}{2}\right)^4\sum_{n=0}^\infty \frac{1}{1+(2n+1)^2(\tau_i\omega_0/2)^2}\right]。
+\end{aligned}
+\end{equation*}
+
+但是
+\begin{equation*}
+\sum_{n=0}^\infty \frac{1}{(2n+1)^4} = \frac{\pi^4}{96},\quad \sum_{n=0}^\infty \frac{1}{(2n+1)^2} = \frac{\pi^2}{8},
+\end{equation*}
+
+利用大家所熟悉的双曲余切函数展开式（这种展开式在第七章第五节曾经引用过），就得
+\begin{equation*}
+\sum_{n=0}^\infty \frac{1}{1+(2n+1)^2(\tau_i\omega_0/2)^2} = \frac{\pi}{\tau_i\omega_0}\left[\coth\frac{2\pi}{\tau_i\omega_0} - \frac{1}{2}\coth\frac{\pi}{\tau_i\omega_0}\right]。
+\end{equation*}
+
+从方程\eqref{eq:ch15_fundamental_freq}，$T=2\pi/\omega_0$，最后得到
+\begin{equation}
+D = \frac{a^2k}{3}\left[1 - 12\left(\frac{\tau_i}{T}\right)^2 + 48\left(\frac{\tau_i}{T}\right)^3\left(\coth\frac{T}{\tau_i} - \frac{1}{2}\coth\frac{T}{2\tau_i}\right)\right]。
+\label{eq:ch15_search_loss_first_order}
+\end{equation}
+
+如果时滞 $\tau_i$ 比周期 $T$ 小得很多，双曲余切函数几乎等于一，于是
+\begin{equation}
+D \approx \frac{a^2k}{3}\left[1 - 12\left(\frac{\tau_i}{T}\right)^2 + 24\left(\frac{\tau_i}{T}\right)^3\right],\quad \frac{\tau_i}{T}\ll1。
+\label{eq:ch15_search_loss_approx}
+\end{equation}
+
+因为输入的振幅 $a$ 可以用输入的速率和周期 $T$ 表示，借助输入的速率以及周期 $T$，方程\eqref{eq:ch15_search_loss_first_order}和\eqref{eq:ch15_search_loss_approx}具体给出搜索损失 $D$，对于自动保持最高点控制系统，如果它的输入线性部分是一阶系统，时滞等于 $\tau_i$，这些方程明显地指出，由于输入线性部分的滞后的影响，搜索损失可以减小，然而，事实并不能如此：因为给出决定策动输入反转方向的临界电压差 $v$ 时，必须考虑噪声和干扰的影响，搜索周期 $T$ 应该大一些，因此当时滞 $\tau_i$ 以及 $\tau_o$ 时，搜索周期 $T$ 就比没有时滞时要大一些，$a$ 也随之大一些。总的结果是搜索损失增加了，而不是减少了。
+
+
+\section{稳定运转的设计}
+
+对于任何控制系统，稳定的意义是说：即使出现内部的或外来的干扰时，系统也将会达到设计中所要求的性能。我们已经看到，对于一般伺服控制系统，以及前面几章所谈到那些更具有普遍性的控制系统中，这个要求是怎样被满足的。至于自寻最优点系统的运转，主要之点是：必须使输入信号的策动和输出信号配合得恰当，使得输出保持在最优点附近，这种运转情况必须不至于因为内部的或外来的干扰影响而遭到破坏。如果系统设计得好，能达到上述要求，我们就得到运转稳定的系统。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{图15.8.png} 
+\caption{}
+\label{fig:15_8}
+\end{figure}
+
+对于自动保持最高点控制系统，我们已经叙述过，采用输出量的电压对一个电容器充电和放电来策动输入信号。如果输出下降，电容器的电压和输出指示电压有一个电压差 $v$，当 $v$ 达到规定的临界值，就使输入的方向反转，在输入反转方向的时刻，电容器放电，它的电压又和输出指示电压相等。如果有动力学现象的影响，那么即使输入信号反转方向以后，由于输入线性部分以及输出线性部分的时滞作用，输出仍然继续下降，输出和电容器之间又有电压差。只有当输出的值增加到输入反转方向时对应的那个输出值的时候，才没有电位差，这个过程可以用图\ref{fig:15_7}(c)表示出来。在时刻1和2（图\ref{fig:15_7}）之间，我们当然不希望那个发生混淆作用的正电压 $v$ 出现，因为在这段时间内会产生反转输入信号方向的危险。为了大大地减小这个起混淆作用的正电压，在反转输入信号方向的时刻，使电容器的电压比那个时刻输出指示电压低一些，以后电容器的电压又随着输出的指示电压而改变。把电容器的电容和线路电阻加以适当的选择，使得输出增加的时候，电容器的电压差不多和输出指示电压相等。这个电压的变化如图15.8所示，这样就大大的减小了那个起混淆作用的正电压差的危险性（图\ref{fig:15_8}(b)），控制系统的稳定性能也就得到改善。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图15.9.png} 
+\caption{}
+\label{fig:15_9}
+\end{figure}
+
+我们已经谈到过，因为有干扰和噪声的存在，要想减小搜索范围和搜索损失是受到一定限制的。这又是一个关于稳定运转的问题：我们不希望产生不正确的使输入信号反转方向的信号。如果决定输入信号反转方向的临界电压差太小，那么就会产生不正确的信号。这种情形可以由图\ref{fig:15_9}表示，其中输出 $y$ 包含着一个高频正弦噪声。很容易看出来，假设临界电压差太小，那么噪声的作用将会使输入按一种不规则的状态变化。为了运转稳定起见，临界电压差必须比干扰的振幅来得大。这样，自寻最优点系统的搜索损失不能够比系统中噪声的振幅小。自然，如果像图中表示的那样，干扰的振幅是常数的真正的纯粹高频正弦波，那么可以采用过滤器消除噪声的影响，于是也就可以采用一个小得多的搜索范围，实际上，如果噪声或者干扰具有某种固定状态，我们可以设计一个合适的过滤器来改善这种受到限制的系统性能。
+
