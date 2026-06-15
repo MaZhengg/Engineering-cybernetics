@@ -1,3 +1,706 @@
 
 % To be included
 \chapter{噪声过滤的设计原理}\label{chapter_16}
+
+除了上一章以外，在所有前面的讨论中，我们一直默认：控制系统不产生噪声和干扰，所以，从理论上讲，控制系统的精确程度是没有限制的。然而，在上一章中，我们曾经指出，噪声和干扰实际上使自动寻求最优运转点控制系统的输出信号变模糊了，因此，噪声和干扰就成为这种控制系统基本的设计限制条件。事实上，噪声和干扰在任何一个工程系统中都是存在的，因为，甚至于“完善”的系统也有热扰动。只有在信号比干扰强得多的情况下，噪声和干扰对控制系统的影响才能忽略不计。在自动寻求最优运转点系统的设计中，为了减少输出的搜索损失，我们需要对“微弱”的信号进行设计，因而噪声的问题就是头等重要的了。一般说来，只要控制信号的强度比干扰的强度弱，那么噪声和干扰的影响就不能忽略。
+
+可以在控制系统中由于引入一个适当的装置而减少噪声的影响，这个装置将会“过滤”噪声，而尽可能不削弱信号的强度，这个过滤噪声的问题是本章的主题。首先我们将给出最优线性过滤器的理论，这一理论是由维纳(N. Wiener)\footnote{N. Wiener, \textit{The Extrapolation, Interpolation, and Smoothing of Stationary Time Series with Engineering Applications}, John Wiley \& Sons, Inc., New York, 1949.}和阔尔莫果洛夫(\rufont{A. H. Колмогоров})\footnote{A. Kolmogoroff, Bull. acad. sci. U.R.S.S., Ser. Math., 5, 3–14 (1941).}所提出的。本章的后面几节将讨论这一非常有效的理论的应用和推广。第九章中关于随机输入的那些概念和数学工具对我们这里的讨论非常有用。
+
+\section{平均平方误差}
+
+用 $f(t)$ 代表控制信号，$n(t)$ 代表噪声。加到过滤器的输入 $x(t)$ 就是
+\begin{equation}
+x(t) = f(t) + n(t)。
+\label{eq:ch16_input_signal_noise_sum}
+\end{equation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{图16.1.png}
+    \caption{ }
+    \label{fig:16_1}
+\end{wrapfigure}
+从过滤器的输出是 $y(t)$，如图\ref{fig:16_1}。假设过滤器是一个线性过滤器，描写输出和输入间相互关系的微分方程是一个常系数线性微分方程，那么，过滤器的性质完全由它的传递函数 $F(s)$ 决定。如果已经知道了 $F(s)$，过滤器对于单位冲量的反应可以从方程\eqref{eq:impulse_solution}得到。如果 $F(s)$ 的极点只在 $s$ 平面的左半平面上，我们可以写出下列公式：
+\begin{equation}
+\begin{aligned}
+h(t) &= \frac{1}{2\pi\mathrm{i}}\int_{-\infty}^{\infty} \mathrm{e}^{st}F(s)\mathrm{d}s \\
+&= \frac{1}{2\pi}\int_{-\infty}^{\infty} \mathrm{e}^{\mathrm{i}\omega t}F(\mathrm{i}\omega)\mathrm{d}\omega。
+\end{aligned}
+\label{eq:ch16_impulse_response}
+\end{equation}
+由方程\eqref{eq:ch16_input_signal_noise_sum}的输入而得到的输出就是
+\begin{equation*}
+y(t) = \int_{-\infty}^{t} x(\eta)h(t-\eta)\mathrm{d}\eta,
+\end{equation*}
+其中假定输入在很早以前就有了作用。令 $t-\eta=\tau$；于是
+\begin{equation}
+y(t) = \int_{0}^{\infty} x(t-\tau)h(\tau)\mathrm{d}\tau。
+\label{eq:ch16_filter_output_convolution}
+\end{equation}
+用 $z(t)$ 表示我们所希望的输出，它由信号 $f(t)$ 以及所希望的单位冲量反应 $h_1(t)$ 所决定，也就是
+\begin{equation}
+z(t) = \int_{0}^{\infty} f(t-\tau)h_1(\tau)\mathrm{d}\tau,
+\label{eq:ch16_desired_output_convolution}
+\end{equation}
+$h_1(t)$ 可以从希望的传递函数 $F_1(s)$ 求得，于是，类似于方程\eqref{eq:ch16_impulse_response}，我们就有
+\begin{equation}
+h_1(t) = \frac{1}{2\pi\mathrm{i}}\int_{-\infty}^{\infty} \mathrm{e}^{st}F_1(s)\mathrm{d}s = \frac{1}{2\pi}\int_{-\infty}^{\infty} \mathrm{e}^{\mathrm{i}\omega t}F_1(\mathrm{i}\omega)\mathrm{d}\omega。
+\label{eq:ch16_desired_impulse_response}
+\end{equation}
+因为真正的输出并非 $z(t)$ 而是 $y(t)$，误差就等于这两个量的差。根据方程\eqref{eq:ch16_filter_output_convolution}和\eqref{eq:ch16_desired_output_convolution}
+\begin{equation}
+e(t) = y(t) - z(t) = \int_{0}^{\infty} \left\{[f(t-\tau)+n(t-\tau)]h(\tau) - f(t-\tau)h_1(\tau)\right\}\mathrm{d}\tau。
+\label{eq:ch16_error_signal}
+\end{equation}
+于是误差的平方是
+\begin{equation}
+\begin{aligned}
+e^2(t) &= \int_{0}^{\infty}\int_{0}^{\infty} \left\{[f(t-\tau)+n(t-\tau)]h(\tau) - f(t-\tau)h_1(\tau)\right\} \\
+&\quad \cdot \left\{[f(t-\tau')+n(t-\tau')]h(\tau') - f(t-\tau')h_1(\tau')\right\}\mathrm{d}\tau\mathrm{d}\tau'。
+\end{aligned}
+\label{eq:ch16_error_squared}
+\end{equation}
+现在我们提出一个非常重要的假设。因为噪声 $n(t)$ 是一个随机函数，仅仅能确定它的统计特征。除此而外，我们不能够确实地预先知道 $f(t)$ 是什么，而只能知道它比较一般的特征，所以，甚至于对于信号，我们也只能确定它的统计特征。于是我们可以量出 $e^2(t)$ 的系集平均值，从而估计统计误差。通常，这个平均值是一个时间 $t$ 的函数。但是如果我们假设随机函数 $f(t)$ 和 $n(t)$ 是第\ref{chapter9_section1}节那样定义的平稳随机函数，于是 $\overline{e^2}$ 就和时间无关。而且我们还可以认为信号 $f(t)$ 和噪声 $n(t)$ 的平均值都等于零，于是从方程\eqref{eq:ch16_error_signal}可以明显地看出误差 $e(t)$ 的平均值也等于零。现在我们引进信号及噪声的关连函数（即相关函数）如下，这里关连函数的讨论和第\ref{chapter9_section2}节完全相同，
+\begin{equation}
+\left.
+\begin{aligned}
+\overline{f(t-\tau)f(t-\tau')} &= R_{ff}(\tau-\tau'), \\
+\overline{f(t-\tau)n(t-\tau')} &= R_{fn}(\tau-\tau'), \\
+\overline{n(t-\tau)f(t-\tau')} &= R_{nf}(\tau-\tau'), \\
+\overline{n(t-\tau)n(t-\tau')} &= R_{nn}(\tau-\tau')。
+\end{aligned}
+\right\}
+\label{eq:ch16_correlation_functions}
+\end{equation}
+这里我们考虑信号和噪声之间关连函数不等于零的一般情形。通常，这些\underline{互相关连函数} $R_{fn}$ 和 $R_{nf}$ 在很多情况下都等于零，只有\underline{自相关连函数} $R_{ff}$ 和 $R_{nn}$ 保留下来。自相关连函数是对称的函数。互相关连函数不是对称函数，但是，根据定义它们有下述关系
+\begin{equation}
+\left.
+\begin{aligned}
+R_{fn}(\tau'-\tau) &= R_{nf}(\tau-\tau'), \\
+R_{nf}(\tau'-\tau) &= R_{fn}(\tau-\tau')。
+\end{aligned}
+\right\}
+\label{eq:ch16_cross_correlation_symmetry}
+\end{equation}
+利用这些定义，从方程\eqref{eq:ch16_error_squared}得到的平均平方误差 $\overline{e^2}$ 可以写成
+\begin{equation}
+\begin{aligned}
+\overline{e^2} &= \int_{0}^{\infty}\int_{0}^{\infty} \Bigl\{R_{ff}(\tau-\tau')[h(\tau)-h_1(\tau)][h(\tau')-h_1(\tau')] \\
+&\quad + R_{fn}(\tau-\tau')[h(\tau)-h_1(\tau)]h(\tau') + R_{nf}(\tau-\tau')h(\tau)[h(\tau')-h_1(\tau')] \\
+&\quad + R_{nn}(\tau-\tau')h(\tau)h(\tau')\Bigr\}\mathrm{d}\tau\mathrm{d}\tau'。
+\end{aligned}
+\label{eq:ch16_mean_squared_error_time_domain}
+\end{equation}
+由这个方程可以从关连函数和单位冲量的反应来分析平均平方误差。
+
+控制系统的设计工程师们往往愿意选取传递函数 $F(s)$ 和 $F_1(s)$ 直接进行分析。要这样做的话，我们引入关连函数的富氏变换，设这些富氏变换分别是 $\Phi_{ff}(\omega),\Phi_{fn}(\omega),\Phi_{nf}(\omega)$，和 $\Phi_{nn}(\omega)$，它们由下列各方程确定
+\begin{equation}
+\left.
+\begin{aligned}
+\Phi_{ff}(\omega) &= \frac{1}{\pi}\int_{-\infty}^{\infty} R_{ff}(\tau)\mathrm{e}^{-\mathrm{i}\omega\tau}\mathrm{d}\tau, \\
+\Phi_{fn}(\omega) &= \frac{1}{\pi}\int_{-\infty}^{\infty} R_{fn}(\tau)\mathrm{e}^{-\mathrm{i}\omega\tau}\mathrm{d}\tau, \\
+\Phi_{nf}(\omega) &= \frac{1}{\pi}\int_{-\infty}^{\infty} R_{nf}(\tau)\mathrm{e}^{-\mathrm{i}\omega\tau}\mathrm{d}\tau, \\
+\Phi_{nn}(\omega) &= \frac{1}{\pi}\int_{-\infty}^{\infty} R_{nn}(\tau)\mathrm{e}^{-\mathrm{i}\omega\tau}\mathrm{d}\tau。
+\end{aligned}
+\right\}
+\label{eq:ch16_correlation_fourier_transforms}
+\end{equation}
+因为 $R_{ff}(\tau)$ 是 $\tau$ 的对称函数，我们可以写成
+\begin{equation*}
+\Phi_{ff}(\omega) = \frac{1}{\pi}\int_{0}^{\infty} R_{ff}(\tau)(\mathrm{e}^{\mathrm{i}\omega\tau}+\mathrm{e}^{-\mathrm{i}\omega\tau})\mathrm{d}\tau = \frac{2}{\pi}\int_{0}^{\infty} R_{ff}(\tau)\cos\omega\tau\mathrm{d}\tau。
+\end{equation*}
+
+把这个式子和方程\eqref{eq:ch9_spectral_correlation}比较，我们立刻看出 $\Phi_{ff}(\omega)$ 实际上就是信号 $f(t)$ 的功率谱，同样，$\Phi_{nn}(\omega)$ 是噪声 $n(t)$ 的功率谱。更进一步，因为互相关连函数有方程\eqref{eq:ch16_cross_correlation_symmetry}表示的关系，很容易看出富氏变换也有同样形式的关系：
+\begin{equation}
+\left.
+\begin{aligned}
+\Phi_{fn}(-\omega) &= \Phi_{nf}(\omega), \\
+\Phi_{nf}(-\omega) &= \Phi_{fn}(\omega)。
+\end{aligned}
+\right\}
+\label{eq:ch16_cross_spectrum_symmetry}
+\end{equation}
+
+根据富氏积分定理\footnote{例如，可以参阅 Whittaker and Watson, \textit{Modern Analysis}, 第6.31节，第119页，Cambridge-Macmillan, (1943)，或参阅[26]。}，方程\eqref{eq:ch16_correlation_fourier_transforms}的反演公式是：
+\begin{equation}
+\left.
+\begin{aligned}
+R_{ff}(\tau-\tau') &= \frac{1}{2}\int_{-\infty}^{\infty} \Phi_{ff}(\omega)\mathrm{e}^{\mathrm{i}\omega(\tau-\tau')}\mathrm{d}\omega, \\
+R_{fn}(\tau-\tau') &= \frac{1}{2}\int_{-\infty}^{\infty} \Phi_{fn}(\omega)\mathrm{e}^{\mathrm{i}\omega(\tau-\tau')}\mathrm{d}\omega, \\
+R_{nf}(\tau-\tau') &= \frac{1}{2}\int_{-\infty}^{\infty} \Phi_{nf}(\omega)\mathrm{e}^{\mathrm{i}\omega(\tau-\tau')}\mathrm{d}\omega, \\
+R_{nn}(\tau-\tau') &= \frac{1}{2}\int_{-\infty}^{\infty} \Phi_{nn}(\omega)\mathrm{e}^{\mathrm{i}\omega(\tau-\tau')}\mathrm{d}\omega。
+\end{aligned}
+\right\}
+\label{eq:ch16_correlation_inverse_fourier}
+\end{equation}
+把方程\eqref{eq:ch16_correlation_inverse_fourier}代入方程\eqref{eq:ch16_mean_squared_error_time_domain}，我们可以得到用传递函数 $F(s)$ 和 $F_1(s)$ 表示的平均平方误差的一个方程。例如方程\eqref{eq:ch16_mean_squared_error_time_domain}的第一部分变成
+\begin{equation*}
+\begin{aligned}
+&\frac{1}{2}\int_{0}^{\infty}\mathrm{d}\tau\int_{0}^{\infty}\mathrm{d}\tau'\int_{-\infty}^{\infty}\mathrm{d}\omega\Phi_{ff}(\omega)\mathrm{e}^{\mathrm{i}\omega(\tau-\tau')}[h(\tau)-h_1(\tau)][h(\tau')-h_1(\tau')] \\
+&= \frac{1}{2}\int_{-\infty}^{\infty}\mathrm{d}\omega\Phi_{ff}(\omega)\int_{0}^{\infty}[h(\tau)-h_1(\tau)]\mathrm{e}^{\mathrm{i}\omega\tau}\mathrm{d}\tau\int_{0}^{\infty}[h(\tau')-h_1(\tau')]\mathrm{e}^{-\mathrm{i}\omega\tau'}\mathrm{d}\tau'。
+\end{aligned}
+\end{equation*}
+但是 $F(s)$ 和 $F_1(s)$ 是 $h(t)$ 和 $h_1(t)$ 的拉氏变换，也就是
+\begin{equation}
+\left.
+\begin{aligned}
+F(\mathrm{i}\omega) &= \int_{0}^{\infty} h(t)\mathrm{e}^{-\mathrm{i}\omega t}\mathrm{d}t, \\
+F_1(\mathrm{i}\omega) &= \int_{0}^{\infty} h_1(t)\mathrm{e}^{-\mathrm{i}\omega t}\mathrm{d}t。
+\end{aligned}
+\right\}
+\label{eq:ch16_transfer_function_frequency_response}
+\end{equation}
+因此方程\eqref{eq:ch16_mean_squared_error_time_domain}的第一部分可以写成
+\begin{equation*}
+\frac{1}{2}\int_{-\infty}^{\infty} \Phi_{ff}(\omega)[F(\mathrm{i}\omega)-F_1(\mathrm{i}\omega)][F(-\mathrm{i}\omega)-F_1(-\mathrm{i}\omega)]\mathrm{d}\omega。
+\end{equation*}
+方程\eqref{eq:ch16_mean_squared_error_time_domain}的其他项也可以用同样方式加以改换，于是，我们就最后得到
+\begin{equation}
+\begin{aligned}
+\overline{e^2} &= \frac{1}{2}\int_{-\infty}^{\infty} \Bigl\{\Phi_{ff}(\omega)[F(\mathrm{i}\omega)-F_1(\mathrm{i}\omega)][F(-\mathrm{i}\omega)-F_1(-\mathrm{i}\omega)] \\
+&\quad + \Phi_{fn}(\omega)[F(-\mathrm{i}\omega)-F_1(-\mathrm{i}\omega)]F(\mathrm{i}\omega) + \Phi_{nf}(\omega)F(-\mathrm{i}\omega)[F(\mathrm{i}\omega)-F_1(\mathrm{i}\omega)] \\
+&\quad + \Phi_{nn}(\omega)F(\mathrm{i}\omega)F(-\mathrm{i}\omega)\Bigr\}\mathrm{d}\omega。
+\end{aligned}
+\label{eq:ch16_mean_squared_error_frequency_domain}
+\end{equation}
+上式中大括号$\{\}$里面的被积函数可以当成误差 $e(t)$ 的功率谱。根据方程\eqref{eq:ch9_output_power_spectrum}，被积函数的最后一项实际上是被过滤的噪声的功率谱。显然，第一项和最后一项是实数。第二项和第三项是复数。但是是因为满足关系式\eqref{eq:ch16_cross_spectrum_symmetry}，这两项是共轭复数，所以他们相加的结果也还是实数。
+
+
+
+\section{菲利普斯(Phillips)的最优过滤器设计原理}
+
+如果信号和噪声的统计特征是用各个关连函数给出的，关连函数的富氏变换就可以从方程\eqref{eq:ch16_correlation_fourier_transforms}计算出来。假设传递函数 $F_1(s)$ 已给定，那么方程\eqref{eq:ch16_mean_squared_error_frequency_domain}的平均平方误差积分式中只有过滤器的传递函数 $F(s)$ 是一个没有确定的函数。最优过滤器是这样的过滤器，对于已知的那些 $\Phi$ 以及 $F_1(s)$ 来说，这个传递函数等于 $F(s)$ 的过滤器使得平均平方误差最小。一个解决最优过滤器问题的直接方法就是先假定 $F(s)$ 是某种合理的形式，但是还包含着一些待定常数。把这个假定的 $F(s)$ 代入方程\eqref{eq:ch16_mean_squared_error_frequency_domain}，于是 $\overline{e^2}$ 就是这些待定常数的函数。根据平均平方误差必须最小的要求，最后确定这些常数。最优过滤器的设计问题就化成一个求已知函数的极大值或者极小值的问题了。菲利普斯\footnote{R. S. Phillips, \textit{Theory of Servomechanisms}, MIT Radiation Laboratory Series, Vol. 25, Chap. 7, McGraw-Hill Book Company, Inc., New York, 1947；或参阅[16]。}把 $F(s)$ 取成两个 $s$ 的多项式相除的形式，解决了这一最优过滤器的理论问题。$F(s)$ 的这种特殊的形式的确是最自然的一种选择方法，因为从我们有关线性系统的经验中得知，传递函数恰巧就是两个多项式相除的形式。但是，这个方法的实际计算还是相当繁重的。由于这个缘故，通常采用维纳和阔尔莫果洛夫提出的较为巧妙的理论。这里，我们就不再讨论菲利普斯的理论。
+
+
+\section{维纳-阔尔莫果洛夫(\rufont{Wiener-Колмогоров})理论}
+
+维纳和阔尔莫果洛夫提出的最优过滤器理论的主要之点就是以变分的方法去处理方程\eqref{eq:ch16_mean_squared_error_frequency_domain}中的那一个积分。假设对于一定的 $\Phi$ 和 $F_1(s)$，$F(s)$真正是最优过滤器的传递函数；于是用 $F(s)+\eta(s)$ 表示它邻近的函数，其中 $\eta(s)$ 是任意的变分。把这些邻近的函数代入方程\eqref{eq:ch16_mean_squared_error_frequency_domain}，我们找出平均平方误差的一次变分
+\begin{equation}
+\begin{aligned}
+\delta \overline{e^2} &= \frac12\int_{-\infty}^{\infty} \eta(-\mathrm{i}\omega)\Bigl\{F(\mathrm{i}\omega)\bigl[\Phi_{ff}(\omega)+\Phi_{fn}(\omega)+\Phi_{nf}(\omega)+\Phi_{nn}(\omega)\bigr] \\
+&\quad -F_1(\mathrm{i}\omega)\bigl[\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr]\Bigr\}\mathrm{d}\omega \\
+&\quad +\frac12\int_{-\infty}^{\infty}\eta(\mathrm{i}\omega)\Bigl\{F(-\mathrm{i}\omega)\bigl[\Phi_{ff}(\omega)+\Phi_{fn}(\omega)+\Phi_{nf}(\omega)+\Phi_{nn}(\omega)\bigr] \\
+&\quad -F_1(-\mathrm{i}\omega)\bigl[\Phi_{ff}(\omega)+\Phi_{fn}(\omega)\bigr]\Bigr\}\mathrm{d}\omega。
+\end{aligned}
+\label{eq:ch16_variation_mse}
+\end{equation}
+如果 $F(s)$是最优过滤器的传递函数，那么，对于任意一个 $\eta(s)$，$\delta\overline{e^2}$ 都必须等于零，这个条件将给出 $F(s)$必须满足的一个方程。但是在我们采取这一步骤之前，我们把方程\eqref{eq:ch16_mean_squared_error_time_domain}作某些非常重要的修改。
+
+首先，功率谱 $\Phi_{ff}(\omega)$ 和 $\Phi_{nn}(\omega)$ 是 $\omega$ 的对称函数。考虑到关系式\eqref{eq:ch16_cross_spectrum_symmetry}，我们就看到 $\Phi_{ff}(\omega),\Phi_{fn}(\omega),\Phi_{nf}(\omega)$以及 $\Phi_{nn}(\omega)$的和是 $\omega$ 的一个偶函数。我们有理由希望能够把这个和数 $\Phi$作如下的“分解”：
+\begin{equation}
+\Phi(\omega)=\Phi_{ff}(\omega)+\Phi_{fn}(\omega)+\Phi_{nf}(\omega)+\Phi_{nn}(\omega)=\psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega),
+\label{eq:ch16_spectral_factorization}
+\end{equation}
+按照我们的要求，$\psi(s)$是一个零点和极点都在左半 $s$ 平面上的函数，于是 $\psi(-s)$是一个零点和极点都在右半 $s$ 平面上的函数。由于稳定性的要求，过滤器的传递函数它的极点只能够在左半 $s$ 平面上，所以 $F(s)$和 $\eta(s)$是只有极点在左半 $s$ 平面的函数，$F(-s)$和 $\eta(-s)$是只有极点在右半 $s$ 平面的函数，因此，由于实际的要求就限制了 $F(s)$和 $\eta(s)$的类型。了解这一点以后，我们把方程写成
+\begin{equation}
+\begin{aligned}
+\delta\overline{e^2} &= \frac12\int_{-\infty}^{\infty}\eta(-\mathrm{i}\omega)\psi(-\mathrm{i}\omega)\left\{F(\mathrm{i}\omega)\psi(\mathrm{i}\omega)-\frac{F_1(\mathrm{i}\omega)\bigl[\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr]}{\psi(-\mathrm{i}\omega)}\right\}\mathrm{d}\omega \\
+&\quad +\frac12\int_{-\infty}^{\infty}\eta(\mathrm{i}\omega)\psi(\mathrm{i}\omega)\left\{F(-\mathrm{i}\omega)\psi(-\mathrm{i}\omega)-\frac{F_1(-\mathrm{i}\omega)\bigl[\Phi_{ff}(\omega)+\Phi_{fn}(\omega)\bigr]}{\psi(\mathrm{i}\omega)}\right\}\mathrm{d}\omega。
+\end{aligned}
+\label{eq:ch16_mse_after_factor}
+\end{equation}
+
+但是，方程\eqref{eq:ch16_mse_after_factor}的两个大括号中的第二项并不都是重要的。假设 $F(s)$和 $K(s)$是极点在左半 $s$ 平面上的函数，并且假设 $s$ 很大的时候，他们的变化和 $1/s^n$ 相同，其中 $n\ge1$，那么
+\begin{equation*}
+\int_{-\infty}^{\infty} H(\mathrm{i}\omega)K(\mathrm{i}\omega)\mathrm{d}\omega = \mathrm{i}\oint H(s)K(s)\mathrm{d}s,
+\end{equation*}
+上式中第二个积分的闭积分路线是虚轴以及包含右半 $s$ 平面的一个封闭半圆，如图\ref{fig:16_2}(a)。但是 $H(s)K(s)$的奇点在积分路线外面，因此积分等于零。对于 $H(-\mathrm{i}\omega)K(-\mathrm{i}\omega)$而言，它的奇点在右半 $s$ 平面上，可以把积分路线取成通过虚轴和包含左半 $s$ 平面的半圆，如图\ref{fig:16_2}(b)，这时积分路线内就不包含奇点，因而积分也等于零。可是就乘积 $H(\mathrm{i}\omega)K(-\mathrm{i}\omega)$或者 $H(-\mathrm{i}\omega)K(\mathrm{i}\omega)$而言，无论积分路线通过左半 $s$ 平面或者右半 $s$ 平面。积分路线总会包着一些奇点，所以，一般说来，积分有一定的数值。因此，
+\begin{equation}
+\int_{-\infty}^{\infty} H(\mathrm{i}\omega)K(\mathrm{i}\omega)\mathrm{d}\omega = \int_{-\infty}^{\infty} H(-\mathrm{i}\omega)K(-\mathrm{i}\omega)\mathrm{d}\omega = 0，
+\label{eq:ch16_integral_zero_case1}
+\end{equation}
+而
+\begin{equation}
+\left.
+\begin{aligned}
+\int_{-\infty}^{\infty} H(\mathrm{i}\omega)K(-\mathrm{i}\omega)\mathrm{d}\omega &\neq 0，\\
+\int_{-\infty}^{\infty} H(-\mathrm{i}\omega)K(\mathrm{i}\omega)\mathrm{d}\omega &\neq 0。
+\end{aligned}
+\right\}
+\label{eq:ch16_integral_nonzero_case2}
+\end{equation}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图16.2.png} 
+\caption{}
+\label{fig:16_2}
+\end{figure}
+
+记住以上事实后，我们把 $F_1(s)\Phi_{ff}(s/\mathrm{i})/\psi(-s)$分成两部分：其中第一部分的奇点都在左半 $s$ 平面，用 $[\ \ ]_+$ 表示，另外一部分的奇点都在右半 $s$ 平面，用 $[\ \ ]_-$ 表示。
+\begin{equation}
+\begin{aligned}
+\frac{F_1(\mathrm{i}\omega)\bigl\{\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr\}}{\psi(-\mathrm{i}\omega)} &= \left[\frac{F_1(\mathrm{i}\omega)\bigl\{\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr\}}{\psi(-\mathrm{i}\omega)}\right]_+ \\
+&\quad +\left[\frac{F_1(\mathrm{i}\omega)\bigl\{\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr\}}{\psi(-\mathrm{i}\omega)}\right]_-。
+\end{aligned}
+\label{eq:ch16_split_spectrum_term}
+\end{equation}
+这样作了以后，根据方程\eqref{eq:ch16_integral_zero_case1}和\eqref{eq:ch16_integral_nonzero_case2}，我们可以把方程\eqref{eq:ch16_mse_after_factor}写成
+\begin{equation}
+\begin{aligned}
+\delta\overline{e^2} &= \frac12\int_{-\infty}^{\infty}\eta(-\mathrm{i}\omega)\psi(-\mathrm{i}\omega)\left\{F(\mathrm{i}\omega)\psi(\mathrm{i}\omega)-\left[\frac{F_1(\mathrm{i}\omega)\bigl\{\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr\}}{\psi(-\mathrm{i}\omega)}\right]_+\right\}\mathrm{d}\omega \\
+&\quad +\frac12\int_{-\infty}^{\infty}\eta(\mathrm{i}\omega)\psi(\mathrm{i}\omega)\left\{F(-\mathrm{i}\omega)\psi(-\mathrm{i}\omega)-\left[\frac{F_1(-\mathrm{i}\omega)\bigl\{\Phi_{ff}(\omega)+\Phi_{fn}(\omega)\bigr\}}{\psi(\mathrm{i}\omega)}\right]_-\right\}\mathrm{d}\omega。
+\end{aligned}
+\label{eq:ch16_final_variation_mse}
+\end{equation}
+
+如果 $F(s)$确实是最优过滤器的传递函数，那么，对于任意的 $\eta(s)$而言，$\delta\overline{e^2}$都必须等于零。于是方程\eqref{eq:ch16_final_variation_mse}中大括号里面的那些量必须等于零，这个条件确定了最优过滤器的传递函数如下：
+\begin{equation}
+F(s)=\frac{1}{\psi(s)}\left[\frac{F_1(s)\bigl\{\Phi_{ff}(s/\mathrm{i})+\Phi_{nf}(s/\mathrm{i})\bigr\}}{\psi(-s)}\right]_+。
+\label{eq:ch16_wiener_hopf_solution}
+\end{equation}
+
+这就是维纳和阔尔莫果洛夫给出的最优过滤器问题的解答。因为 $\psi(s)$的极点在左半 $s$ 平面上，所以 $F(s)$的极点也在左半 $s$ 平面上，$F(s)$是一个稳定的传递函数。想从函数 $F_1(s)\{\Phi_{ff}(s/\mathrm{i})+\Phi_{nf}(s/\mathrm{i})\}/\psi(-s)$中分出极点在左半 $s$ 平面的部分的运算，也可以用分析的办法完成，实际上
+\begin{equation}
+F(s)=\frac{1}{2\pi\psi(s)}\int_{0}^{\infty}\mathrm{e}^{-st}\mathrm{d}t\int_{-\infty}^{\infty}\frac{F_1(\mathrm{i}\omega)\bigl\{\Phi_{ff}(\omega)+\Phi_{nf}(\omega)\bigr\}}{\psi(-\mathrm{i}\omega)}\mathrm{e}^{\mathrm{i}\omega t}\mathrm{d}\omega。
+\label{eq:ch16_optimal_filter_integral_form}
+\end{equation}
+用 $\omega$ 平面上的回路积分方法不难判断这个积分的有效性。至于在实际计算中到底采用方程\eqref{eq:ch16_wiener_hopf_solution}还是\eqref{eq:ch16_optimal_filter_integral_form}，这就要依据不同的具体情形来决定。通常，方程\eqref{eq:ch16_wiener_hopf_solution}用起来比较容易。无论如何，对于确定的 $F_1(s)$，确定的信号和噪声的确定功率谱 $\Phi_{ff},\Phi_{fn},\Phi_{nf}$和 $\Phi_{nn}$来说，最优过滤器的性质就是完全确定的。当噪声不出现的时候，$\Phi_{nn}=\Phi_{fn}=\Phi_{nf}=0$，$\Phi_{ff}(\omega)=\psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega)$。根据方程\eqref{eq:ch16_spectral_factorization}，就有 $F(s)=F_1(s)$，$e(t)\equiv0$ 这是可以事先想到的。如果有噪声的话，$F(s)\neq F_1(s)$，即使最好的过滤器也不可能完全消除平均平方误差。
+
+关于选取一个函数的极点在左半 $s$ 平面那一部分的运算，我们可以介绍另外一种解释。由方程\eqref{eq:ch16_impulse_response}，可以考虑 $F(\mathrm{i}\omega)$是单位冲量反应 $h(t)$的富氏变换，那个方程表明如何从 $F(\mathrm{i}\omega)$来计算 $h(t)$。因为方程\eqref{eq:ch16_impulse_response}的被积函数有因子 $\mathrm{e}^{\mathrm{i}\omega t}$。对于正的 $t$和负的 $t$这两种情况，在复数 $\omega$ 平面上所取的积分路线一定有所不同，正如图\ref{fig:16_3}所画的那样。假设 $F(s)$只有在左半 $s$ 平面上的极点，那么 $F(\mathrm{i}\omega)$只有在上半 $\omega$ 平面上的极点。假设 $F(s)$只有在右半 $s$ 平面上的极点，那么 $F(\mathrm{i}\omega)$只有在下半 $\omega$ 平面上的极点。所以，对于 $t>0$ 的情形，只有假设 $F(s)$的极点在左半 $s$ 平面，积分路线才会包含 $F(\mathrm{i}\omega)$的极点，在那种情况下，反应函数 $h(t)$不会等于零。对于 $t<0$ 的情形，只有假设 $F(s)$的极点都在左半 $s$ 平面，积分路线才不会包含 $F(\mathrm{i}\omega)$的极点，而且还有 $h(t)=0$。另外一方面，假设 $F(s)$有极点在右半 $s$ 平面上。根据现在的解释，在这种不稳定传递函数的情形中，甚至于对于负的 $t$，$h(t)$也不等于零。因为在 $t=0$ 的时候冲量才开始作用，负的时间有反应意味着冲量作用前就有了反应，任何物理系统都不可能发生这种情况。所以，从已知函数选取只有极点在左半 $s$ 平面那一部分的运算使得传递函数实际上能够实现，因为在这种情况中，$t<0$ 的时候 $h(t)=0$。在\underline{实际上能实现}的传递函数这一概念的基础上，伯德(H. W. Bode)和申南(C. E. Shannon)给维纳和阔尔莫果洛夫的解答，[也即给出方程\eqref{eq:ch16_final_variation_mse}和\eqref{eq:ch16_wiener_hopf_solution}]作了一个解释\footnote{H. W. Bode and C. E. Shannon, \textit{Proc. IRE},38,417$\sim$425(1950)。}。
+
+上面的讨论中还有另外一点需要加以说明，我们曾经假设可以把功率谱的总和分解成\eqref{eq:ch16_spectral_factorization}所表示的形式，但是对于 $\omega$ 的任意一个正值偶函数 $\Phi(\omega)$不见得总能分解成那种形式。如果要使得 $\Phi(\omega)$能够进行这种分解，$\Phi(\omega)$必须满足维纳-派勒(R. E. A. Paley)准则\footnote{R. E. A. Paley and N. Wiener, ``Fourier Transforms in the Complex Domain,'' \textit{Am. Math. Soc. Colloquium Publication}, Vol. 19,17(1934)。}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图16.3.png} 
+\caption{}
+\label{fig:16_3}
+\end{figure}
+
+\begin{equation}
+\int_{-\infty}^{\infty}\frac{|\log\Phi(\omega)|}{1+\omega^2}\mathrm{d}\omega<\infty。
+\label{eq:ch16_paley_wiener_criterion}
+\end{equation}
+
+具体地说，$\Phi(\omega)$或者像在白色噪声的情形中那样，是一个常数，或者当 $\omega\to\infty$ 的时候趋近于零。维纳-派勒准则说明，当 $\omega$ 的值很大时，$\Phi(\omega)$趋近于零不能过分快，如果 $\Phi(\omega)$像 $\omega^{-n}$那样的速度趋近于零是可以允许的，但是如果它像 $\mathrm{e}^{-|\omega|}$或者 $\mathrm{e}^{-\omega^2}$那样快地趋近于零就会使积分发散。后面两种类型的 $\Phi(\omega)$就不能够分解。但是值得庆幸的是：信号和噪声的功率谱通常是 $\omega^2$ 的多项式之比。所以，根据方程\eqref{eq:ch16_spectral_factorization}那样的分解通常可以成立。
+
+
+\section{一些简单的例子}
+
+考虑一个简单的例子，我们取信号的功率谱如下：
+\begin{equation}
+\Phi_{ff}(\omega)=\frac{1}{1+\omega^4}。
+\label{eq:ch16_ex1_signal_psd}
+\end{equation}
+假设噪声是白色噪声，它的功率谱是平的，等于常数
+\begin{equation}
+\Phi_{nn}(\omega)=n^4。
+\label{eq:ch16_ex1_noise_psd}
+\end{equation}
+互相关连函数和他们的富氏变换等于零，也即
+\begin{equation}
+\Phi_{fn}=\Phi_{nf}=0。
+\label{eq:ch16_ex1_cross_psd_zero}
+\end{equation}
+要求设计对信号起着求微分作用的最优过滤器，也就是 $F_1(s)=s$，首先我们注意\begin{equation*}
+\Phi(\omega)=\Phi_{ff}(\omega)+\Phi_{nn}(\omega)=\frac{(1+n^4)+n^4\omega^4}{1+\omega^4}。
+\end{equation*}
+于是
+\begin{equation*}
+\Phi(s/\mathrm{i})=\psi(s)\psi(-s)=\frac{(1+n^4)+n^4s^4}{1+s^4}。
+\end{equation*}
+这个函数显然可以直接进行分解，要注意 $\psi(s)$ 只有极点和零点在左半 $s$ 平面上，我们立刻可以写出 $\psi(s)$ 如下：
+\begin{equation*}
+\psi(s)=\frac{n^2s^2+n\sqrt{2}\sqrt[4]{1+n^4}s+\sqrt{1+n^4}}{s^2+\sqrt{2}s+1}。
+\end{equation*}
+于是
+\begin{equation*}
+\begin{aligned}
+\frac{F_1(s)\Phi_{ff}(s/\mathrm{i})}{\psi(-s)} &= \frac{s}{(s^2+\sqrt{2}s+1)\left(n^2s^2-n\sqrt{2}\sqrt[4]{1+n^4}s+\sqrt{1+n^4}\right)} \\
+&= \frac{As+B}{s^2+\sqrt{2}s+1}+\frac{Cs+D}{n^2s^2-n\sqrt{2}\sqrt[4]{1+n^4}s+\sqrt{1+n^4}},
+\end{aligned}
+\end{equation*}
+其中 $A,B,C$ 和 $D$ 都是常数，很明显极点只在左半 $s$ 平面的部分是第一项，因此
+\begin{equation*}
+\left[\frac{F_1(s)\Phi_{ff}(s/\mathrm{i})}{\psi(-s)}\right]_+=\frac{As+B}{s^2+\sqrt{2}s+1}。
+\end{equation*}
+把 $A,B$ 确定后我们得到
+\begin{align}
+F(s)=&\frac{1}{\psi(s)}\left[\frac{F_1(s)\Phi_{ff}(s/\mathrm{i})}{\psi(-s)}\right]_+=\frac{1}{\left(n^2+\sqrt{1+n^4}\right)\left(n+\sqrt[4]{1+n^4}\right)}\cdot\nonumber \\
+&\frac{\left(\sqrt[4]{1+n^4}-n\right)s-n\sqrt{2}}{n^2s^2+n\sqrt{2}\sqrt[4]{1+n^4}s+\sqrt{1+n^4}}。
+\label{eq:ch16_ex1_filter_solution}
+\end{align}
+这就是最优过滤器的传递函数。当没有噪声的时候，$n\to0$，$F(s)$ 就随之趋于 $s$，这是当然的结果。
+
+另外一个有趣的例子是噪声的强度非常高，而信号比较微弱的情况。如果是白色噪声，它的功率谱 $\Phi_{nn}$ 是
+\begin{equation}
+\Phi_{nn}(\omega)=1。
+\label{eq:ch16_ex2_noise_psd}
+\end{equation}
+这里噪声和信号的互相关连函数也等于零，方程\eqref{eq:ch16_ex1_cross_psd_zero}仍然成立。把信号的功率谱写成
+\begin{equation}
+\Phi_{ff}(\omega)=k\varphi(\omega),
+\label{eq:ch16_ex2_scaled_signal_psd}
+\end{equation}
+其中 $k$ 是一个很小的量，$\varphi(\omega)$ 是 $\omega$ 的一个偶函数。假设 $K(s)$ 是函数 $\varphi(s/\mathrm{i})$ 的极点在左半 $s$ 平面的部分，也就是
+\begin{equation}
+K(s)=\left[\varphi\left(\frac{s}{\mathrm{i}}\right)\right]_+=\frac{1}{2\pi}\int_{0}^{\infty}\mathrm{e}^{-st}\mathrm{d}t\int_{-\infty}^{\infty}\varphi(\omega)\mathrm{e}^{\mathrm{i}\omega t}\mathrm{d}\omega,
+\label{eq:ch16_ex2_k_function_def}
+\end{equation}
+因为 $\varphi(\omega)$ 是 $\omega$ 的偶函数，于是
+\begin{equation}
+\varphi\left(\frac{s}{\mathrm{i}}\right)=K(s)+K(-s),
+\label{eq:ch16_ex2_phi_split}
+\end{equation}
+并且
+\begin{equation}
+\begin{aligned}
+\Phi(\omega)=\psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega)&=1+k\varphi(\omega) \\
+&\approx\left[1+kK(\mathrm{i}\omega)\right]\left[1+kK(-\mathrm{i}\omega)\right]。
+\end{aligned}
+\label{eq:ch16_ex2_phi_approx}
+\end{equation}
+所以，假设 $F_1(s)$ 表示对信号所希望进行的作用，最优过滤器的传递函数给出如下
+\begin{equation}
+F(s)\approx\frac{k}{1+kK(s)}\left[\frac{F_1(s)\varphi(s/\mathrm{i})}{1+kK(-s)}\right]_+。
+\label{eq:ch16_ex2_filter_approx}
+\end{equation}
+这是对于数值小的 $k$ 的二次近似式，一次近似式甚至于还要简单一些，
+\begin{equation}
+F(s)\approx k\left[F_1(s)\varphi\left(\frac{s}{\mathrm{i}}\right)\right]_+。
+\label{eq:ch16_ex2_filter_linear_approx}
+\end{equation}
+作为一个例子，把信号的功率谱表示如下：
+\begin{equation*}
+\varphi(\omega)=\frac{1}{1+\omega^4},
+\end{equation*}
+令 $F_1(s)=s$。于是当 $k$ 很小的时候，
+\begin{equation*}
+F(s)\approx-\frac{k}{2\sqrt{2}}\frac{1}{s^2+\sqrt{2}s+1}。
+\end{equation*}
+当 $n$ 很大的时候，再设 $k=1/n^4$ 把这个结果和方程\eqref{eq:ch16_ex1_filter_solution}加以对照，就可以进一步验证方程\eqref{eq:ch16_ex1_filter_solution}，所以在有强烈噪声干扰的情况下，起微分作用的最优过滤器的传递函数改变得非常厉害，和 $F_1(s)=s$ 完全没有相似之处。
+
+
+\section{维纳-阔尔莫果洛夫理论的应用}
+
+除了上节讨论过的一些简单例子以外，维纳-阔尔莫果洛夫理论有许多非常重要的应用，在这一节里，我们将讨论其中的一部分。
+
+\underline{预卜过滤器}。这种过滤器的输入是信号 $f(t)$ 及噪声 $n(t)$ 的和。给出输出信号 $y(t)$，它所表示的并非接近信号在 $t$ 时刻的值，而是信号在 $t+\alpha$ 的值，其中 $\alpha$ 是一个正数。这样
+\begin{equation}
+F_1(s) = \mathrm{e}^{\alpha s}。
+\label{eq:ch16_5_predictive_desired_tf}
+\end{equation}
+现在我们假设信号是一个随机开关函数，于是，根据方程\eqref{eq:ch9_poisson_spectrum}，它的功率谱可以写成
+\begin{equation}
+\Phi_{ff} = \frac{1}{1+\omega^2}。
+\label{eq:ch16_5_predictive_signal_psd}
+\end{equation}
+假设是白色噪声，它的功率谱是
+\begin{equation}
+\Phi_{nn} = n^2。
+\label{eq:ch16_5_predictive_noise_psd}
+\end{equation}
+信号和噪声之间互相关连的谱 $\Phi_{fn}$ 和 $\Phi_{nf}$ 都等于零，于是有
+\begin{equation*}
+\Phi(\omega) = \psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega) = \frac{(1+n^2)+n^2\omega^2}{1+\omega^2}。
+\end{equation*}
+所以
+\begin{equation*}
+\psi(\mathrm{i}\omega) = \frac{\sqrt{1+n^2}+n\mathrm{i}\omega}{1+\mathrm{i}\omega}。
+\end{equation*}
+因此
+\begin{equation*}
+\frac{F_1(\mathrm{i}\omega)\Phi_{ff}(\omega)}{\psi(-\mathrm{i}\omega)} = \frac{\mathrm{e}^{\mathrm{i}\alpha\omega}}{(1+\mathrm{i}\omega)(\sqrt{1+n^2}-n\mathrm{i}\omega)}。
+\end{equation*}
+在这种情况下，将要利用方程\eqref{eq:ch16_optimal_filter_integral_form}来计算 $F(s)$，首先，当 $t>0$ 时，
+\begin{equation*}
+\begin{aligned}
+\frac{1}{2\pi}\int_{-\infty}^{\infty} \frac{F_1(\mathrm{i}\omega)\Phi_{ff}(\omega)}{\psi(-\mathrm{i}\omega)} \mathrm{e}^{\mathrm{i}\omega t} \mathrm{d}\omega &= \frac{1}{2\pi}\int_{-\infty}^{\infty} \frac{\mathrm{e}^{\mathrm{i}\omega(t+\alpha)}}{(1+\mathrm{i}\omega)(\sqrt{1+n^2}-n\mathrm{i}\omega)} \mathrm{d}\omega \\
+&= \frac{\mathrm{e}^{-(t+\alpha)}}{n+\sqrt{1+n^2}}。
+\end{aligned}
+\end{equation*}
+因此，根据方程\eqref{eq:ch16_optimal_filter_integral_form}，
+\begin{equation*}
+\begin{aligned}
+F(s) &= \frac{1+s}{\sqrt{1+n^2}+ns} \int_{0}^{\infty} \mathrm{e}^{-st} \frac{\mathrm{e}^{-(t+\alpha)}}{n+\sqrt{1+n^2}} \mathrm{d}t \\
+&= \frac{(1+s)\mathrm{e}^{-\alpha} \int_{0}^{\infty} \mathrm{e}^{-(s+1)t} \mathrm{d}t}{(n+\sqrt{1+n^2})(\sqrt{1+n^2}+ns)}。
+\end{aligned}
+\end{equation*}
+所以，最后，预卜时间等于 $\alpha$ 的最优过滤器的性质用传递函数描写如下：
+\begin{equation}
+F(s) = \frac{\mathrm{e}^{-\alpha}}{(n+\sqrt{1+n^2})(\sqrt{1+n^2}+ns)}。
+\label{eq:ch16_5_predictive_filter_tf}
+\end{equation}
+\underline{滞后过滤器}。这一类过滤器除了现在的“预卜”时间 $\alpha$ 等于负数而外，它的情形和预卜过滤器相似。但是直接采用前面的计算方法并不能解决现在的问题。实际上，没有有限阶的线性系统会真正满足一个最优滞后过滤器的规律。利用下面的近似公式可以得到一个更为直接的解答。
+\begin{equation}
+F_1(s) = \mathrm{e}^{\alpha s} \approx \left[\frac{1+(\alpha s/2v)}{1-(\alpha s/2v)}\right]^v, \quad \alpha<0,\ v=\text{整数}。
+\label{eq:ch16_5_lag_approx_formula}
+\end{equation}
+于是我们可以得到最优滞后过滤器的近似表达式。
+\underline{噪声作用下的伺服系统}。用 $F_f(s)$ 表示前向线路的传递函数，$F_b(s)$ 表示伺服系统反馈线路的传递函数，如图\ref{fig:16_4}。用 $F_1(s)$ 表示希望对信号所进行的作用。问题变成在 $F_f(s)$，$F_1(s)$ 以及信号和噪声的特性已给定的情况下，求出最优的 $F_b(s)$。正如图\ref{fig:16_4}所画的那样，等价的 $F(s)$ 是
+\begin{equation}
+F(s) = \frac{F_f(s)}{1+F_f(s)F_b(s)}。
+\label{eq:ch16_5_equivalent_filter_tf}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图16.4.png} 
+\caption{}
+\label{fig:16_4}
+\end{figure}
+但是根据过滤器理论，最优过滤器的传递函数 $F(s)$ 可以从方程\eqref{eq:ch16_wiener_hopf_solution}或者方程\eqref{eq:ch16_optimal_filter_integral_form}求得。知道了 $F(s)$ 以后，我们得到最优的反馈线路传递函数 $F_b(s)$ 如下：
+\begin{equation*}
+F_b(s) = \frac{1}{F(s)} - \frac{1}{F_f(s)}。
+\end{equation*}
+\underline{本身产生噪声的伺服系统}。在前面几段中，我们假定噪声来自伺服控制系统外面，系统本身不产生噪声。然而在很多情况下，伺服控制系统的内部会产生噪声。例如，像图\ref{fig:16_5}所表示的系统除了外来的噪声 $n(t)$ 而外，还会从测量输出的仪器那里产生内噪声 $m(t)$，或者一种输出干扰。这里仍然用 $F_f(s)$ 表示前向线路的传递函数，$F_b(s)$ 表示反馈线路的传递函数，$F_1(s)$ 表示希望对信号所进行的作用。令 $S(s),N(s),M(s),Y(s)$ 和 $Z(s)$ 分别表示 $f(t),n(t),m(t),y(t)$ 和 $z(t)$ 的拉氏变换。于是
+\begin{equation*}
+F_f(s)\{S(s)+N(s)-F_b(s)[Y(s)+M(s)]\} = Y(s),
+\end{equation*}
+以及
+\begin{equation*}
+Z(s) = F_1(s)S(s)。
+\end{equation*}
+所以误差的拉氏变换 $E(s)$ 就是
+\begin{equation*}
+\begin{aligned}
+E(s) &= Y(s)-Z(s) = \frac{F_f(s)}{1+F_f(s)F_b(s)}[S(s)+N(s)] \\
+&\quad - \frac{F_f(s)F_b(s)}{1+F_f(s)F_b(s)}M(s)-F_1(s)S(s)。
+\end{aligned}
+\end{equation*}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图16.5.png} 
+\caption{}
+\label{fig:16_5}
+\end{figure}
+
+令
+\begin{equation}
+F(s) = \frac{F_f(s)F_b(s)}{1+F_f(s)F_b(s)}。
+\label{eq:ch16_5_internal_noise_feedback_eq}
+\end{equation}
+我们就有
+\begin{equation*}
+1-F(s) = \frac{1}{1+F_f(s)F_b(s)}
+\end{equation*}
+和
+\begin{equation*}
+\begin{aligned}
+E(s) &= [1-F(s)][F_f(s)S(s)+F_f(s)N(s)-F_1(s)S(s)] \\
+&\quad - F(s)[M(s)+F_1(s)S(s)]。
+\end{aligned}
+\end{equation*}
+这个方程表明，现在的伺服控制问题和传递函数等于 $F(s)$ 的过滤器问题等价，相应的输入信号 $S'(s)$ 以及相应的噪声输入 $N'(s)$ 给出如下（这里的撇号“$'$”不是导数的符号！）：
+\begin{equation}
+\left.
+\begin{aligned}
+S'(s) &= \{F_f(s)-F_1(s)\}S(s)+F_f(s)N(s), \\
+N'(s) &= M(s)+F_1(s)S(s)。
+\end{aligned}
+\right\}
+\label{eq:ch16_5_internal_noise_equivalent_input}
+\end{equation}
+原来的问题是求最优的 $F_b(s)$，现在化成求最优的 $F(s)$，这里相应的信号和噪声与未知量 $F_b(s)$ 无关。我们假定原来的信号 $f(t)$ 和噪声之间没有关连，只有自相关连函数存在。于是我们只有功率谱 $\Phi_{ff},\Phi_{nn},\Phi_{mm}$。利用方程\eqref{eq:ch16_5_internal_noise_equivalent_input}，等价的过滤器问题中，那些 $\Phi$ 是
+\begin{equation}
+\left.
+\begin{aligned}
+\Phi_{f'f'}\left(\frac{s}{\mathrm{i}}\right) &= [F_f(s)-F_1(s)][F_f(-s)-F_1(-s)]\Phi_{ff}\left(\frac{s}{\mathrm{i}}\right) \\
+&\quad + F_f(s)F_f(-s)\Phi_{nn}\left(\frac{s}{\mathrm{i}}\right), \\
+\Phi_{f'n'}\left(\frac{s}{\mathrm{i}}\right) &= [F_f(-s)-F_1(-s)]F_1(s)\Phi_{ff}\left(\frac{s}{\mathrm{i}}\right), \\
+\Phi_{n'f'}\left(\frac{s}{\mathrm{i}}\right) &= F_1(-s)[F_f(s)-F_1(s)]\Phi_{ff}\left(\frac{s}{\mathrm{i}}\right), \\
+\Phi_{n'n'}\left(\frac{s}{\mathrm{i}}\right) &= \Phi_{mm}\left(\frac{s}{\mathrm{i}}\right)+F_1(s)F_1(-s)\Phi_{ff}\left(\frac{s}{\mathrm{i}}\right)。
+\end{aligned}
+\right\}
+\label{eq:ch16_5_internal_noise_psd_relations}
+\end{equation}
+由上面的公式可以看出，虽然原来的问题中信号和噪声没有关连，可是等价的过滤器问题中仍然有功率谱 $\Phi_{f'n'}$ 和 $\Phi_{n'f'}$。利用方程\eqref{eq:ch16_5_internal_noise_psd_relations}，被分解的函数就是
+\begin{equation}
+\Phi(\omega) = \psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega) = F_f(\mathrm{i}\omega)F_f(-\mathrm{i}\omega)\{\Phi_{ff}(\omega)+\Phi_{nn}(\omega)\}+\Phi_{mm}(\omega)。
+\label{eq:ch16_5_internal_noise_total_psd}
+\end{equation}
+根据方程\eqref{eq:ch16_wiener_hopf_solution}，最优的 $F(s)$ 是
+\begin{equation}
+F(s) = \frac{1}{\psi(s)}\left[\frac{F_f(s)F_f(-s)\{\Phi_{ff}(s/\mathrm{i})+\Phi_{nn}(s/\mathrm{i})\}-F_1(s)F_f(-s)\Phi_{ff}(s/\mathrm{i})}{\psi(-s)}\right]_+。
+\label{eq:ch16_5_internal_noise_optimal_F}
+\end{equation}
+当 $F(s)$ 已知时，方程\eqref{eq:ch16_5_internal_noise_feedback_eq}给出最优的反馈线路传递函数如下：
+\begin{equation}
+F_b(s) = \frac{1/F_f(s)}{\left[1/F(s)\right]-1}。
+\label{eq:ch16_5_internal_noise_optimal_Fb}
+\end{equation}
+
+\underline{饱和限制}。考虑图\ref{fig:16_6}所表示的伺服系统，要求设计得使得输出 $y(t)$ 尽可能地和输入 $f(t)=x(t)$ 接近。放大器的传递函数是 $F_a(s)$，伺服马达的传递函数是 $F_m(s)$。如果设计的条件是适当地变化 $F_a(s)$，使得误差 $e(t)=y(t)-f(t)$ 的均方尽可能变小。这样在运转的过程中，加到马达里的控制输入功率就可能达到非常高的数量。为了避免发生这种功率过高的情况，我们要求加到马达的功率的平均值必须是某一个确定的值，在这种情形下，平均平方误差是
+\begin{equation}
+\overline{e^2} = \frac{1}{2}\int_{-\infty}^{\infty} \left[\frac{F_a(\mathrm{i}\omega)F_m(\mathrm{i}\omega)}{1+F_a(\mathrm{i}\omega)F_m(\mathrm{i}\omega)}-1\right]\left[\frac{F_a(-\mathrm{i}\omega)F_m(-\mathrm{i}\omega)}{1+F_a(-\mathrm{i}\omega)F_m(-\mathrm{i}\omega)}-1\right]\Phi_{ff}(\omega)\mathrm{d}\omega。
+\label{eq:ch16_5_saturation_mse}
+\end{equation}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{图16.6.png}
+\caption{}
+\label{fig:16_6}
+\end{figure}
+
+加到伺服马达的输入平均功率由加到伺服马达里信号的平均平方表示出来。这个平均功率保持固定值 $\sigma^2$。于是
+\begin{equation}
+\sigma^2 = \frac{1}{2}\int_{-\infty}^{\infty} \left|\frac{F_a(\mathrm{i}\omega)}{1+F_a(\mathrm{i}\omega)F_m(\mathrm{i}\omega)}\right|^2 \Phi_{ff}(\omega)\mathrm{d}\omega。
+\label{eq:ch16_5_saturation_power_constraint}
+\end{equation}
+利用拉格朗日乘子法。这个以方程\eqref{eq:ch16_5_saturation_power_constraint}为拘束条件，求 $\overline{e^2}$ 的极小值问题，可以变成求 $\overline{e^2}+\lambda\sigma^2$ 的极小值问题，$\lambda$ 是放大器的常数。所以求极小的积分是
+\begin{equation}
+\begin{aligned}
+\overline{e^2}+\lambda\sigma^2 &= \frac{1}{2}\int_{-\infty}^{\infty} \Bigl\{[F(\mathrm{i}\omega)-1][F(-\mathrm{i}\omega)-1]\Phi_{ff}(\omega) \\
+&\quad + F(\mathrm{i}\omega)F(-\mathrm{i}\omega)\frac{\lambda\Phi_{ff}(\omega)}{F_m(\mathrm{i}\omega)F_m(-\mathrm{i}\omega)}\Bigr\}\mathrm{d}\omega,
+\end{aligned}
+\label{eq:ch16_5_saturation_lagrangian}
+\end{equation}
+其中
+\begin{equation}
+F(s) = \frac{F_a(s)F_m(s)}{1+F_a(s)F_m(s)}。
+\label{eq:ch16_5_saturation_equivalent_F}
+\end{equation}
+把方程\eqref{eq:ch16_5_saturation_lagrangian}和方程\eqref{eq:ch16_mean_squared_error_frequency_domain}的那个积分加以比较。我们看到现在的问题等价于 $F_1(s)=1,\Phi_{fn}=\Phi_{nf}=0$ 的过滤器问题，等价的噪声功率谱是
+\begin{equation*}
+\Phi_{nn}(\omega) = \frac{\lambda\Phi_{ff}(\omega)}{F_m(\mathrm{i}\omega)F_m(-\mathrm{i}\omega)}。
+\end{equation*}
+被分解的函数 $\Phi(\omega)$ 是
+\begin{equation}
+\Phi(\omega) = \psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega) = \left[1+\frac{\lambda}{F_m(\mathrm{i}\omega)F_m(-\mathrm{i}\omega)}\right]\Phi_{ff}(\omega)。
+\label{eq:ch16_5_saturation_total_psd}
+\end{equation}
+根据方程\eqref{eq:ch16_wiener_hopf_solution}，最优过滤器的传递函数是
+\begin{equation}
+F(s) = \frac{1}{\psi(s)}\left[\frac{\Phi_{ff}(s/\mathrm{i})}{\psi(-s)}\right]_+。
+\label{eq:ch16_5_saturation_optimal_F}
+\end{equation}
+除了一个常数 $\lambda$ 而外，方程\eqref{eq:ch16_5_saturation_equivalent_F}和\eqref{eq:ch16_5_saturation_optimal_F}确定了最优放大器的传递函数 $F_a(s)$。这个常数 $\lambda$ 要根据方程\eqref{eq:ch16_5_saturation_power_constraint}，由功率水准 $\sigma^2$ 来决定。
+
+前面几段的讨论表明许多种类型的问题可以由维纳-阔尔莫果洛夫理论解决。实际上，第9.12节叙述过的输入是随机函数的伺服控制设计问题，也可以用这一理论解决。对伺服系统的这种应用是第十四章详细讨论过的根据指定积分条件进行设计的另一例子。
+
+只要这种准则能够给出，最优的系统特性就完全确定了。进一步讲，由于所选择的特殊类型的准则以及控制系统的性质，得出的控制系统是线性常系数系统，这样一个关于伺服系统更为特别的设计概念，比先前几章讨论过的反馈伺服设计原理前进了一步。勃克森包姆和诺威克(D. Novik)可能是首先提出过滤器理论的这种特殊应用的人\footnote{A. S. Boksenbom, D. Novik, NACA TN, 2939(1953)。}。
+
+
+\section{最优检测过滤器}
+
+在很多控制系统中，常常提出这样的问题：在强烈的噪声干扰下要把信号 $f(t)$ 探测出来。在这类问题里，信号的形状通常是知道的，所要探测的是当信号达到预期的值 $f(t_0)$ 时，经过的时间 $t_0$。例如，雷达的情形，我们知道是具有某种固定形状的脉冲。问题在于要知道信号什么时候达到它的最大强度。假设在 $t_0$ 的时候达到最大值，那么，在时刻 $t_0$ 过滤器应该给出的信号 $f_0(t)$ 在 $t_0$ 时刻实际上和 $f(t_0)$ 相同。这里的拘束条件就是
+\begin{equation}
+f_0(t_0) = f(t_0) = \text{const}。
+\label{eq:ch16_6_detection_constraint}
+\end{equation}
+进入过滤器的噪声是 $n(t)$；相应的输出是 $n_0(t)$。我们希望通过过滤作用后尽可能消除噪声的影响，这种要求可以写成
+\begin{equation}
+\overline{n_0^2(t)} = \min。
+\label{eq:ch16_min_noise_mse_objective}
+\end{equation}
+问题是在 $f(t)$ 和 $t_0$，以及表示噪声特征的 $R_{nn}$ 或者 $\Phi_{nn}$ 已给定的情况下，确定过滤器的传递函数 $F(s)$，或者确定过滤器对于单位冲量的反应函数 $h(t)$。把提出的要求写成
+\begin{equation}
+\overline{n_0^2(t)} - 2\lambda f_0(t_0) = \min，
+\label{eq:ch16_lagrange_cost_function}
+\end{equation}
+其中 $\lambda$ 是拉格朗日乘子。具有普遍形式的这种问题已经由扎第(L. A. Zadeh)和拉格基尼(J. R. Ragazzini)解决了\footnote{L. A. Zadeh, J. R. Ragazzini, \textit{Proc. IRE.}, 40, 1223$\sim$1231(1952)。}。下面叙述他们的结果。
+
+如果 $\Phi_{nn}(\omega)$ 能够分解
+\begin{equation}
+\Phi_{nn}(\omega) = \psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega)，
+\label{eq:ch16_noise_spectral_factorization_detection}
+\end{equation}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{图16.7.png}
+\caption{}
+\label{fig:16_7}
+\end{figure}
+其中 $\psi(s)$ 的极点和零点在左半 $s$ 平面上。通常我们考虑两个串联的放大器，其中一个的传递函数等于 $1/\psi(s)$，另外一个的传递函数等于 $\psi(s)$，再把他们和过滤器串联起来，如图\ref{fig:16_7}。这一系统和原来的系统等价。我们用 $F'(s)$ 表示后面两个传递函数的乘积，也就是
+\begin{equation}
+F'(s) = \psi(s)F(s)，
+\label{eq:ch16_combined_tf_equivalent}
+\end{equation}
+
+
+它对于单位冲量的反应函数用 $h'(t)$ 表示，加到 $F'(s)$ 的信号用 $f'(t)$ 表示，噪声用 $n'(t)$ 表示。假设 $S(\mathrm{i}\omega)$ 是信号 $f(t)$ 的富氏变换，也就是
+\begin{equation}
+S(\mathrm{i}\omega) = \int_{0}^{\infty} f(t)\mathrm{e}^{-\mathrm{i}\omega t}\mathrm{d}t，
+\label{eq:ch16_signal_fourier_transform}
+\end{equation}
+于是
+\begin{equation}
+f'(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} \frac{S(\mathrm{i}\omega)}{\psi(\mathrm{i}\omega)}\mathrm{e}^{\mathrm{i}\omega t}\mathrm{d}\omega。
+\label{eq:ch16_transformed_input_signal}
+\end{equation}
+根据方程\eqref{eq:ch9_output_power_spectrum}，$n'(t)$ 的功率谱就是
+\begin{equation*}
+\frac{\Phi_{nn}(\omega)}{\psi(\mathrm{i}\omega)\psi(-\mathrm{i}\omega)} = 1。
+\end{equation*}
+所以现在的噪声是白色噪声，它的自相关函数是
+\begin{equation}
+R_{n'n'}(\tau) = \delta(\tau)。
+\label{eq:ch16_white_noise_autocorr}
+\end{equation}
+现在系统的输出可以写成
+\begin{equation}
+f_0(t) = \int_{0}^{\infty} h'(\tau)f'(t-\tau)\mathrm{d}\tau，
+\label{eq:ch16_filtered_signal_output}
+\end{equation}
+以及
+\begin{equation}
+n_0(t) = \int_{0}^{\infty} h'(\tau)n'(t-\tau)\mathrm{d}\tau。
+\label{eq:ch16_filtered_noise_output}
+\end{equation}
+噪声输出的平均平方就是 $n_0^2(t)$ 的系集平均值，也就是
+\begin{equation*}
+\begin{aligned}
+\overline{n_0^2(t)} &= \int_{0}^{\infty}\mathrm{d}\tau\int_{0}^{\infty}\mathrm{d}\tau'h'(\tau)h'(\tau')\overline{n'(t-\tau)n'(t-\tau')} \\
+&= \int_{0}^{\infty}\int_{0}^{\infty} h'(\tau)h'(\tau')R_{n'n'}(\tau-\tau')\mathrm{d}\tau\mathrm{d}\tau'。
+\end{aligned}
+\end{equation*}
+但是噪声 $n'(t)$ 的相关函数由方程\eqref{eq:ch16_white_noise_autocorr}给出，因此
+\begin{equation}
+\overline{n_0^2} = \int_{0}^{\infty}\left[h'(t)\right]^2\mathrm{d}t。
+\label{eq:ch16_noise_mse_simplified}
+\end{equation}
+所以利用方程\eqref{eq:ch16_filtered_signal_output}和\eqref{eq:ch16_noise_mse_simplified}可以把方程\eqref{eq:ch16_lagrange_cost_function}写成
+\begin{equation}
+\int_{0}^{\infty}\left[h'(t)\right]^2\mathrm{d}t - 2\lambda\int_{0}^{\infty} h'(t)f'(t_0-t)\mathrm{d}t = \min，
+\label{eq:ch16_final_minimization_integral}
+\end{equation}
+但是原来问题中已经给定了 $f(t)$ 和 $\Phi_{nn}(\omega)$，所以 $f'(t)$ 是可以由方程\eqref{eq:ch16_transformed_input_signal}计算出来的一个确定的函数。所以方程\eqref{eq:ch16_final_minimization_integral}的第二个积分是一个固定的常数。第一个积分是正的或者等于零，因为要求两个积分相加起来取极小值，方程\eqref{eq:ch16_final_minimization_integral}中第一个积分必须等于零，于是只有假设积分里方括号内的那些量等于零才行。这样就得出
+\begin{equation}
+h'(t) = \lambda f'(t_0-t) \quad \text{其中 } t\ge0。
+\label{eq:ch16_optimal_impulse_response}
+\end{equation}
+自然，实际上可实现的系统，当 $t<0$ 时，$h'(t)\equiv0$。换句话说，对于正的 $t$，$F'$ 对单位冲量的最优反应函数恒等于 $f'(t)$ 对 $t_0/2$ 点的镜像。对于噪声是白色噪声的特殊情形，在早些时候这个结果就已经知道了，首先推导出这个结果的是诺斯(D. O. North)。
+
+采用方程\eqref{eq:ch16_optimal_impulse_response}的结果，并且借助于方程\eqref{eq:ch16_combined_tf_equivalent}和\eqref{eq:ch16_transformed_input_signal}，可以把原来问题的最优过滤器传递函数 $F(s)$ 直接写出来：
+\begin{equation}
+F(s) = \frac{\lambda}{2\pi\psi(s)}\int_{0}^{\infty}\mathrm{d}t\,\mathrm{e}^{-st}\int_{-\infty}^{\infty} \frac{S(-\mathrm{i}\omega)}{\psi(-\mathrm{i}\omega)}\mathrm{e}^{\mathrm{i}\omega(t-t_0)}\mathrm{d}\omega，
+\label{eq:ch16_optimal_detection_filter_integral_form}
+\end{equation}
+其中 $\lambda$ 是根据方程\eqref{eq:ch16_6_detection_constraint}的常数 $f(t_0)$ 来确定的，这个结果和方程\eqref{eq:ch16_optimal_filter_integral_form}所给出的那个维纳的最优过滤器非常相似，实际上我们可以写成
+\begin{equation}
+F(s) = \frac{\lambda}{\psi(s)}\left[\frac{\mathrm{e}^{-st_0}S(-s)}{\psi(-s)}\right]_+，
+\label{eq:ch16_optimal_detection_filter_factor_form}
+\end{equation}
+其中 $[\ \ ]_+$ 仍然表示取括号内的函数只有极点在左半 $s$ 平面的那一部分，也就是要使得传递函数实际上是可实现的。方程\eqref{eq:ch16_optimal_detection_filter_integral_form}和\eqref{eq:ch16_optimal_detection_filter_factor_form}是由扎第和拉格基尼给出的最优检测过滤器公式。由于处理的是与另一个系统等价的问题，在那个系统中输入所包含的噪声分量是白色噪声（图\ref{fig:16_7}），所以，理论的推导就被简化了。这种办法对于简化复杂的最优过滤器问题是非常有效的。
+
+\section{其他的最优过滤器}
+
+前面讨论的过滤器理论中，基本假设之一是关于信号或者噪声等随机函数的平稳性。如果时间相当长，因为系统的自然变化，或者由于在系统运转的时候有目的地加以改变的缘故，平稳性就不见得成立了。随机输入往往只在一定的时间间隔 $T$ 内是平稳的，如果时间间隔比 $T$ 长一些，随机函数就不再是平稳的了。所以，假设对于某一平稳随机函数设计一个过滤器，假设过滤器的特性时间比 $T$ 来得大，实际的性质就会与理论结果不相符合，过滤器的性能也就会非常差。在这种情况下，把理论上“最优的”过滤器加以改变而采用一个特性时间较短的过滤器会好一些。
+
+一个更为合适的解答是把时间 $T$ 明显地包含在我们的理论考虑之内，我们可以这样作：我们要求过滤器对单位冲量的反应函数 $h(t)$ 在间隔 $0\le t\le T$ 以外等于零，于是从 $x(t)$ 就可以算出 $y(t)$：
+\begin{equation}
+y(t) = \int_{0}^{T} h(\tau)x(t-\tau)\mathrm{d}\tau。
+\label{eq:ch16_finite_memory_filter_output}
+\end{equation}
+这个方程说明这样的事实，只有从现在起的一段时间间隔 $T$ 内，输出依赖于输入。所以这种过滤器可以叫做\underline{有限记忆过滤器}。前面讨论过的过滤器相当于 $T\to\infty$ 的情形，是\underline{无限记忆过滤器}。
+
+扎第和拉格基尼曾经讨论过有限记忆过滤器。他们\footnote{L. A. Zadeh, J. R. Ragazzini, \textit{Proc. IRE}, 40, 1223$\sim$1231(1952)。}给出和前面一节类似的检测问题最优过滤器的解答，他们也给出一个更加复杂的最优过滤器问题的解答\footnote{L. A. Zadeh, J. R. Ragazzini, \textit{J. Appl. Phys.}, 21, 645$\sim$654(1950)。}，其中输入信号包括两个组成部分，一个平稳的随机函数和另外一个表示成 $t$ 的多项式的不平稳随机函数。对于有限记忆过滤器，性能准则是：首先消除平均误差，其次使得平均平方误差最小。因为信号中包含不平稳的随机函数，所以平均误差不见得自然就会消除。他们所给出这一理论的解答，通常很难用简单的电阻电容线路来实现。实际上，甚至于像无穷记忆过滤器那样比较简单的问题，由方程\eqref{eq:ch16_optimal_detection_filter_integral_form}和\eqref{eq:ch16_optimal_detection_filter_factor_form}所给出的解答有时候也难于实现。实际的过滤器只可能近似于理论上最优的过滤器。所以理论上的解答主要在于指导设计，给理想的性能提出一个参考性的标准。
+
+
+\section{一般的过滤问题}
+
+如果我们放弃不完善的电阻电容线路，而用一个模拟计算机或者甚至于用数字计算机作为过滤器，自然还能够采用复杂的理论上最优的过滤器设计。而且可以达到理论上的最优的性能。可是把一个机械-电子计算机当作元件加到控制系统里去就大大地增加了整个系统的复杂程度，所以只有在万不得已的时候才这样作。如果我们已经使得系统非常复杂，而且付出了很大的费用，我们还是可以怀疑是否真正得到最好的性能。前面几节讨论过的最优性能只是在理论中那些假定的限制条件下“最优”而已。例如，对于两个有同样关连函数或者同样功率谱的随机信号。根据已有的理论，就要求用相同的过滤器。这在某种意义上，这是对控制性能准则的一定的放松。肯定地说，如果我们关于信号的了解除了功率谱以外，还知道更多的统计特性，那么我们将可以区别这两种信号，并且利用这些更多的知识来改善我们的设计。于是我们能够得到比以前的所谓“最优”过滤器还要好一些的性能。很明显，解决过滤问题的更一般做法一定要求更高深的概率论知识。最近发展起来的\underline{信息论}这一门科学也可以在这里找到很大的用途。在这方面已经开始“概率地”去处理在噪声中检测一个信号的问题\footnote{例如,P. M. Woodward,I. L. Davies,\textit{Phil. Mag.},41,1001$\sim$1017(1950);\textit{Proc. IRE} 39,1521$\sim$1524(1951);\textit{J. Inst. Elec. Engrs. London},99,(3),37$\sim$51(1952);以及 T. G. Slattery,\textit{Proc. IRE.},40,1232$\sim$1236(1952)。}，但是还留下许多有待于完成。
+
+维纳-阔尔莫果洛夫最优过滤器理论是以平均平方误差这一准则为基础的。由于采用这一准则，我们基本上是着重于使那些大的误差较小，而没有考虑那些小的误差。但是很多情况下，我们的兴趣在于使那些一般的误差尽可能地小。不只是特别考虑那些不常出现的大误差。概率分布函数形状也可能是不对称的，平均值离众数很远。像这种情况，平均平方误差准则就完全不适用。作为一个简单的例子，我们考虑伯德和申南引用过的问题\footnote{H. W. Bode and C. E. Shannon,\textit{Proc. IRE},38,417$\sim$425(1950)。}，这个问题是预卜明天是否晴天，因为大多数都是晴天，不可能有负的降雨天去和降雨天相平衡，所以概率分布函数非常不对称。以这个分布函数的平均值为基础得到的最小平均误差将表示有小雨的那种天气。对于准备去野餐的人说来，这样一种预卜完全没有任何意义。他的兴趣在于知道真正是晴天的概率。因为即使有小雨，野餐也只好作罢。
+
+这一章里关于最优过滤器理论仍然假定所讨论的是线性过滤器，输出和输入的关系是用一个常系数线性微分方程表示的。很清楚，这是一个我们自己加上去的限制，这样做的目的在于使理论变得简单，而且这种过滤器可以用电阻电容线路综合而成。对于特性随时间改变的系统，比如第十三章的火箭导航问题，这种过滤器显然是不合适的。在变系数系统的情形，合适的过滤器也必须具有随时间而变化的特性，如果过滤器仍然是线性的，那么还可以应用叠加原理，输出和输入的关系也还可以通过单位冲量的反应函数来确定。但是这时候的反应函数 $h$ 是两个变数 $t$ 和 $t^*$ 的函数。$t$ 是系统有反应的时刻，$t^*$ 是冲量作用的时刻，所以输出 $y(t)$ 可以根据输入 $x(t)$ 由下列公式算出：
+\begin{equation}
+y(t) = \int_{0}^{\infty} h(t,t-\tau)x(t-\tau)\mathrm{d}\tau。
+\label{eq:ch16_time_varying_filter_output}
+\end{equation}
+在这种情形里，最优过滤器的设计问题就是首先确定 $h(\tau,t)$，然后想办法实际上找出这种单位冲量的最优反应函数。
+
